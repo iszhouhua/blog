@@ -1,0 +1,21 @@
+spring:
+  mvc:
+    favicon:
+      enabled: false
+  profiles:
+    active: dev
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  type-aliases-package: com.iszhouhua.blog.model
+  global-config:
+    # 数据库相关配置
+    db-config:
+      # 数据库表前缀
+      table-prefix: blog_
+      #主键类型
+      id-type: auto
+      #数据库类型
+      db-type: mysql
+    banner: false

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iszhouhua.blog.mapper.ArticleMapper">
+  <resultMap id="BaseResultMap" type="com.iszhouhua.blog.model.dto.ArticleDto">
+    <id column="id" property="id" />
+    <result property="url" column="url"/>
+    <result column="title" property="title" />
+    <result column="description" property="description" />
+    <result column="content" property="content" />
+    <result column="create_time" property="createTime" />
+    <result column="update_time" property="updateTime" />
+    <result column="is_comment" property="isComment" />
+    <result column="visits" property="visits" />
+    <association property="category" javaType="Category">
+      <id property="id" column="category_id"/>
+      <result property="name" column="c_name"/>
+      <result property="url" column="c_url"/>
+    </association>
+    <collection property="tags" javaType="ArrayList" column="id" ofType="Tag" select="com.iszhouhua.blog.mapper.TagMapper.selectTagsByArticleId"/>
+  </resultMap>
+
+  <select id="selectArticleByUrl" resultMap="BaseResultMap">
+    SELECT a.id,a.visits,a.title,a.description,a.is_comment,a.content,a.create_time,a.update_time,a.url,b.name AS c_name,b.url AS c_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.url=#{url} AND a.status=1
+  </select>
+
+  <select id="selectTopArticles" resultMap="BaseResultMap">
+    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS c_name,b.url AS c_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.is_top=TRUE AND a.status=1
+  </select>
+
+  <select id="selectArticleList" resultMap="BaseResultMap">
+    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS c_name,b.url AS c_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.is_top=FALSE AND a.status=1
+      <if test="keyword != null">
+          AND (a.title like #{keyword} OR a.content_md like #{keyword})
+      </if>
+  </select>
+
+  <select id="selectListByTag" resultMap="BaseResultMap">
+    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS c_name,b.url AS c_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id LEFT JOIN blog_article_tag c ON a.id=c.article_id WHERE a.status=1 AND c.tag_id=#{tagId}
+  </select>
+
+  <select id="selectListByCategory" resultMap="BaseResultMap">
+    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS c_name,b.url AS c_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=1 AND a.category_id=#{categoryId}
+  </select>
+</mapper>

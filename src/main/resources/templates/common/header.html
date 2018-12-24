@@ -1,0 +1,24 @@
+<header class="navbar navbar-inverse" id="gal-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target=".bs-navbar-collapse" aria-expanded="false">
+                <span class="fa fa-lg fa-reorder"></span>
+            </button>
+            <a th:href="@{${BLOG_URL}}">
+                <!-- 这里使用文字(navbar_text or config.title) -->
+                <div class="navbar-brand" th:text="${BLOG_TITLE}"></div>
+            </a>
+        </div>
+        <div class="collapse navbar-collapse bs-navbar-collapse">
+            <ul class="nav navbar-nav" id="menu-gal">
+                <li th:each="menu:${MENUS}" th:class="${menu.url}==${#request.getRequestURI()}? 'active'">
+                    <a th:href="@{${menu.url}}" th:target="${menu.blank}?'_blank'">
+                        <i class="fa" th:classappend="${menu.icon}"></i>
+                        [[${menu.name}]]
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>

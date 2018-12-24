@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="author" th:content="${BLOG_AUTHOR}">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${BLOG_TITLE}"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/aos.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/js/highslide/highslide.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/aos.js"></script>
+    <script src="/js/highslide/highslide-full.min.js"></script>
+    <style type="text/css">
+        @media (max-width: 768px
+
+        ) {
+            body {
+                background-color: #f0f0f0;
+                background: url('/imgs/xsbg.gif');
+                background-attachment: fixed;
+            }
+        }
+
+        #gal-header .navbar-brand {
+            height: 54px;
+            line-height: 24px;
+            font-size: 28px;
+            opacity: 1;
+            background-color: rgba(0, 0, 0, 0);
+            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+        }
+    </style>
+</head>
+<body>
+<!-- 背景轮播图功能 -->
+<section class="hidden-xs">
+    <ul class="cb-slideshow">
+        <li><span>天若</span></li>
+        <li><span>有情</span></li>
+        <li><span>天亦老</span></li>
+        <li><span>人若</span></li>
+        <li><span>有情</span></li>
+        <li><span>死得早</span></li>
+    </ul>
+</section>
+<!-- 欧尼酱功能, 谁用谁知道 -->
+<div class="gal-menu gal-dropdown">
+    <div class="circle" id="gal">
+        <div class="ring">
+            <a href="http://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
+            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
+            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
+            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+        </div>
+        <audio id="audio" src="/imgs/oni.mp3"></audio>
+    </div>
+</div>
+<header layout:replace="~{common/header}"></header>
+<div id="gal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 gal-right" id="mainstay" layout:fragment="content"></div>
+            <aside th:replace="~{common/sidebar}"></aside>
+        </div>
+    </div>
+</div>
+<footer layout:replace="~{common/footer}"></footer>
+<!-- 回到顶端 -->
+<div id="gal-gotop">
+    <i class="fa fa-angle-up"></i>
+</div>
+<script src="/js/activate-power-mode.js"></script>
+<script>
+    // 配置highslide
+    hs.graphicsDir = '/js/highslide/graphics/'
+    hs.outlineType = "rounded-white";
+    hs.dimmingOpacity = 0.8;
+    hs.outlineWhileAnimating = true;
+    hs.showCredits = false;
+    hs.captionEval = "this.thumb.alt";
+    hs.numberPosition = "caption";
+    hs.align = "center";
+    hs.transitions = ["expand", "crossfade"];
+    hs.lang.number = '共%2张图, 当前是第%1张';
+    hs.addSlideshow({
+        interval: 5000,
+        repeat: true,
+        useControls: true,
+        fixedControls: "fit",
+        overlayOptions: {
+            opacity: 0.75,
+            position: "bottom center",
+            hideOnMouseOut: true
+        }
+    })
+
+    // 初始化aos
+    AOS.init({
+        duration: 1000,
+        delay: 0,
+        easing: 'ease-out-back'
+    });
+
+</script>
+<script>
+    POWERMODE.colorful = 'true';    // make power mode colorful
+    POWERMODE.shake = 'true';       // turn off shake
+    // TODO 这里根据具体情况修改
+    document.body.addEventListener('input', POWERMODE);
+</script>
+<script>
+    window.slideConfig = {
+        prefix: '/imgs/slide/background',
+        ext: 'jpg',
+        maxCount: '6'
+    }
+</script>
+<script src="/js/hs.js"></script>
+<script src="/js/blog.js"></script>
+<script src="/js/oni.js"></script>
+</body>
+</html>
