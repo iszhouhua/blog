@@ -31,4 +31,6 @@
 
     <cache name="article" maxElementsInMemory="1000"/>
 
+    <cache name="tag" maxElementsInMemory="10"/>
+
 </ehcache>

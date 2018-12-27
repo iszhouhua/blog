@@ -2,10 +2,10 @@ package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.iszhouhua.blog.model.dto.ArticleDto;
 import com.iszhouhua.blog.model.Article;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -20,40 +20,47 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param url 文章链接
      * @return 文章
      */
-    ArticleDto selectArticleByUrl(String url);
+    Article selectArticleByUrl(String url);
+    /**
+     * 访问次数+1
+     * @param id 文章ID
+     * @return
+     */
+    @Update("update blog_article set visits=Visits+1 where id=#{id}")
+    int updateForVisitsById(Long id);
     /**
      * 查询所有置顶文章
      * @return
      */
-    List<ArticleDto> selectTopArticles();
+    List<Article> selectTopArticles();
     /**
      * 分页查询文章
      * @param page 分页对象
      * @param keyword 关键字
      * @return 分页对象
      */
-    Page<ArticleDto> selectArticleList(Page page, @Param("keyword")String keyword);
+    Page<Article> selectArticleList(Page page, @Param("keyword")String keyword);
     /**
      * 根据标签ID分页查询文章
      * @param page 分页对象
      * @param tagId 标签ID
      * @return 分页对象
      */
-    Page<ArticleDto> selectListByTag(Page page, @Param("tagId")Long tagId);
+    Page<Article> selectListByTag(Page page, @Param("tagId")Long tagId);
     /**
      * 根据分类ID分页查询文章
      * @param page 分页对象
      * @param categoryId 分类ID
      * @return 分页对象
      */
-    Page<ArticleDto> selectListByCategory(Page page, @Param("categoryId")Long categoryId);
+    Page<Article> selectListByCategory(Page page, @Param("categoryId")Long categoryId);
 
     /**
      * 查询热门文章
      * @param count 需要查询的数量
      * @return
      */
-    @Select("select id,url,title,visits from blog_article where status=1 order by visits desc limit #{count}")
+    @Select("select id,url,title,visits from blog_article where status=0 order by visits desc limit #{count}")
     List<Article> selectHotArticles(Integer count);
 
     /**
@@ -61,6 +68,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param count 需要查询的数量
      * @return
      */
-    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=1 ORDER BY t1.id ASC LIMIT #{count}")
+    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=0 ORDER BY t1.id ASC LIMIT #{count}")
     List<Article> selectRandomArticles(Integer count);
 }

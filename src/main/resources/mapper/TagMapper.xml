@@ -5,12 +5,4 @@
   <select id="selectTagsByArticleId" resultType="Tag">
       SELECT a.* FROM blog_tag AS a LEFT JOIN blog_article_tag AS b ON a.id=b.tag_id WHERE b.article_id = #{articleId}
   </select>
-
-  <select id="selectHotTags" resultType="Tag">
-    SELECT a.* FROM blog_tag AS a LEFT JOIN blog_article_tag AS b ON a.id=b.tag_id WHERE b.article_id in
-      <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-        #{item}
-      </foreach>
-    GROUP BY a.id
-  </select>
 </mapper>

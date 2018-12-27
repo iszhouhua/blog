@@ -49,9 +49,9 @@ public class BackArticleController {
     @GetMapping("")
     public Result list(Page<Article> page, Article article){
         QueryWrapper<Article> queryWrapper=new QueryWrapper<>(article);
-        if(article.getStatus()==null){
+//        if(article.getStatus()){
             queryWrapper.ne("status",2);
-        }
+//        }
         IPage<Article> articlePage=articleService.page(page,queryWrapper);
         articlePage.getRecords().forEach(post -> post.setTags(tagService.findTagsByArticleId(post.getId())));
         return Result.success("查询成功",articlePage);
@@ -79,7 +79,7 @@ public class BackArticleController {
         try {
             res=articleService.saveOrUpdate(article);
         }catch (DuplicateKeyException e){
-            throw new BlogException(CodeEnum.DUPLICATE_KEY.value(),"文章链接或标题重复",e);
+            throw new BlogException(CodeEnum.DUPLICATE_KEY.getValue(),"文章链接或标题重复",e);
         }
         if(!res){
             return Result.fail("保存失败");

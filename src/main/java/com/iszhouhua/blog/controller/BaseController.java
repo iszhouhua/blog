@@ -28,4 +28,12 @@ public class BaseController {
         model.addAttribute("latestComments", commentService.findLatestComments(8));
         model.addAttribute("randomArticles", articleService.findRandomArticles(8));
     }
+
+    /**
+     * 未找到数据，重定向到404页面
+     * @return
+     */
+    protected String notFound(){
+        return "redirect:404.html";
+    }
 }

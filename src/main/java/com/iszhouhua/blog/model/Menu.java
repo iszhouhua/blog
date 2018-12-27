@@ -44,4 +44,8 @@ public class Menu implements Serializable {
     public boolean isBlank() {
         return isBlank;
     }
+
+    public void setBlank(Boolean blank) {
+        isBlank = blank;
+    }
 }

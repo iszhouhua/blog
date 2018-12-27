@@ -10,7 +10,7 @@ import com.iszhouhua.blog.common.constant.CodeEnum;
 public class BlogException extends RuntimeException {
 
     private String msg;
-    private int code = CodeEnum.SERVER_ERROR.value();
+    private int code = CodeEnum.UNKNOWN_ERROR.getValue();
 
     public BlogException(String msg) {
         super(msg);

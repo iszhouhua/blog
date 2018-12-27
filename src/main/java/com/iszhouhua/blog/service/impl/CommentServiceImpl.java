@@ -6,10 +6,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.CommentMapper;
 import com.iszhouhua.blog.model.Comment;
-import com.iszhouhua.blog.model.dto.CommentDto;
+import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import com.iszhouhua.blog.service.CommentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -25,39 +23,33 @@ import java.util.List;
  * @since 2018-12-01
  */
 @Service
-@CacheConfig(cacheNames = "comment")
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
-    @Autowired
-    private CommentMapper commentMapper;
-
     @Override
-    @Cacheable(key = "targetClass + methodName + #p0.current + #p1")
-    public IPage<CommentDto> findPageByArticleId(Page<Comment> page,Long articleId) {
-        IPage<Comment> commentPage=commentMapper.selectPage(page,new QueryWrapper<Comment>().eq("article_id",articleId).orderByDesc("id"));
-        List<CommentDto> commentDtoList=new ArrayList<>();
+    public IPage<Comment> findPageByArticleId(Page<Comment> page,Long articleId) {
+        IPage<Comment> commentPage=baseMapper.selectPage(page,new QueryWrapper<Comment>().eq("article_id",articleId).eq("status",CommentStatusEnum.PUBLISHED).orderByDesc("id"));
         //获得所有引用评论
         commentPage.getRecords().forEach(comment -> {
-            CommentDto commentDto=new CommentDto(comment);
             //只要parentId大于0，就表示存在引用评论
             List<Comment> replyList=new ArrayList<>();
             long parentId=comment.getParentId();
             while (parentId>0){
-                Comment reply=commentMapper.selectById(parentId);
-                replyList.add(reply);
-                parentId=reply.getParentId();
+                Comment reply=baseMapper.selectById(parentId);
+                if(reply!=null){
+                    replyList.add(reply);
+                    parentId=reply.getParentId();
+                }else{
+                    parentId=0;
+                }
             }
-            commentDto.setComments(replyList);
-            commentDtoList.add(commentDto);
+            comment.setComments(replyList);
         });
-        IPage<CommentDto> commentDtoPage=new Page<>(commentPage.getCurrent(),commentPage.getSize(),commentPage.getTotal(),false);
-        commentDtoPage.setRecords(commentDtoList);
-        return commentDtoPage;
+        return commentPage;
     }
 
     @Override
-    @Cacheable(key = "targetClass + methodName + #count")
-    public List<CommentDto> findLatestComments(Integer count) {
-        return commentMapper.selectLatestComments(count);
+    @Cacheable(value = "comment",key = "targetClass + methodName + #count")
+    public List<Comment> findLatestComments(Integer count) {
+        return baseMapper.selectLatestComments(count);
     }
 }

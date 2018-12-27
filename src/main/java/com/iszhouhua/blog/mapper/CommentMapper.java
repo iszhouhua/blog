@@ -2,7 +2,6 @@ package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.iszhouhua.blog.model.Comment;
-import com.iszhouhua.blog.model.dto.CommentDto;
 
 import java.util.List;
 
@@ -15,5 +14,5 @@ import java.util.List;
  * @since 2018-12-01
  */
 public interface CommentMapper extends BaseMapper<Comment> {
-    List<CommentDto> selectLatestComments(Integer count);
+    List<Comment> selectLatestComments(Integer count);
 }

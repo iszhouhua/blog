@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iszhouhua.blog.model.Article;
-import com.iszhouhua.blog.model.dto.ArticleDto;
 
 import java.util.List;
 
@@ -19,13 +18,13 @@ public interface ArticleService extends IService<Article> {
      * @param url 链接
      * @return 文章
      */
-    ArticleDto findArticleByUrl(String url);
+    Article findArticleByUrl(String url);
 
     /**
      * 获得所有置顶文章
      * @return 文章集合
      */
-    List<ArticleDto> findAllTopArticles();
+    List<Article> findAllTopArticles();
 
     /**
      * 根据关键字分页查询文章
@@ -33,7 +32,7 @@ public interface ArticleService extends IService<Article> {
      * @param keyword 关键字
      * @return
      */
-    IPage<ArticleDto> findPageByKeyword(Page<Article> page, String keyword);
+    IPage<Article> findPageByKeyword(Page<Article> page, String keyword);
 
     /**
      * 分页查询指定标签下的文章
@@ -41,7 +40,7 @@ public interface ArticleService extends IService<Article> {
      * @param tagId 标签ID
      * @return
      */
-    IPage<ArticleDto> findPageByTag(Page<Article> page,Long tagId);
+    IPage<Article> findPageByTag(Page<Article> page,Long tagId);
 
     /**
      * 分页查询指定分类文章
@@ -49,7 +48,7 @@ public interface ArticleService extends IService<Article> {
      * @param categoryId 分类ID
      * @return
      */
-    IPage<ArticleDto> findPageByCategory(Page<Article> page,Long categoryId);
+    IPage<Article> findPageByCategory(Page<Article> page,Long categoryId);
 
     /**
      * 查询热门文章

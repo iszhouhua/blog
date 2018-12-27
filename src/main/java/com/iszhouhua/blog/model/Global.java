@@ -1,5 +1,6 @@
 package com.iszhouhua.blog.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ public class Global implements Serializable {
     /**
      * 备注
      */
+    @TableField(select = false)
     private String remark;
 
 

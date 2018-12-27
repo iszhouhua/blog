@@ -3,8 +3,8 @@ package com.iszhouhua.blog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
-import com.iszhouhua.blog.model.dto.ArticleDto;
 import com.iszhouhua.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +51,10 @@ public class TagController extends BaseController {
     @GetMapping("{url}/{pageIndex}")
     public String tag(Model model,@PathVariable(value = "url") String url,@PathVariable(value = "pageIndex") Integer pageIndex) {
         Tag tag=tagService.getOne(new QueryWrapper<Tag>().eq("url",url));
-        IPage<ArticleDto> page=articleService.findPageByTag(new Page<>(pageIndex,5),tag.getId());
+        if(null==tag){
+            return notFound();
+        }
+        IPage<Article> page=articleService.findPageByTag(new Page<>(pageIndex,5),tag.getId());
         model.addAttribute("info",tag);
         model.addAttribute("page",page);
         return "list";

@@ -1,11 +1,13 @@
 package com.iszhouhua.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 文章表
@@ -29,6 +31,11 @@ public class Article implements Serializable {
     private String title;
 
     /**
+     * 分类ID
+     */
+    private Long categoryId;
+
+    /**
      * 文章描述
      */
     private String description;
@@ -36,17 +43,14 @@ public class Article implements Serializable {
     /**
      * 文章内容
      */
+    @TableField(select = false)
     private String content;
 
     /**
      *  Markdown格式的文章内容
      */
+    @TableField(select = false)
     private String contentMd;
-
-    /**
-     * 文章所属分类
-     */
-    private Long categoryId;
 
     /**
      * 发表时间
@@ -56,6 +60,7 @@ public class Article implements Serializable {
     /**
      * 最后更新时间
      */
+    @TableField(update="now()")
     private Date updateTime;
 
     /**
@@ -79,9 +84,9 @@ public class Article implements Serializable {
     private Integer visits;
 
     /**
-     * 状态 0：草稿 1：已发布 2：已回收
+     * 状态 0：已发布 1：草稿 2：回收站 3：自定义文章
      */
-    private Integer status;
+    private ArticleStatusEnum status;
 
     /**
      * 文章标签
@@ -89,11 +94,34 @@ public class Article implements Serializable {
     @TableField(exist = false)
     private List<Tag> tags;
 
+    /**
+     * 文章分类
+     */
+    @TableField(exist = false)
+    private Category category;
+
+    /**
+     * 获得文章关键字
+     * @return
+     */
+    public String getKeywords() {
+        List<String> list=tags.stream().map(Tag::getName).collect(Collectors.toList());
+        return String.join(",",list);
+    }
+
     public boolean isTop() {
         return isTop;
     }
 
     public boolean isComment() {
         return isComment;
+    }
+
+    public void setTop(Boolean top) {
+        isTop = top;
+    }
+
+    public void setComment(Boolean comment) {
+        isComment = comment;
     }
 }

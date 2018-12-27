@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.iszhouhua.blog.mapper.CommentMapper">
-  <resultMap id="BaseResultMap" type="com.iszhouhua.blog.model.dto.CommentDto">
+  <resultMap id="BaseResultMap" type="Comment">
     <id column="id" property="id" />
     <result property="emailMd5" column="email_md5"/>
     <result column="author" property="author" />
     <result column="content" property="content" />
     <association property="article" javaType="Article">
       <id property="id" column="article_id"/>
-      <result property="title" column="title"/>
-      <result property="url" column="url"/>
+      <result property="title" column="article_title"/>
+      <result property="url" column="article_url"/>
     </association>
   </resultMap>
 
   <select id="selectLatestComments" resultMap="BaseResultMap">
-    SELECT a.id,a.email_md5,a.content,b.title,b.url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id ORDER BY a.id DESC LIMIT #{count}
+    SELECT a.id,a.email_md5,a.content,b.title AS article_title,b.url AS article_url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id WHERE a.article_id>0 ORDER BY a.id DESC LIMIT #{count}
   </select>
 </mapper>

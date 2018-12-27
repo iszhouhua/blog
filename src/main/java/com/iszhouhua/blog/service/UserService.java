@@ -19,6 +19,9 @@ public interface UserService extends IService<User> {
      * @param username 用户名
      * @param password 密码
      * @return
+     * @throws NoSuchAlgorithmException
+     * @throws DecoderException
+     * @throws InvalidKeySpecException
      */
     Result login(String username,String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException;
 }

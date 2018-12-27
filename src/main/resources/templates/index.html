@@ -21,13 +21,13 @@
         <div class="article well clearfix article-body article-excerpt" data-aos="flip-up" th:each="item:${top}">
             <i class="fa fa-bookmark article-stick visible-md visible-lg"></i>
             <div class="data-article hidden-xs">
-                <span class="month" th:text="${#dates.month(item.createTime)}+'月'"></span><span class="day" th:text="${#dates.day(item.createTime)}">09</span>
+                <span class="month" th:text="${#dates.month(item.createTime)}+'月'"></span><span class="day" th:text="${#dates.day(item.createTime)}"></span>
             </div>
             <!-- 大型设备文章 -->
             <section class="hidden-xs">
                 <div class="title-article">
                     <h1>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h1>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="alert alert-gal article-body content-article">
                     <div class="item">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <div class="img">
                                 <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                             </div>
@@ -54,7 +54,7 @@
             <section class="visible-xs">
                 <div class="title-article">
                     <h4>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h4>
@@ -73,13 +73,13 @@
                 <p></p>
                 <div class="alert alert-gal article-body content-article">
                     <p style="text-align: center;">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                         </a>
                     </p>
                 </div>
                 <div class="alert alert-zan" th:text="${item.description}"></div>
-                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                     阅读全文
                 </a>
             </section>
@@ -93,7 +93,7 @@
             <section class="hidden-xs">
                 <div class="title-article">
                     <h1>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h1>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="alert alert-gal article-body content-article">
                     <div class="item">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <div class="img">
                                 <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                             </div>
@@ -120,7 +120,7 @@
             <section class="visible-xs">
                 <div class="title-article">
                     <h4>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h4>
@@ -139,13 +139,13 @@
                 <p></p>
                 <div class="alert alert-gal article-body content-article">
                     <p style="text-align: center;">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                         </a>
                     </p>
                 </div>
                 <div class="alert alert-zan" th:text="${item.description}"></div>
-                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                     阅读全文
                 </a>
             </section>

@@ -5,11 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.ArticleMapper;
 import com.iszhouhua.blog.model.Article;
-import com.iszhouhua.blog.model.dto.ArticleDto;
 import com.iszhouhua.blog.service.ArticleService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -21,56 +18,51 @@ import java.util.List;
  * @since 2018-12-01
  */
 @Service
-@CacheConfig(cacheNames = "article")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
-    @Autowired
-    private ArticleMapper articleMapper;
-
     @Override
-    public ArticleDto findArticleByUrl(String url) {
-        ArticleDto articleDto=articleMapper.selectArticleByUrl(url);
-        //访问次数+1
-        Article article=new Article();
-        article.setId(articleDto.getId());
-        article.setVisits(articleDto.getVisits()+1);
-        updateById(article);
-        return articleDto;
+    public Article findArticleByUrl(String url) {
+        Article article=baseMapper.selectArticleByUrl(url);
+        //每查询一次，浏览次数+1
+        if(article!=null){
+            baseMapper.updateForVisitsById(article.getId());
+        }
+        return article;
     }
 
     @Override
-    public List<ArticleDto> findAllTopArticles() {
-        return articleMapper.selectTopArticles();
+    public List<Article> findAllTopArticles() {
+        return baseMapper.selectTopArticles();
     }
 
     @Override
-    public IPage<ArticleDto> findPageByKeyword(Page<Article> page, String keyword) {
+    public IPage<Article> findPageByKeyword(Page<Article> page, String keyword) {
         page.setDesc("id");
         keyword=StringUtils.isBlank(keyword)?null:'%'+keyword+'%';
-        return articleMapper.selectArticleList(page,keyword);
+        return baseMapper.selectArticleList(page,keyword);
     }
 
     @Override
-    public IPage<ArticleDto> findPageByTag(Page<Article> page, Long tagId) {
+    public IPage<Article> findPageByTag(Page<Article> page, Long tagId) {
         page.setDesc("id");
-        return articleMapper.selectListByTag(page,tagId);
+        return baseMapper.selectListByTag(page,tagId);
     }
 
     @Override
-    public IPage<ArticleDto> findPageByCategory(Page<Article> page, Long categoryId) {
+    public IPage<Article> findPageByCategory(Page<Article> page, Long categoryId) {
         page.setDesc("id");
-        return articleMapper.selectListByCategory(page,categoryId);
+        return baseMapper.selectListByCategory(page,categoryId);
     }
 
     @Override
-    @Cacheable(key = "targetClass + methodName + #count")
+    @Cacheable(value = "article",key = "targetClass + methodName + #count")
     public List<Article> findHotArticles(Integer count) {
-        return articleMapper.selectHotArticles(count);
+        return baseMapper.selectHotArticles(count);
     }
 
     @Override
     public List<Article> findRandomArticles(Integer count) {
-        return articleMapper.selectRandomArticles(count);
+        return baseMapper.selectRandomArticles(count);
     }
 
 }

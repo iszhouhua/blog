@@ -1,15 +1,12 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
 
 import java.util.List;
 
 /**
- * <p>
- * 标签表 服务类
- * </p>
+ * 标签服务类
  *
  * @author ZhouHua
  * @since 2018-12-01
@@ -17,10 +14,10 @@ import java.util.List;
 public interface TagService extends IService<Tag> {
     /**
      * 查询热门标签
-     * @param hotArticles 热门文章
+     * @param count 需要查询的数量
      * @return
      */
-    List<Tag> findHotTags(List<Article> hotArticles);
+    List<Tag> findHotTags(Integer count);
 
     /**
      * 查询当前文章的标签

@@ -2,21 +2,16 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.TagMapper;
-import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
 import com.iszhouhua.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * <p>
- * 标签表 服务实现类
- * </p>
- *
+ * 标签服务实现类
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -26,9 +21,9 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagSe
     private TagMapper tagMapper;
 
     @Override
-    public List<Tag> findHotTags(List<Article> hotArticles) {
-        List<Long> idList=hotArticles.stream().map(Article::getId).collect(Collectors.toList());
-        return tagMapper.selectHotTags(idList);
+    @Cacheable(value = "tag",key = "targetClass + methodName + #count")
+    public List<Tag> findHotTags(Integer count) {
+        return tagMapper.selectHotTags(count);
     }
 
     @Override

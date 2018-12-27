@@ -3,8 +3,8 @@ package com.iszhouhua.blog.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Category;
-import com.iszhouhua.blog.model.dto.ArticleDto;
 import com.iszhouhua.blog.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,7 +51,10 @@ public class CategoryController extends BaseController {
     @GetMapping("{url}/{pageIndex}")
     public String category(Model model,@PathVariable(value = "url") String url,@PathVariable(value = "pageIndex") Integer pageIndex) {
         Category category=categoryService.getOne(new QueryWrapper<Category>().eq("url",url));
-        IPage<ArticleDto> page=articleService.findPageByCategory(new Page<>(pageIndex,5),category.getId());
+        if(null==category){
+            return notFound();
+        }
+        IPage<Article> page=articleService.findPageByCategory(new Page<>(pageIndex,5),category.getId());
         model.addAttribute("info",category);
         model.addAttribute("page",page);
         return "list";

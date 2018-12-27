@@ -66,84 +66,9 @@
             </footer>
         </div>
     </article>
-    <!-- 评论 -->
-    <div th:unless="${info.isComment}" id="comments-template">
-        <div class="comments-container comments-root-container">
-            <div>
-                <h3 class="comments-header-container alert alert-info">
-                    <i class="fa fa-comments"></i>
-                    [[${comments.total}]]条评论
-                </h3>
-            </div>
-            <div>
-                <ul class="comments-comments-container comment-list">
-                    <li th:each="item:${comments.getRecords()}">
-                        <article class="comment-body">
-                            <footer class="comment-meta">
-                                <div class="comment-author vcard">
-                                    <img th:src="'https://secure.gravatar.com/avatar/'+${item.emailMd5}+'?s=54'">
-                                    <b class="fn" th:text="${item.author}"></b>
-                                    <th:block th:unless="${#lists.isEmpty(item.comments)}">
-                                        回复 <b class="fn" th:text="${item.comments[0].author}"></b>
-                                    </th:block>
-                                    <span class="says">说：</span>
-                                </div>
-                                <div class="comment-metadata">
-                                    <a>
-                                        <time th:datetime="${item.createTime}"
-                                              th:text="${#dates.format(item.createTime,'yyyy年MM月dd日 HH:mm:ss')}"></time>
-                                    </a>
-                                </div>
-                            </footer>
-                            <div class="comment-content">
-                                <p th:text="${item.content}"></p>
-                            </div>
-                            <div class="reply"><a class="comment-reply-login">回复</a></div>
-                        </article>
-                        <article class="comment-body comment-children" th:each="reply,replyStat:${item.comments}">
-                            <footer class="comment-meta">
-                                <div class="comment-author vcard">
-                                    <img th:src="'https://secure.gravatar.com/avatar/'+${reply.emailMd5}" width="54"
-                                         height="54">
-                                    <b class="fn" th:text="${reply.author}"></b>
-                                    <th:block th:unless="${replyStat.last}">
-                                        回复 <b class="fn" th:text="${item.comments[replyStat.count].author}"></b>
-                                    </th:block>
-                                    <span class="says">说：</span>
-                                </div>
-                                <div class="comment-metadata">
-                                        <time th:datetime="${reply.createTime}"
-                                              th:text="${#dates.format(reply.createTime,'yyyy年MM月dd日 HH:mm:ss')}"></time>
-                                </div>
-                                </footer>
-                                <div class="comment-content">
-                                    <p th:text="${reply.content}"></p>
-                                </div>
-                                <div class="reply"><a class="comment-reply-link">回复</a></div>
-                        </article>
-                </ul>
-            </div>
-            <div>
-                <div class="comments-editor-container">
-                    <h3 class="comment-reply-title"><i class="fa fa-pencil"></i> 欢迎留言</h3>
-                    <form action="https://www.mmgal.com/wp-comments-post.php" method="post" id="commentform"
-                          class="comment-form" novalidate="novalidate">
-                        <div class="comments-editor-write-field">
-                        <textarea class="comments-editor-write-field" id="comment" placeholder="赶快发表你的见解吧！"
-                                  name="comment" cols="45" rows="8"
-                                  aria-required="true"></textarea></div>
-                        <div id="loading" style="display: none;"><i class="fa fa-spinner fa-spin"></i> 正在提交, 请稍候...
-                        </div>
-                        <p class="form-submit">
-                            <input name="submit" type="submit" id="submit" class="comments-editor-submit" value="发表评论">
-                        </p>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
+    <th:block th:if="${info.isComment}">
+        <div layout:replace="~{common/comment}"></div>
+    </th:block>
 </div>
 
 </body>

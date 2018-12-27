@@ -2,7 +2,7 @@ package com.iszhouhua.blog.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.iszhouhua.blog.model.dto.ArticleDto;
+import com.iszhouhua.blog.model.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +36,7 @@ public class SearchController extends BaseController {
      */
     @GetMapping("{keyword}/{pageIndex}")
     public String search(Model model,@PathVariable(value = "keyword") String keyword,@PathVariable(value = "pageIndex") Integer pageIndex) {
-        IPage<ArticleDto> page=articleService.findPageByKeyword(new Page<>(pageIndex,5),keyword);
+        IPage<Article> page=articleService.findPageByKeyword(new Page<>(pageIndex,5),keyword);
         model.addAttribute("page",page);
         return "search";
     }

@@ -27,7 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         response.setCharacterEncoding("utf-8");
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = response.getWriter();
-        Result result=new Result(CodeEnum.NOT_LOGIN.value(),"未登录！");
+        Result result=new Result(CodeEnum.NOT_LOGIN.getValue(),"未登录！");
         out.write(new Gson().toJson(result));
         out.close();
         return false;

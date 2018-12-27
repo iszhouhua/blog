@@ -58,7 +58,7 @@ public class AdminController {
             return Result.fail("密码不能为空");
         }
         Result result = userService.login(params.get("username"),params.get("password"));
-        if(result.getCode()==CodeEnum.SUCCESS.value()){
+        if(result.getCode()==CodeEnum.SUCCESS.getValue()){
             //登录成功，将用户信息保存至session
             user= (User) result.getData();
             session.setAttribute(Const.USER_SESSION_KEY,user);

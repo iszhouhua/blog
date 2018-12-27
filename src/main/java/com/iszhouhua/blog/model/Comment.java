@@ -1,9 +1,12 @@
 package com.iszhouhua.blog.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 评论表
@@ -18,7 +21,7 @@ public class Comment implements Serializable {
     private Long id;
 
     /**
-     * 评论文章
+     * 评论的文章，为0表示属于留言内容
      */
     private Long articleId;
 
@@ -67,7 +70,28 @@ public class Comment implements Serializable {
      */
     private Date createTime;
 
+    /**
+     * 评论状态 0：已发布 1：待审核 2：已删除
+     */
+    private CommentStatusEnum status;
+
+    /**
+     * 评论的文章
+     */
+    @TableField(exist = false)
+    private Article article;
+
+    /**
+     * 引用的评论
+     */
+    @TableField(exist = false)
+    List<Comment> comments;
+
     public boolean isAdmin() {
         return isAdmin;
+    }
+
+    public void setAdmin(Boolean admin) {
+        isAdmin = admin;
     }
 }

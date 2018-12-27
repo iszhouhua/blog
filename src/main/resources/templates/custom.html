@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layout}">
+<head>
+    <title th:text="${info.title}"></title>
+    <meta name="keywords" th:content="${info.getKeywords()}?:${BLOG_KEYWORDS}">
+    <meta name="description" th:content="${info.description}?:${BLOG_DESCRIPTION}">
+</head>
+<body>
+<div layout:fragment="content">
+    <article class="article well article-body" id="article">
+        <i class="fa fa-user"></i>
+        <span>关于我</span>
+        [(${info.content})]
+    </article>
+    <th:block th:if="${info.isComment}">
+        <div layout:replace="~{common/comment}"></div>
+    </th:block>
+</div>
+</body>
+</html>

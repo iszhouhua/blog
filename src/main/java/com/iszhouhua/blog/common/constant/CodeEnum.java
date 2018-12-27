@@ -26,20 +26,15 @@ public enum CodeEnum {
     /**
      * 主键或关键字重复
      */
-    DUPLICATE_KEY(40002),
+    DUPLICATE_KEY(40002);
 
-    /**
-     * 其他已知异常
-     */
-    SERVER_ERROR(50000);
-
-    private final int value;
+    private int value;
 
     CodeEnum(int value){
         this.value = value;
     }
 
-    public int value(){
+    public int getValue(){
         return value;
     }
 }

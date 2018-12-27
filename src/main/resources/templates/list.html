@@ -3,7 +3,7 @@
       layout:decorate="~{common/layout}">
 <head>
     <title th:text="${info.name}"></title>
-    <meta name="keywords" th:content="${info.name}">
+    <meta name="keywords" th:content="${BLOG_KEYWORDS}+','+${info.name}">
     <meta name="description" th:content="${BLOG_DESCRIPTION}">
 </head>
 <body>
@@ -18,7 +18,7 @@
             <section class="hidden-xs">
                 <div class="title-article">
                     <h1>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h1>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="alert alert-gal article-body content-article">
                     <div class="item">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <div class="img">
                                 <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                             </div>
@@ -45,7 +45,7 @@
             <section class="visible-xs">
                 <div class="title-article">
                     <h4>
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <span th:text="${item.title}"></span>
                         </a>
                     </h4>
@@ -64,13 +64,13 @@
                 <p></p>
                 <div class="alert alert-gal article-body content-article">
                     <p style="text-align: center;">
-                        <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                        <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
                         </a>
                     </p>
                 </div>
                 <div class="alert alert-zan" th:text="${item.description}"></div>
-                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}">
+                <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                     阅读全文
                 </a>
             </section>

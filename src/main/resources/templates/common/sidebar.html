@@ -19,7 +19,7 @@
                 <i class="fa fa-quote-right"></i>
             </div>
             <div class="author-panel text-center">
-                <img th:src="${AVATAR}" width="140" height="140" alt="个人头像" class="author-image">
+                <img th:src="${BLOG_AVATAR}" width="140" height="140" alt="个人头像" class="author-image">
                 <p class="author-email" th:text="${AUTHOR_DESCRIPTION}"></p>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="item:${latestComments}">
                     <span class="author-avatar"><img class="avatar" width="40" height="40" th:src="'https://secure.gravatar.com/avatar/'+${item.emailMd5}"></span>
-                    <a th:href="@{/article/{url}.html(url=${item.article.url})}" class="hint--left hint--rounded" th:data-hint2="${item.article.title}">
+                    <a th:href="@{/{url}.html(url=${item.article.url})}" class="hint--left hint--rounded" th:data-hint2="${item.article.title}">
                         <div class="comment-log"><p th:text="${item.content}"></p></div>
                     </a>
                 </li>
@@ -55,7 +55,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="item:${randomArticles}">
                 <span class="post-title">
-                    <a th:href="@{/article/{url}.html(url=${item.url})}" th:title="${item.title}" th:text="${item.title}"></a>
+                    <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}" th:text="${item.title}"></a>
                 </span>
                 <span class="badge">[[${item.visits}]] ℃</span>
                 </li>
@@ -74,7 +74,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="item:${hotArticles}">
                 <span class="post-title">
-                    <a th:href="@{/article/{url}.html(url=${item.url})}" th:text="${item.title}"></a>
+                    <a th:href="@{/{url}.html(url=${item.url})}" th:text="${item.title}"></a>
                 </span>
                 <span class="badge">[[${item.visits}]] ℃</span>
                 </li>

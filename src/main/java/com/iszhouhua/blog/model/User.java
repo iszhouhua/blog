@@ -50,7 +50,7 @@ public class User {
     private Date createTime;
 
     /**
-     * 登录失败次数，超过一定次数禁止登录
+     * 登录失败次数，超过一定次数禁用账号
      */
     private Integer loginFail;
 

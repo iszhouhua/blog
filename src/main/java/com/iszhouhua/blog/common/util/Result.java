@@ -53,7 +53,7 @@ public class Result {
     }
 
     public static Result success(String message, Object data) {
-        return new Result(CodeEnum.SUCCESS.value(),message,data);
+        return new Result(CodeEnum.SUCCESS.getValue(),message,data);
     }
 
     public static Result fail() {
@@ -65,6 +65,6 @@ public class Result {
     }
 
     public static Result fail(String message, Object data) {
-        return new Result(CodeEnum.FAIL.value(),message,data);
+        return new Result(CodeEnum.FAIL.getValue(),message,data);
     }
 }

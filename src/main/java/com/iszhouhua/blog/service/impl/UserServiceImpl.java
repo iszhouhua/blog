@@ -39,7 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         boolean res = PBKDF2Utils.verify(password,user.getSalt(),user.getPassword());
         //验证密码是否正确
         if(res){
-            result.setCode(CodeEnum.SUCCESS.value());
+            result.setCode(CodeEnum.SUCCESS.getValue());
             result.setMsg("登录成功");
             result.setData(user);
             //重置登录失败次数

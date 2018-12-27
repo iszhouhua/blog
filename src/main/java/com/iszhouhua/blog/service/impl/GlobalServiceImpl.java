@@ -1,6 +1,5 @@
 package com.iszhouhua.blog.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.GlobalMapper;
 import com.iszhouhua.blog.model.Global;
@@ -22,7 +21,7 @@ public class GlobalServiceImpl extends ServiceImpl<GlobalMapper, Global> impleme
     @Override
     public Map<String, Object> findAllGlobal() {
         Map<String, Object> variables = new HashMap<>();
-        List<Global> globals = list(new QueryWrapper<Global>().select("name","value"));
+        List<Global> globals = list();
         globals.forEach(variable -> variables.put(variable.getName(),variable.getValue()));
         return variables;
     }
