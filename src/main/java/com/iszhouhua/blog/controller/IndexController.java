@@ -88,7 +88,7 @@ public class IndexController extends BaseController {
     }
 
     /**
-     * 404错误
+     * 404页面
      * @return
      */
     @GetMapping("404.html")

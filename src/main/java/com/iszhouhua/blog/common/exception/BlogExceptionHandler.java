@@ -32,6 +32,6 @@ public class BlogExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handleException(Exception e){
         log.error(e.getMessage(), e);
-        return new Result(CodeEnum.UNKNOWN_ERROR.getValue(),e.getMessage());
+        return new Result(CodeEnum.UNKNOWN_ERROR.getValue(),"服务器异常");
     }
 }

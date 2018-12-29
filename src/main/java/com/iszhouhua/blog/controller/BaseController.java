@@ -3,8 +3,9 @@ package com.iszhouhua.blog.controller;
 import com.iszhouhua.blog.service.ArticleService;
 import com.iszhouhua.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * controller 增强器
@@ -24,9 +25,9 @@ public class BaseController {
      * @param model
      */
     @ModelAttribute
-    public void addAttributes(Model model) {
-        model.addAttribute("latestComments", commentService.findLatestComments(8));
-        model.addAttribute("randomArticles", articleService.findRandomArticles(8));
+    public void addAttributes(HttpServletRequest model) {
+        model.setAttribute("latestComments", commentService.findLatestComments(8));
+        model.setAttribute("randomArticles", articleService.findRandomArticles(8));
     }
 
     /**

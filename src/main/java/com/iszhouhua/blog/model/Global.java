@@ -28,10 +28,10 @@ public class Global implements Serializable {
     private String value;
 
     /**
-     * 备注
+     * 描述
      */
     @TableField(select = false)
-    private String remark;
+    private String description;
 
 
 }

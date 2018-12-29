@@ -1051,7 +1051,7 @@ get : function(key) {
 		case 'osize':
 			return this.get('wsize') + (this.exp.outline ? 2*this.exp.outline.offset : 0);
 		case 'imgPad':
-			return this.imgSize ? Math.round((this.size - this.imgSize) / 2) : 0;
+			return this.imagesize ? Math.round((this.size - this.imagesize) / 2) : 0;
 		
 	}
 },
@@ -1086,7 +1086,7 @@ calcExpanded: function() {
 		Math.min(exp['min'+ this.ucwh], this.full) :this.full;
 	if (exp.isImage && exp.useBox)	{
 		this.size = exp[this.wh];
-		this.imgSize = this.full;
+		this.imagesize = this.full;
 	}
 	if (this.dim == 'x' && hs.padToMinWidth) this.minSize = exp.minWidth;
 	this.marginMin = hs['margin'+ this.uclt];
@@ -1096,8 +1096,8 @@ calcExpanded: function() {
 setSize: function(i) {
 	var exp = this.exp;
 	if (exp.isImage && (exp.useBox || hs.padToMinWidth)) {
-		this.imgSize = i;
-		this.size = Math.max(this.size, this.imgSize);
+		this.imagesize = i;
+		this.size = Math.max(this.size, this.imagesize);
 		exp.content.style[this.lt] = this.get('imgPad')+'px';
 	} else
 	this.size = i;
@@ -1271,7 +1271,7 @@ imageCreate : function() {
 	});
     img.title = hs.lang.restoreTitle;
 	if (hs.safari && hs.uaVersion < 525) hs.container.appendChild(img);
-    if (hs.ie && hs.flushImgSize) img.src = null;
+    if (hs.ie && hs.flushimagesize) img.src = null;
 	img.src = this.src;
 	
 	this.showLoading();
@@ -1396,7 +1396,7 @@ contentLoaded : function() {
 			if (this.isImage)
 				this.correctRatio(ratio);
 			else this.fitOverlayBox();
-			if (this.isImage && this.x.full > (this.x.imgSize || this.x.size)) {
+			if (this.isImage && this.x.full > (this.x.imagesize || this.x.size)) {
 				this.createFullExpand();
 				if (this.overlays.length == 1) this.sizeOverlayBox();
 			}
@@ -1625,19 +1625,19 @@ correctRatio : function(ratio) {
 	}
 	
 	if (hs.padToMinWidth && x.full < x.minSize) {
-		x.imgSize = x.full;
-		y.size = y.imgSize = y.full;
+		x.imagesize = x.full;
+		y.size = y.imagesize = y.full;
 	} else if (this.useBox) {
-		x.imgSize = xSize;
-		y.imgSize = ySize;
+		x.imagesize = xSize;
+		y.imagesize = ySize;
 	} else {
 		x.size = xSize;
 		y.size = ySize;
 	}
 	changed = this.fitOverlayBox(this.useBox ? null : ratio, changed);
-	if (useBox && y.size < y.imgSize) {
-		y.imgSize = y.size;
-		x.imgSize = y.size * ratio;
+	if (useBox && y.size < y.imagesize) {
+		y.imagesize = y.size;
+		x.imagesize = y.size * ratio;
 	}
 	if (changed || useBox) {
 		x.pos = x.tpos - x.cb + x.tb;
@@ -1682,8 +1682,8 @@ show : function () {
 			content: {
 				left: x.p1 + x.get('imgPad'),
 				top: y.p1 + y.get('imgPad'),
-				width:x.imgSize ||x.size,
-				height:y.imgSize ||y.size
+				width:x.imagesize ||x.size,
+				height:y.imagesize ||y.size
 			}
 		},
 		hs.expandDuration

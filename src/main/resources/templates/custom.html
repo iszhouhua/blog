@@ -5,12 +5,15 @@
     <title th:text="${info.title}"></title>
     <meta name="keywords" th:content="${info.getKeywords()}?:${BLOG_KEYWORDS}">
     <meta name="description" th:content="${info.description}?:${BLOG_DESCRIPTION}">
+    <link rel="stylesheet" href="/css/article.css">
+    <link rel="stylesheet" href="/css/toastr.min.css">
+    <script src="/js/toastr.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
     <article class="article well article-body" id="article">
         <i class="fa fa-user"></i>
-        <span>关于我</span>
+        <span th:text="${info.title}"></span><br/>
         [(${info.content})]
     </article>
     <th:block th:if="${info.isComment}">

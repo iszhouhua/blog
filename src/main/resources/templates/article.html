@@ -6,6 +6,8 @@
     <meta name="keywords" th:content="${info.getKeywords()}?:${info.title}">
     <meta name="description" th:content="${info.description}?:${info.title}">
     <link rel="stylesheet" href="/css/article.css">
+    <link rel="stylesheet" href="/css/toastr.min.css">
+    <script src="/js/toastr.min.js"></script>
 </head>
 <body>
 <div layout:fragment="content">
@@ -70,6 +72,5 @@
         <div layout:replace="~{common/comment}"></div>
     </th:block>
 </div>
-
 </body>
 </html>

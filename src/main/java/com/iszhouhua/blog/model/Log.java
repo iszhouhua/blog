@@ -23,29 +23,33 @@ public class Log implements Serializable {
     private String ip;
 
     /**
-     * 访问链接
+     * 首次访问的链接
      */
-    private String logUrl;
+    private String url;
 
     /**
-     * 链接标题
-     */
-    private String logTitle;
-
-    /**
-     * 来源网页
+     * 首次访问的来源
      */
     private String referer;
 
     /**
-     * 浏览器类型
+     * 首次访问的浏览器类型
      */
     private String userAgent;
+
+    /**
+     * 总访问次数
+     */
+    private Integer visits;
+
+    /**
+     * 最后访问时间
+     */
+    private Date updateTime;
 
     /**
      * 创建时间
      */
     private Date createTime;
-
 
 }

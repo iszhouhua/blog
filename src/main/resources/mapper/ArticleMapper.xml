@@ -11,6 +11,7 @@
     <result column="update_time" property="updateTime" />
     <result column="is_comment" property="isComment" />
     <result column="visits" property="visits" />
+    <result column="status" property="status" />
     <association property="category" javaType="Category">
       <id property="id" column="category_id"/>
       <result property="name" column="category_name"/>
@@ -20,7 +21,7 @@
   </resultMap>
 
   <select id="selectArticleByUrl" resultMap="BaseResultMap">
-    SELECT a.id,a.visits,a.title,a.description,a.is_comment,a.content,a.create_time,a.update_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.url=#{url} AND a.status IN (0,3)
+    SELECT a.id,a.visits,a.title,a.description,a.is_comment,a.content,a.create_time,a.update_time,a.url,a.status,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.url=#{url} AND a.status IN (0,3)
   </select>
 
   <select id="selectTopArticles" resultMap="BaseResultMap">
@@ -28,9 +29,12 @@
   </select>
 
   <select id="selectArticleList" resultMap="BaseResultMap">
-    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.is_top=FALSE AND a.status=0
+    SELECT a.id,a.title,a.description,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=0
+      <if test="keyword == null">
+        AND a.is_top=FALSE
+      </if>
       <if test="keyword != null">
-          AND (a.title like #{keyword} OR a.description like #{keyword} OR a.content_md like #{keyword})
+        AND (a.title like #{keyword} OR a.description like #{keyword} OR a.content_md like #{keyword})
       </if>
   </select>
 

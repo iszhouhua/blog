@@ -534,8 +534,27 @@ pre .selector-id, pre .selector-class, pre .keyword, pre .javascript .function {
 .article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6 {
     font-weight: bold;
     line-height: 1.5;
-    background-color: rgba(255,255,255,0.51);
+    background-color: rgba(255, 255, 255, 0.51);
     padding: 10px 20px;
     margin: 0 0 20px;
-    border-left: 5px solid rgb(0,191,255);
+    border-left: 5px solid rgb(0, 191, 255);
+}
+
+.comment-input {
+    border-radius: 4px;
+    background-color: transparent;
+    border: 2px solid #c1c1c1;
+    height: 30px;
+    width: 300px;
+}
+
+.comment-input:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    outline: 0;
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -ms-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+    border: 2px solid #d9534f
 }

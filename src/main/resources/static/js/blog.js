@@ -103,5 +103,32 @@
 	})
 
 	// ------- 处理返回顶端结束 ----------
+
+    // ------- 处理评论 -------------
+
+    $('#commentform').submit(function () {
+        event.preventDefault();
+        var content=this.content.value;
+        if(content === null || content === '') {
+            $('#content').focus();
+            $('#content').attr('placeholder','评论内容不能为空');
+        }else{
+            $('#comment-submit').hide();
+            $('#loading').show();
+            $.post("comment/article",$(this).serialize(),function(response){
+                if(response.code===1){
+                    toastr.success(response.msg);
+                    setTimeout(function(){location.reload()},1000);
+                }else{
+                    toastr.error(response.msg);
+                }
+                $('#comment-submit').show();
+                $('#loading').hide();
+            });
+        }
+    })
+
+    // ------- 处理评论结束 ----------
+
 })($)
 
