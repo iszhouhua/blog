@@ -1,7 +1,8 @@
 package com.iszhouhua.blog.config;
 
 import com.iszhouhua.blog.model.Menu;
-import com.iszhouhua.blog.service.GlobalService;
+import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
+import com.iszhouhua.blog.service.ConfigService;
 import com.iszhouhua.blog.service.MenuService;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 import nz.net.ultraq.thymeleaf.decorators.strategies.GroupingStrategy;
@@ -25,7 +26,7 @@ public class ThymeleafConfig{
     private ThymeleafViewResolver thymeleafViewResolver;
 
     @Autowired
-    private GlobalService globalService;
+    private ConfigService configService;
 
     @Autowired
     private MenuService menuService;
@@ -41,12 +42,11 @@ public class ThymeleafConfig{
 
     /**
      * 设置Thymeleaf静态变量
-     * 为方便区分，所有静态变量统一以大写命名
      */
     @PostConstruct
     public void setStaticVariables() {
         //全局变量
-        Map<String,Object> variables=globalService.findAllGlobal();
+        Map<String,String> variables=configService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION);
         thymeleafViewResolver.setStaticVariables(variables);
         //目录
         List<Menu> menus = menuService.findAllMenu();

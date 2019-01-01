@@ -5,7 +5,8 @@ import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.User;
-import com.iszhouhua.blog.service.GlobalService;
+import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
+import com.iszhouhua.blog.service.ConfigService;
 import com.iszhouhua.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
@@ -35,7 +36,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
     @Autowired
-    private GlobalService globalService;
+    private ConfigService globalService;
 
     /**
      * 登录
@@ -66,7 +67,7 @@ public class AdminController {
             map.put("token",session.getId());
             map.put("name",user.getNickname());
             map.put("avatar",DigestUtils.md5Hex(user.getEmail()));
-            map.put("global",globalService.findAllGlobal());
+            map.put("global",globalService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION));
             result.setData(map);
         }
         return result;

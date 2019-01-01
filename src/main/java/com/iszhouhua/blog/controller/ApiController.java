@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.SysConfig;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.Comment;
@@ -57,7 +58,11 @@ public class ApiController {
         String ip=IPUtils.getIpAddr(request);
         comment.setIp(ip);
         comment.setAdmin(false);
-        comment.setStatus(CommentStatusEnum.PUBLISHED);
+        if(SysConfig.COMMENT_CHECK){
+            comment.setStatus(CommentStatusEnum.CHECKING);
+        }else{
+            comment.setStatus(CommentStatusEnum.PUBLISHED);
+        }
         return commentService.save(comment)?Result.success("评论成功"):Result.fail("评论失败");
     }
 }

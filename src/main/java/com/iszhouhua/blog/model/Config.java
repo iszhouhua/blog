@@ -1,17 +1,18 @@
 package com.iszhouhua.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 全局变量
+ * 博客配置
  * @author ZhouHua
  * @since 2018-12-01
  */
 @Data
-public class Global implements Serializable {
+public class Config implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,10 +29,13 @@ public class Global implements Serializable {
     private String value;
 
     /**
+     * 配置类型 1：全局参数 2：系统配置
+     */
+    private ConfigTypeEnum type;
+
+    /**
      * 描述
      */
     @TableField(select = false)
     private String description;
-
-
 }

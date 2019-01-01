@@ -1,0 +1,10 @@
+${AnsiColor.BRIGHT_YELLOW}
+
+
+    ( ( (        _     _     #   ___
+  '. ___ .'    o' \,=./ `o   #  <_*_>        __MMM__
+ '  (> <) '       (o o)      #  (o o)         (o o)
+ooO--(_)--Ooo-ooO--(_)--Ooo--8---(_)--Ooo-ooO--(_)--Ooo-
+
+${AnsiColor.BLUE}
+::: Project (version:${application.version}) :::              Spring-Boot ${spring-boot.version}
