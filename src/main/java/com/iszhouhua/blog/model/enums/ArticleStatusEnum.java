@@ -1,23 +1,21 @@
 package com.iszhouhua.blog.model.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
-
 /**
  * 文章状态枚举类
  * @author ZhouHua
  * @date 2018/12/26
  */
-public enum ArticleStatusEnum implements IEnum<Integer> {
+public enum ArticleStatusEnum{
 
     /**
      * 已发布
      */
-    PUBLISHED(0, "已发布"),
+    PUBLISHED(1, "已发布"),
 
     /**
      * 草稿
      */
-    DRAFT(1, "草稿"),
+    DRAFT(0, "草稿"),
 
     /**
      * 回收站
@@ -29,7 +27,7 @@ public enum ArticleStatusEnum implements IEnum<Integer> {
      */
     CUSTOM(3,"自定义文章");
 
-    private Integer value;
+    private int value;
     private String desc;
 
     ArticleStatusEnum(Integer value, String desc) {
@@ -37,8 +35,7 @@ public enum ArticleStatusEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-    @Override
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 

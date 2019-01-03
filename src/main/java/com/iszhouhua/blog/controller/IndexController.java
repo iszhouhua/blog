@@ -57,9 +57,9 @@ public class IndexController extends BaseController {
         // 热门标签
         model.addAttribute("hotTags", tagService.findHotTags(20));
         // 友情链接
-        model.addAttribute("friendLinks", linkService.findLinkByType(LinkTypeEnum.FRIEND_LINK));
+        model.addAttribute("friendLinks", linkService.findLinkByType(LinkTypeEnum.FRIEND_LINK.getValue()));
         // 个人链接
-        model.addAttribute("personalLinks", linkService.findLinkByType(LinkTypeEnum.PERSONAL_LINK));
+        model.addAttribute("personalLinks", linkService.findLinkByType(LinkTypeEnum.PERSONAL_LINK.getValue()));
         model.addAttribute("isIndex",true);
         return "index";
     }
@@ -81,7 +81,7 @@ public class IndexController extends BaseController {
             model.addAttribute("comments",commentPage);
         }
         //自定义文章
-        if(info.getStatus()==ArticleStatusEnum.CUSTOM){
+        if(info.getStatus()==ArticleStatusEnum.CUSTOM.getValue()){
             return "custom";
         }
         return "article";

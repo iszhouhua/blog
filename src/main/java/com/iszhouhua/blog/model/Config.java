@@ -1,7 +1,5 @@
 package com.iszhouhua.blog.model;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -31,11 +29,10 @@ public class Config implements Serializable {
     /**
      * 配置类型 1：全局参数 2：系统配置
      */
-    private ConfigTypeEnum type;
+    private Integer type;
 
     /**
      * 描述
      */
-    @TableField(select = false)
     private String description;
 }

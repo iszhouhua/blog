@@ -1,31 +1,29 @@
 package com.iszhouhua.blog.model.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
-
 /**
  * 评论状态枚举类
  * @author ZhouHua
  * @date 2018/12/26
  */
-public enum CommentStatusEnum implements IEnum<Integer> {
+public enum CommentStatusEnum {
 
-
-    /**
-     * 已发布
-     */
-    PUBLISHED(0, "已发布"),
 
     /**
      * 待审核
      */
-    CHECKING(1, "待审核"),
+    CHECKING(0, "待审核"),
+
+    /**
+     * 已发布
+     */
+    PUBLISHED(1, "已发布"),
 
     /**
      * 已删除
      */
     RECYCLE(2, "已删除");
 
-    private Integer value;
+    private int value;
     private String desc;
 
     CommentStatusEnum(Integer value, String desc) {
@@ -33,8 +31,7 @@ public enum CommentStatusEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-    @Override
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 

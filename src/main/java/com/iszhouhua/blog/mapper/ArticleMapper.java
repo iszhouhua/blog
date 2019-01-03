@@ -60,7 +60,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param count 需要查询的数量
      * @return
      */
-    @Select("select id,url,title,visits from blog_article where status=0 order by visits desc limit #{count}")
+    @Select("select id,url,title,visits from blog_article where status=1 order by visits desc limit #{count}")
     List<Article> selectHotArticles(Integer count);
 
     /**
@@ -68,6 +68,6 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param count 需要查询的数量
      * @return
      */
-    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=0 ORDER BY t1.id ASC LIMIT #{count}")
+    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=1 ORDER BY t1.id ASC LIMIT #{count}")
     List<Article> selectRandomArticles(Integer count);
 }

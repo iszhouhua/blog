@@ -1,13 +1,11 @@
 package com.iszhouhua.blog.model.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
-
 /**
  * 链接类型枚举类
  * @author ZhouHua
  * @date 2018/12/26
  */
-public enum LinkTypeEnum implements IEnum<Integer> {
+public enum LinkTypeEnum {
     /**
      * 友情链接
      */
@@ -18,7 +16,7 @@ public enum LinkTypeEnum implements IEnum<Integer> {
     PERSONAL_LINK(2,"个人链接");
 
 
-    private Integer value;
+    private int value;
     private String desc;
 
     LinkTypeEnum(Integer value, String desc) {
@@ -26,8 +24,7 @@ public enum LinkTypeEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-    @Override
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 

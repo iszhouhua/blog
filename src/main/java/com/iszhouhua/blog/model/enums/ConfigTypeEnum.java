@@ -1,13 +1,11 @@
 package com.iszhouhua.blog.model.enums;
 
-import com.baomidou.mybatisplus.core.enums.IEnum;
-
 /**
  * 配置类型枚举类
  * @author ZhouHua
  * @date 2018/12/26
  */
-public enum ConfigTypeEnum implements IEnum<Integer> {
+public enum ConfigTypeEnum {
     /**
      * 全局变量
      */
@@ -18,7 +16,7 @@ public enum ConfigTypeEnum implements IEnum<Integer> {
      */
     SYSTEM_CONFIG(2,"系统配置");
 
-    private Integer value;
+    private int value;
     private String desc;
 
     ConfigTypeEnum(Integer value, String desc) {
@@ -26,8 +24,7 @@ public enum ConfigTypeEnum implements IEnum<Integer> {
         this.desc = desc;
     }
 
-    @Override
-    public Integer getValue() {
+    public int getValue() {
         return value;
     }
 

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/admin/tag")
-public class AdminTagController {
+public class BackTagController {
     @Autowired
     private TagService tagService;
 

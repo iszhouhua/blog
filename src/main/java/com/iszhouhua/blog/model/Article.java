@@ -1,7 +1,6 @@
 package com.iszhouhua.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -43,13 +42,11 @@ public class Article implements Serializable {
     /**
      * 文章内容
      */
-    @TableField(select = false)
     private String content;
 
     /**
      *  Markdown格式的文章内容
      */
-    @TableField(select = false)
     private String contentMd;
 
     /**
@@ -84,9 +81,9 @@ public class Article implements Serializable {
     private Integer visits;
 
     /**
-     * 状态 0：已发布 1：草稿 2：回收站 3：自定义文章
+     * 状态 0：草稿 1：已发布 2：回收站 3：自定义文章
      */
-    private ArticleStatusEnum status;
+    private Integer status;
 
     /**
      * 文章标签

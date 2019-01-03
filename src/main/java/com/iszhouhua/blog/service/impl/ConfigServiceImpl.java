@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.ConfigMapper;
 import com.iszhouhua.blog.model.Config;
-import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
 import com.iszhouhua.blog.service.ConfigService;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ import java.util.Map;
 public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> implements ConfigService {
 
     @Override
-    public Map<String, String> findAllByType(ConfigTypeEnum type) {
+    public Map<String, String> findAllByType(Integer type) {
         Map<String, String> options = new HashMap<>();
         List<Config> configs = list(new QueryWrapper<Config>().eq("type",type));
         configs.forEach(variable -> options.put(variable.getName(),variable.getValue()));

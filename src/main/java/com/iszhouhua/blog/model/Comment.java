@@ -1,7 +1,6 @@
 package com.iszhouhua.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -71,9 +70,9 @@ public class Comment implements Serializable {
     private Date createTime;
 
     /**
-     * 评论状态 0：已发布 1：待审核 2：已删除
+     * 评论状态 0：待审核 1：已发布 2：已删除
      */
-    private CommentStatusEnum status;
+    private Integer status;
 
     /**
      * 评论的文章

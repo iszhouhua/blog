@@ -2,7 +2,6 @@ package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iszhouhua.blog.model.Config;
-import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
 
 import java.util.Map;
 
@@ -17,5 +16,5 @@ public interface ConfigService extends IService<Config> {
      * @param type 配置类型
      * @return 转换成Map之后的配置
      */
-    Map<String, String> findAllByType(ConfigTypeEnum type);
+    Map<String, String> findAllByType(Integer type);
 }

@@ -23,7 +23,7 @@ public class MyApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         //初始化系统配置
-        Map<String,String> config=configService.findAllByType(ConfigTypeEnum.SYSTEM_CONFIG);
+        Map<String,String> config=configService.findAllByType(ConfigTypeEnum.SYSTEM_CONFIG.getValue());
         SysConfig.loadConfig(config);
     }
 }

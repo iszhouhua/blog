@@ -9,6 +9,7 @@ import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
+import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
 import com.iszhouhua.blog.service.ArticleService;
 import com.iszhouhua.blog.service.ArticleTagService;
 import com.iszhouhua.blog.service.TagService;
@@ -18,8 +19,6 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,9 +48,9 @@ public class BackArticleController {
     @GetMapping("")
     public Result list(Page<Article> page, Article article){
         QueryWrapper<Article> queryWrapper=new QueryWrapper<>(article);
-//        if(article.getStatus()){
-            queryWrapper.ne("status",2);
-//        }
+        if(article.getStatus()==null){
+            queryWrapper.in("status",ArticleStatusEnum.DRAFT.getValue(),ArticleStatusEnum.PUBLISHED.getValue());
+        }
         IPage<Article> articlePage=articleService.page(page,queryWrapper);
         articlePage.getRecords().forEach(post -> post.setTags(tagService.findTagsByArticleId(post.getId())));
         return Result.success("查询成功",articlePage);
@@ -70,9 +69,8 @@ public class BackArticleController {
         if(StringUtils.isBlank(article.getContent())){
             return Result.fail("文章内容不能为空不能为空");
         }
-        Date date=new Date();
         if(StringUtils.isBlank(article.getUrl())){
-            article.setUrl(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd-HHmmss")));
+            article.setUrl(article.getTitle());
         }
         article.setUpdateTime(new Date());
         boolean res;
@@ -92,7 +90,10 @@ public class BackArticleController {
                 return Result.fail("文章已成功保存，但关联标签保存失败");
             }
         }
-        return Result.success("保存成功");
+        if(article.getId()==null){
+            article=articleService.getOne(new QueryWrapper<>(article));
+        }
+        return Result.success("保存成功",article);
     }
 
     /**

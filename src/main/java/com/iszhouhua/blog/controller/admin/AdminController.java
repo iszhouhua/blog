@@ -1,6 +1,5 @@
 package com.iszhouhua.blog.controller.admin;
 
-
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.Result;
@@ -13,10 +12,7 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
@@ -36,7 +32,7 @@ public class AdminController {
     @Autowired
     private UserService userService;
     @Autowired
-    private ConfigService globalService;
+    private ConfigService configService;
 
     /**
      * 登录
@@ -63,13 +59,35 @@ public class AdminController {
             //登录成功，将用户信息保存至session
             user= (User) result.getData();
             session.setAttribute(Const.USER_SESSION_KEY,user);
-            Map<String,Object> map=new HashMap<>(8);
-            map.put("token",session.getId());
-            map.put("name",user.getNickname());
-            map.put("avatar",DigestUtils.md5Hex(user.getEmail()));
-            map.put("global",globalService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION));
-            result.setData(map);
+            result.setData(session.getId());
         }
         return result;
+    }
+
+    /**
+     * 获得当前登录用户信息和全局参数等
+     * @return
+     */
+    @GetMapping("info")
+    public Result info(HttpSession session) {
+        User user=(User)session.getAttribute(Const.USER_SESSION_KEY);
+        Map<String,Object> map=new HashMap<>(8);
+        map.put("nickname",user.getNickname());
+        map.put("username",user.getUsername());
+        if(StringUtils.isNotEmpty(user.getEmail())){
+            map.put("avatar",DigestUtils.md5Hex(user.getEmail()));
+        }
+        map.put("global",configService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION.getValue()));
+        return Result.success("获取成功",map);
+    }
+
+    /**
+     * 退出登录
+     * @return
+     */
+    @PostMapping("logout")
+    public Result logout(HttpSession session) {
+        session.removeAttribute(Const.USER_SESSION_KEY);
+        return Result.success();
     }
 }

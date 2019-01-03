@@ -46,7 +46,7 @@ public class ThymeleafConfig{
     @PostConstruct
     public void setStaticVariables() {
         //全局变量
-        Map<String,String> variables=configService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION);
+        Map<String,String> variables=configService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION.getValue());
         thymeleafViewResolver.setStaticVariables(variables);
         //目录
         List<Menu> menus = menuService.findAllMenu();

@@ -33,7 +33,7 @@ CREATE TABLE `blog_article` (
   `is_top` tinyint(4) DEFAULT '0' COMMENT '文章是否置顶  0：否  1：是',
   `is_comment` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否开启评论 0：关闭 1：开启',
   `visits` int(11) NOT NULL DEFAULT '0' COMMENT '访问量',
-  `status` tinyint(4) NOT NULL COMMENT '状态 0：已发布 1：草稿 2：回收站 3：自定义文章',
+  `status` tinyint(4) NOT NULL COMMENT '状态 0：草稿 1：已发布 2：回收站 3：自定义文章',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_url` (`url`) COMMENT '文章链接唯一索引',
   UNIQUE KEY `uk_title` (`title`) USING HASH COMMENT '文章标题唯一索引'
@@ -43,7 +43,7 @@ CREATE TABLE `blog_article` (
 -- Records of blog_article
 -- ----------------------------
 INSERT INTO `blog_article` VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null, '<h1><a id=\"Hello_World_0\"></a>Hello World</h1>\n<p>你好，世界。<br />\n欢迎使用本博客系统。<br />\n写博客需要坚持，一起努力加油吧！</p>\n', '# Hello World\n你好，世界。\n欢迎使用本博客系统。\n写博客需要坚持，一起努力加油吧！', '1', '2019-01-01 00:00:00', '2018-12-30 15:37:31', '0', '1', '0', '0');
-INSERT INTO `blog_article` VALUES ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, '2018-12-25 11:03:43', '2018-12-25 11:03:43', null, '1', '0', '3');
+INSERT INTO `blog_article` VALUES ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, '2018-12-25 11:03:43', '2018-12-25 11:03:43', '0', '1', '0', '3');
 
 -- ----------------------------
 -- Table structure for blog_article_tag
@@ -93,7 +93,7 @@ CREATE TABLE `blog_comment` (
   `parent_id` bigint(20) DEFAULT '0' COMMENT '引用的回复，0表示没有引用',
   `is_admin` tinyint(4) DEFAULT '0' COMMENT '是否为博主评论  0：否  1：是',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间',
-  `status` tinyint(4) NOT NULL COMMENT '评论状态 0：已发布 1：待审核 2：已删除',
+  `status` tinyint(4) NOT NULL COMMENT '评论状态 0：待审核 1：已发布 2：已删除',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='评论表';
 
@@ -111,8 +111,7 @@ CREATE TABLE `blog_config` (
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '变量名',
   `value` varchar(5000) DEFAULT NULL COMMENT '变量值',
   `type` tinyint(4) DEFAULT NULL COMMENT '参数类型 1：全局变量 2：系统配置',
-  `
-description` varchar(500) DEFAULT NULL COMMENT '描述',
+  `description` varchar(500) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`) USING BTREE COMMENT '变量名唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='博客配置表';

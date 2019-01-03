@@ -2,7 +2,6 @@ package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iszhouhua.blog.model.Link;
-import com.iszhouhua.blog.model.enums.LinkTypeEnum;
 
 import java.util.List;
 
@@ -17,5 +16,5 @@ public interface LinkService extends IService<Link> {
      * @param type 链接类型
      * @return
      */
-    List<Link> findLinkByType(LinkTypeEnum type);
+    List<Link> findLinkByType(Integer type);
 }

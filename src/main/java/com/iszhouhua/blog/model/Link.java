@@ -1,6 +1,5 @@
 package com.iszhouhua.blog.model;
 
-import com.iszhouhua.blog.model.enums.LinkTypeEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -30,6 +29,6 @@ public class Link implements Serializable {
     /**
      * 链接类型 1：友情链接 2：个人链接
      */
-    private LinkTypeEnum type;
+    private Integer type;
 
 }

@@ -27,7 +27,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
 
     @Override
     public IPage<Comment> findPageByArticleId(Page<Comment> page,Long articleId) {
-        IPage<Comment> commentPage=baseMapper.selectPage(page,new QueryWrapper<Comment>().eq("article_id",articleId).eq("status",CommentStatusEnum.PUBLISHED).orderByDesc("id"));
+        IPage<Comment> commentPage=baseMapper.selectPage(page,new QueryWrapper<Comment>().eq("article_id",articleId).eq("status",CommentStatusEnum.PUBLISHED.getValue()).orderByDesc("id"));
         //获得所有引用评论
         commentPage.getRecords().forEach(comment -> {
             //只要parentId大于0，就表示存在引用评论

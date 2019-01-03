@@ -59,9 +59,9 @@ public class ApiController {
         comment.setIp(ip);
         comment.setAdmin(false);
         if(SysConfig.COMMENT_CHECK){
-            comment.setStatus(CommentStatusEnum.CHECKING);
+            comment.setStatus(CommentStatusEnum.CHECKING.getValue());
         }else{
-            comment.setStatus(CommentStatusEnum.PUBLISHED);
+            comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());
         }
         return commentService.save(comment)?Result.success("评论成功"):Result.fail("评论失败");
     }
