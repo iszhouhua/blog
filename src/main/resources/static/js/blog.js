@@ -49,7 +49,6 @@
 	})
 	panelRemove.on('click', function () {
 		var that = $(this)
-		// TODO 不用jqueryUI
 		that.parents('.panel').animate({
 			opacity: 0
 		}, 1000, function () {

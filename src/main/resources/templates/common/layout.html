@@ -6,59 +6,46 @@
     <meta name="author" th:content="${BLOG_AUTHOR}">
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${BLOG_TITLE}"></title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/aos.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/js/highslide/highslide.css">
-    <script src="/js/jquery.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/aos.js"></script>
-    <script src="/js/highslide/highslide-full.min.js"></script>
-    <style type="text/css">
-        @media (max-width: 768px
-
-        ) {
-            body {
-                background-color: #f0f0f0;
-                background: url('/images/xsbg.gif');
-                background-attachment: fixed;
-            }
-        }
-
-        #gal-header .navbar-brand {
-            height: 54px;
-            line-height: 24px;
-            font-size: 28px;
-            opacity: 1;
-            background-color: rgba(0, 0, 0, 0);
-            text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
+    <link rel="stylesheet" th:href="@{/vendor/aos/aos.css(v=2.3.4)}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.0)}">
+    <link rel="stylesheet" th:href="@{/vendor/highslide/highslide.css(v=5.0.0)}">
+    <link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css(v=4.7.0)}">
+    <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
+    <script th:src="@{/vendor/aos/aos.js(v=2.3.4)}"></script>
+    <script th:src="@{/vendor/highslide/highslide-full.min.js(v=5.0.0)}"></script>
 </head>
 <body>
 <!-- 背景轮播图功能 -->
 <section class="hidden-xs">
     <ul class="cb-slideshow">
-        <li><span>天若</span></li>
-        <li><span>有情</span></li>
-        <li><span>天亦老</span></li>
-        <li><span>人若</span></li>
-        <li><span>有情</span></li>
-        <li><span>死得早</span></li>
+        <li style="list-style-type:none;"><span>天若</span></li>
+        <li style="list-style-type:none;"><span>有情</span></li>
+        <li style="list-style-type:none;"><span>天亦老</span></li>
+        <li style="list-style-type:none;"><span>人若</span></li>
+        <li style="list-style-type:none;"><span>有情</span></li>
+        <li style="list-style-type:none;"><span>死得早</span></li>
     </ul>
 </section>
 <!-- 欧尼酱功能, 谁用谁知道 -->
 <div class="gal-menu gal-dropdown">
     <div class="circle" id="gal">
         <div class="ring">
-            <a href="http://yoursite.com" class="menuItem" style="left: 50%; top: 15%;">首页</a>
-            <a class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
-            <a href="/archives" class="menuItem" style="left: 80.3109%; top: 67.5%;">归档</a>
-            <a href="/about" class="menuItem" style="left: 50%; top: 85%;">关于</a>
-            <a href="/message" class="menuItem" style="left: 19.6891%; top: 67.5%;">留言板</a>
-            <a class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+            <a th:href="${BLOG_URL}" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            <a href="/category" class="menuItem" style="left: 80.3109%; top: 67.5%;">分类</a>
+            <a href="/about.html" class="menuItem" style="left: 50%; top: 85%;">关于我</a>
+            <a href="/tag" class="menuItem" style="left: 19.6891%; top: 67.5%;">标签</a>
+            <th:block th:if="${page}">
+                <a th:href="${page.hasPrevious()}?('./'+${page.current - 1}):'#'" class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
+                <a th:href="${page.hasNext()}?('./'+${page.current + 1}):'#'" class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+            </th:block>
+            <th:block th:unless="${page}">
+                <a th:href="${nextArticle}?('/'+${nextArticle.url}+'.html'):'#'" class="menuItem" style="left: 80.3109%; top: 32.5%;">下一篇</a>
+                <a th:href="${previousArticle}?('/'+${previousArticle.url}+'.html'):'#'" class="menuItem" style="left: 19.6891%; top: 32.5%;">上一篇</a>
+            </th:block>
         </div>
-        <audio id="audio" src="/images/oni.mp3"></audio>
+        <audio id="audio" src="/images/onj.mp3"></audio>
     </div>
 </div>
 <header layout:replace="~{common/header}"></header>
@@ -75,10 +62,10 @@
 <div id="gal-gotop">
     <i class="fa fa-angle-up"></i>
 </div>
-<script src="/js/activate-power-mode.js"></script>
+<script th:src="@{/js/activate-power-mode.js(v=1.0.0)}"></script>
 <script>
     // 配置highslide
-    hs.graphicsDir = '/js/highslide/graphics/'
+    hs.graphicsDir = '/vendor/highslide/graphics/'
     hs.outlineType = "rounded-white";
     hs.dimmingOpacity = 0.8;
     hs.outlineWhileAnimating = true;
@@ -111,7 +98,6 @@
 <script>
     POWERMODE.colorful = 'true';    // make power mode colorful
     POWERMODE.shake = 'true';       // turn off shake
-    // TODO 这里根据具体情况修改
     document.body.addEventListener('input', POWERMODE);
 </script>
 <script>
@@ -121,8 +107,7 @@
         maxCount: '6'
     }
 </script>
-<script src="/js/hs.js"></script>
-<script src="/js/blog.js"></script>
-<script src="/js/oni.js"></script>
+<script th:src="@{/js/blog.js(v=1.0.0)}"></script>
+<script th:src="@{/js/onj.js(v=1.0.0)}"></script>
 </body>
 </html>

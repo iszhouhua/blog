@@ -7,14 +7,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 访客日志表 服务实现类
- * </p>
- *
+ * 访客日志服务实现类
  * @author ZhouHua
  * @since 2018-12-01
  */
 @Service
 public class LogServiceImpl extends ServiceImpl<LogMapper, Log> implements LogService {
 
+    @Override
+    public boolean modifyForVisitsByIp(String ip) {
+        return baseMapper.updateForVisitsByIp(ip) > 0;
+    }
 }

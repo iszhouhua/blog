@@ -70,4 +70,20 @@ public interface ArticleMapper extends BaseMapper<Article> {
      */
     @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=1 ORDER BY t1.id ASC LIMIT #{count}")
     List<Article> selectRandomArticles(Integer count);
+
+    /**
+     * 查询上一篇文章
+     * @param id 文章ID
+     * @return
+     */
+    @Select("select id,url,title from blog_article where status=1 and id<#{id} limit 1")
+    Article selectPreviousById(Long id);
+
+    /**
+     * 查询下一篇文章
+     * @param id 文章ID
+     * @return
+     */
+    @Select("select id,url,title from blog_article where status=1 and id>#{id} limit 1")
+    Article selectNextById(Long id);
 }

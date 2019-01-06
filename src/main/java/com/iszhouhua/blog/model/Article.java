@@ -102,6 +102,9 @@ public class Article implements Serializable {
      * @return
      */
     public String getKeywords() {
+        if(tags==null||tags.isEmpty()){
+            return null;
+        }
         List<String> list=tags.stream().map(Tag::getName).collect(Collectors.toList());
         return String.join(",",list);
     }

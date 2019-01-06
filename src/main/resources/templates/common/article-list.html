@@ -1,0 +1,73 @@
+<div class="article well clearfix article-body article-excerpt" data-aos="flip-up"
+     th:each="item:${list}">
+    <i th:if="${item.isTop}" class="fa fa-bookmark article-stick visible-md visible-lg"></i>
+    <div class="data-article hidden-xs">
+        <span class="month" th:text="${#dates.month(item.createTime)}+'月'"></span>
+        <span class="day" th:text="${#dates.day(item.createTime)}">09</span>
+    </div>
+    <!-- 大型设备文章 -->
+    <section class="hidden-xs">
+        <div class="title-article">
+            <h1>
+                <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
+                    <span th:text="${item.title}"></span>
+                </a>
+            </h1>
+        </div>
+        <div class="tag-article">
+                                <span class="label label-gal"><i class="fa fa-list-alt"></i>
+                                    <a th:href="@{/category/{url}/(url=${item.category.url})}"
+                                       th:title="${item.category.name}" th:text="${item.category.name}"></a></span>
+            <span class="label label-gal" th:each="tag:${item.tags}"><i class="fa fa-tag"></i>
+                                    <a th:href="@{/tag/{url}/(url=${tag.url})}" th:title="${tag.name}"
+                                       th:text="${tag.name}"></a></span>
+        </div>
+        <div class="alert alert-gal article-body content-article">
+            <div class="item">
+                <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
+                    <div class="img">
+                        <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
+                    </div>
+                    <div class="info"><p th:text="${item.description}"></p></div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- 大型设备文章结束 -->
+    <!-- 小型设备文章 -->
+    <section class="visible-xs">
+        <div class="title-article">
+            <h4>
+                <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
+                    <span th:text="${item.title}"></span>
+                </a>
+            </h4>
+        </div>
+        <p></p>
+        <div style="text-align: center;">
+            <i class="fa fa-calendar"></i>
+            [[${item.createTime}]]
+        </div>
+        <p></p>
+        <p></p>
+        <div style="text-align: center;">
+            <i class="fa fa-list-alt"></i>
+            <a style="text-decoration:none;out-line:none;color:#3d4450;" th:href="@{'/category/'${item.category.url}}"
+               th:title="${item.category.name}" th:text="${item.category.name}"></a>
+        </div>
+        <p></p>
+        <div class="alert alert-gal article-body content-article">
+            <p style="text-align: center;">
+                <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
+                    <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
+                </a>
+            </p>
+        </div>
+        <div class="alert alert-zan" th:text="${item.description}"></div>
+        <a class="btn btn-danger pull-right read-more btn-block" th:href="@{/{url}.html(url=${item.url})}"
+           th:title="${item.title}">
+            阅读全文
+        </a>
+    </section>
+    <!-- 小型设备文章结束 -->
+</div>

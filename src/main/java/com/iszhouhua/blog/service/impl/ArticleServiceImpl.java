@@ -65,4 +65,14 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return baseMapper.selectRandomArticles(count);
     }
 
+    @Override
+    public Article findPreviousById(Long id) {
+        return baseMapper.selectPreviousById(id);
+    }
+
+    @Override
+    public Article findNextById(Long id) {
+        return baseMapper.selectNextById(id);
+    }
+
 }

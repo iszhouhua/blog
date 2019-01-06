@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.TagMapper;
 import com.iszhouhua.blog.model.Tag;
 import com.iszhouhua.blog.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -17,17 +16,15 @@ import java.util.List;
  */
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Tag> implements TagService {
-    @Autowired
-    private TagMapper tagMapper;
 
     @Override
     @Cacheable(value = "tag",key = "targetClass + methodName + #count")
     public List<Tag> findHotTags(Integer count) {
-        return tagMapper.selectHotTags(count);
+        return baseMapper.selectHotTags(count);
     }
 
     @Override
     public List<Tag> findTagsByArticleId(Long articleId) {
-        return tagMapper.selectTagsByArticleId(articleId);
+        return baseMapper.selectTagsByArticleId(articleId);
     }
 }

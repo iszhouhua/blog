@@ -137,7 +137,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            particlePointer = (particlePointer + 1) % 500;
 	        }
 	    }
-	    //关闭窗口震动效果
+	    //窗口震动效果
 	    /*{ // shake screen
 	        if (POWERMODE.shake) {
 	            var intensity = 1 + 2 * Math.random();

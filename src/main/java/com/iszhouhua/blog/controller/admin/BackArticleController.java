@@ -47,9 +47,15 @@ public class BackArticleController {
      */
     @GetMapping("")
     public Result list(Page<Article> page, Article article){
+        //title需使用模糊查询，单独处理
+        String title=article.getTitle();
+        article.setTitle(null);
         QueryWrapper<Article> queryWrapper=new QueryWrapper<>(article);
         if(article.getStatus()==null){
             queryWrapper.in("status",ArticleStatusEnum.DRAFT.getValue(),ArticleStatusEnum.PUBLISHED.getValue());
+        }
+        if(StringUtils.isNotBlank(title)){
+            queryWrapper.like(true,"title",title);
         }
         IPage<Article> articlePage=articleService.page(page,queryWrapper);
         articlePage.getRecords().forEach(post -> post.setTags(tagService.findTagsByArticleId(post.getId())));
@@ -106,5 +112,24 @@ public class BackArticleController {
         Article article=articleService.getById(id);
         article.setTags(tagService.findTagsByArticleId(article.getId()));
         return Result.success("查询成功",article);
+    }
+
+    /**
+     * 删除文章
+     * @param id 文章ID
+     * @param status 文章状态
+     * @param isDelete 是否删除数据库
+     * @return
+     */
+    @DeleteMapping("")
+    public Result remove(Long id,Integer status,boolean isDelete){
+        if(isDelete){
+            return articleService.removeById(id)?Result.success("彻底删除成功"):Result.fail("彻底删除失败");
+        }else{
+            Article article=new Article();
+            article.setStatus(status);
+            article.setId(id);
+            return articleService.updateById(article)?Result.success("操作成功"):Result.fail("操作失败");
+        }
     }
 }

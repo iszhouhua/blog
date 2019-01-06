@@ -14,5 +14,15 @@ public interface Const {
     /**
      * 允许登录失败的次数
      */
-    Integer LOGIN_FAIL_COUNT=5;
+    int LOGIN_FAIL_COUNT=5;
+
+    /**
+     * 每页显示条数
+     */
+    int PAGE_SIZE=5;
+
+    /**
+     * 分页系数
+     */
+    int PAGE_SIDE_NUM=4;
 }

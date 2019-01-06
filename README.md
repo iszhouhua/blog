@@ -49,8 +49,6 @@ clean package war:war -Dmaven.test.skip=true
 
 然后将打包好的`blog.war`丢进tomcat中运行即可！
 
-> tomcat部署请确保项目为tomcat直接访问项目（即直接通过ip:端口即可访问项目，而非ip:端口/项目名的方式访问），否则会出现路径访问错误的问题，因为项目中许多地方都是以`/xx`的形式进行访问。
-
 后台管理
 --------
 

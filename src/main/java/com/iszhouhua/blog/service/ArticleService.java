@@ -63,4 +63,16 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     List<Article> findRandomArticles(Integer count);
+    /**
+     * 根据ID查询上一篇文章
+     * @param id 文章ID
+     * @return 文章
+     */
+    Article findPreviousById(Long id);
+    /**
+     * 根据ID查询下一篇文章
+     * @param id 文章ID
+     * @return 文章
+     */
+    Article findNextById(Long id);
 }
