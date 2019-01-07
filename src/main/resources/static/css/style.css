@@ -1084,7 +1084,7 @@ header#gal-header #menu-gal > li:not(.active) > a:hover, header#gal-header #menu
 
 #article.article, #article-archive.article, #article-tag.article, #article-tags.article, #article-categories.article, #article-category.article {
     position: relative;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     padding-bottom: 20px
 }
 

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2018-12-30 15:58:00
+Date: 2019-01-07 14:39:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,6 +32,8 @@ CREATE TABLE `blog_article` (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
   `is_top` tinyint(4) DEFAULT '0' COMMENT '文章是否置顶  0：否  1：是',
   `is_comment` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否开启评论 0：关闭 1：开启',
+  `is_original` tinyint(4) NOT NULL DEFAULT '1' COMMENT '是否为原创文章 0：转载 1：原创',
+  `source_url` varchar(200) DEFAULT NULL COMMENT '原文链接，转载文章才需填写',
   `visits` int(11) NOT NULL DEFAULT '0' COMMENT '访问量',
   `status` tinyint(4) NOT NULL COMMENT '状态 0：草稿 1：已发布 2：回收站 3：自定义文章',
   PRIMARY KEY (`id`),
@@ -42,8 +44,8 @@ CREATE TABLE `blog_article` (
 -- ----------------------------
 -- Records of blog_article
 -- ----------------------------
-INSERT INTO `blog_article` VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null, '<h1><a id=\"Hello_World_0\"></a>Hello World</h1>\n<p>你好，世界。<br />\n欢迎使用本博客系统。<br />\n写博客需要坚持，一起努力加油吧！</p>\n', '# Hello World\n你好，世界。\n欢迎使用本博客系统。\n写博客需要坚持，一起努力加油吧！', '1', '2019-01-01 00:00:00', '2018-12-30 15:37:31', '0', '1', '0', '0');
-INSERT INTO `blog_article` VALUES ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, '2018-12-25 11:03:43', '2018-12-25 11:03:43', '0', '1', '0', '3');
+INSERT INTO `blog_article` VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null, '<h1><a id=\"Hello_World_0\"></a>Hello World</h1>\n<p>你好，世界。<br />\n欢迎使用本博客系统。<br />\n写博客需要坚持，一起努力加油吧！</p>\n', '# Hello World\n你好，世界。\n欢迎使用本博客系统。\n写博客需要坚持，一起努力加油吧！', '1', '2019-01-01 00:00:00', '2018-12-30 15:37:31', '0', '1', '1', null, '0', '1');
+INSERT INTO `blog_article` VALUES ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, '2018-12-25 11:03:43', '2018-12-25 11:03:43', '0', '1', '1', null, '0', '3');
 
 -- ----------------------------
 -- Table structure for blog_article_tag
@@ -100,7 +102,7 @@ CREATE TABLE `blog_comment` (
 -- ----------------------------
 -- Records of blog_comment
 -- ----------------------------
-INSERT INTO `blog_comment` VALUES ('1', '1', 'zhouhua', 'iszhouhua@163.com', '2bf0ebee5f19445f2af02908d5c3ab0e', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36', '欢迎！', '127.0.0.1', '0', '0', '2018-01-01 15:46:59', '0');
+INSERT INTO `blog_comment` VALUES ('1', '1', 'zhouhua', 'iszhouhua@163.com', '2bf0ebee5f19445f2af02908d5c3ab0e', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36', '欢迎！', '127.0.0.1', '0', '0', '2018-01-01 15:46:59', '1');
 
 -- ----------------------------
 -- Table structure for blog_config
@@ -131,6 +133,35 @@ INSERT INTO `blog_config` VALUES ('9', 'AUTHOR_DESCRIPTION', '一二三四五，
 INSERT INTO `blog_config` VALUES ('10', 'FILING_ICP', null, '1', 'ICP备案');
 INSERT INTO `blog_config` VALUES ('11', 'FILING_SECURITY', null, '1', '公安备案');
 INSERT INTO `blog_config` VALUES ('12', 'COMMENT_CHECK', 'false', '2', '评论是否需要校检');
+
+-- ----------------------------
+-- Table structure for blog_global
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_global`;
+CREATE TABLE `blog_global` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '变量名',
+  `value` varchar(5000) DEFAULT NULL COMMENT '变量值',
+  `
+description` varchar(500) DEFAULT NULL COMMENT '描述',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_name` (`name`) USING BTREE COMMENT '变量名唯一'
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='全局属性表';
+
+-- ----------------------------
+-- Records of blog_global
+-- ----------------------------
+INSERT INTO `blog_global` VALUES ('1', 'BLOG_TITLE', '个人博客', '网站标题');
+INSERT INTO `blog_global` VALUES ('2', 'BLOG_KEYWORDS', '周华,个人博客,java', '网站关键词');
+INSERT INTO `blog_global` VALUES ('3', 'BLOG_DESCRIPTION', '周华的个人博客。一名懒惰的码农的技术分享平台。', '网站描述');
+INSERT INTO `blog_global` VALUES ('4', 'BLOG_URL', 'https://www.iszhouhua.com/', '网站链接');
+INSERT INTO `blog_global` VALUES ('5', 'BLOG_AUTHOR', '周华', '网站作者');
+INSERT INTO `blog_global` VALUES ('6', 'BLOG_AVATAR', '/images/avatar.jpg', '头像');
+INSERT INTO `blog_global` VALUES ('7', 'BLOG_NOTICE', '公告', '公告');
+INSERT INTO `blog_global` VALUES ('8', 'DEFAULT_IMAGE', '/images/preview/preview4.jpg', '默认预览图');
+INSERT INTO `blog_global` VALUES ('9', 'AUTHOR_DESCRIPTION', '一二三四五，上山打老虎。', '头像下的描述内容');
+INSERT INTO `blog_global` VALUES ('10', 'FILING_ICP', '粤ICP备18143925号-1', 'ICP备案');
+INSERT INTO `blog_global` VALUES ('11', 'FILING_SECURITY', '粤公网安备 44030302001165号', '公安备案');
 
 -- ----------------------------
 -- Table structure for blog_link
@@ -221,6 +252,7 @@ CREATE TABLE `sys_user` (
   `password` char(32) NOT NULL,
   `salt` char(16) NOT NULL COMMENT '密码盐',
   `email` varchar(200) DEFAULT NULL COMMENT '邮箱',
+  `email_md5` char(32) DEFAULT NULL COMMENT '邮箱MD5值，用于显示gravatar头像',
   `last_login` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后登录时间',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `login_fail` tinyint(4) NOT NULL DEFAULT '0' COMMENT '登录失败次数，超过一定次数禁止登录',
@@ -232,4 +264,4 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', '2018-12-31 20:13:25', '2018-12-31 20:13:25', '0', '0');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', '64e1b8d34f425d19e1ee2ea7236d3028', '2018-12-31 20:13:25', '2018-12-31 20:13:25', '0', '0');

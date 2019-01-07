@@ -4,20 +4,18 @@ import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.User;
-import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
-import com.iszhouhua.blog.service.ConfigService;
 import com.iszhouhua.blog.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.DecoderException;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,14 +23,11 @@ import java.util.Map;
  * @author ZhouHua
  * @since 2018-12-22
  */
-@Slf4j
 @RestController
 @RequestMapping("admin")
 public class AdminController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private ConfigService configService;
 
     /**
      * 登录
@@ -45,7 +40,7 @@ public class AdminController {
         //检查是否重复登录
         User user= (User) session.getAttribute(Const.USER_SESSION_KEY);
         if(null!=user){
-            return Result.success("您已经登录过了！",session.getId());
+            return Result.success("已登录",user);
         }
         //非空验证
         if(StringUtils.isEmpty(params.get("username"))){
@@ -57,28 +52,9 @@ public class AdminController {
         Result result = userService.login(params.get("username"),params.get("password"));
         if(result.getCode()==CodeEnum.SUCCESS.getValue()){
             //登录成功，将用户信息保存至session
-            user= (User) result.getData();
-            session.setAttribute(Const.USER_SESSION_KEY,user);
-            result.setData(session.getId());
+            session.setAttribute(Const.USER_SESSION_KEY,result.getData());
         }
         return result;
-    }
-
-    /**
-     * 获得当前登录用户信息和全局参数等
-     * @return
-     */
-    @GetMapping("info")
-    public Result info(HttpSession session) {
-        User user=(User)session.getAttribute(Const.USER_SESSION_KEY);
-        Map<String,Object> map=new HashMap<>(8);
-        map.put("nickname",user.getNickname());
-        map.put("username",user.getUsername());
-        if(StringUtils.isNotEmpty(user.getEmail())){
-            map.put("avatar",DigestUtils.md5Hex(user.getEmail()));
-        }
-        map.put("global",configService.findAllByType(ConfigTypeEnum.GLOBAL_OPTION.getValue()));
-        return Result.success("获取成功",map);
     }
 
     /**

@@ -5,7 +5,7 @@
     <title th:text="${info.title}"></title>
     <meta name="keywords" th:content="${info.getKeywords()}?:${info.title}">
     <meta name="description" th:content="${info.description}?:${info.title}">
-    <link rel="stylesheet" th:href="@{/css/article.css(v=1.0.1)}">
+    <link rel="stylesheet" th:href="@{/css/article.css(v=1.0.4)}">
     <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css(v=2.1.1)}">
     <link rel="stylesheet" th:href="@{/vendor/highlight/styles/github.css(v=9.13.1)}">
     <script th:src="@{/vendor/toastr/toastr.min.js(v=2.1.1)}"></script>
@@ -50,14 +50,18 @@
         </div>
         <div class="article-content">
             [(${info.content})]
-            <div class="alert alert-info">
-                <span style="font-size: 11pt;">
-                    版权声明: <a th:href="${BLOG_URL}" th:title="${BLOG_TITLE}"
+            <div class="alert alert-info statement">
+                <th:block th:if="${info.isOriginal}">
+                    版权声明：<a th:href="${BLOG_URL}" th:title="${BLOG_TITLE}"
                              th:text="${BLOG_TITLE}"></a>原创文章，转载请注明出处。<br><br>
-                    文章链接: [[${#request.getRequestURL()}]]<br><br>
-                    发表时间: [[${#dates.format(info.createTime,'yyyy-MM-dd HH:mm')}]]<br><br>
-                    最后更新时间: [[${#dates.format(info.updateTime,'yyyy-MM-dd HH:mm')}]]<br>
-                </span>
+                    文章链接：[[${#request.getRequestURL()}]]<br><br>
+                    发表时间：[[${#dates.format(info.createTime,'yyyy-MM-dd HH:mm')}]]<br><br>
+                    最后更新时间：[[${#dates.format(info.updateTime,'yyyy-MM-dd HH:mm')}]]<br>
+                </th:block>
+                <th:block th:unless="${info.isOriginal}">
+                    原文链接：[[${info.sourceUrl}]]<br><br>
+                    转载时间：[[${#dates.format(info.createTime,'yyyy-MM-dd HH:mm')}]]<br>
+                </th:block>
             </div>
             <!-- 标签 -->
             <footer class="article-footer">
@@ -69,6 +73,20 @@
             </footer>
         </div>
     </article>
+    <div class="previous-next-links">
+        <div class="previous-design-link" th:if="${previousArticle}">
+            <a th:href="'/'+${previousArticle.url}+'.html'" rel="prev" th:title="${previousArticle.title}">
+                <i style="font-size:16px;" class="fa fa-arrow-left" aria-hidden="true"></i>
+                [[${previousArticle.title}]]
+            </a>
+        </div>
+        <div class="next-design-link" th:if="${nextArticle}">
+            <a th:href="'/'+${nextArticle.url}+'.html'" rel="next" th:title="${nextArticle.title}">
+                [[${nextArticle.title}]]
+                <i style="font-size:16px;" class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
     <th:block th:if="${info.isComment}">
         <div layout:replace="~{common/comment}"></div>
     </th:block>

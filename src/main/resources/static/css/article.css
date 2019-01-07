@@ -1,3 +1,6 @@
+.article-content{
+    font-size: 1.2em;
+}
 .article-content h1 {
     font-size: 24px
 }
@@ -90,4 +93,26 @@
     -o-transition: all .3s ease;
     transition: all .3s ease;
     border: 2px solid #d9534f
+}
+.statement{
+    font-size: 11pt;
+    margin-top: 20px;
+}
+.previous-next-links {
+    line-height: 24px;
+    overflow: hidden;
+    padding: 10px 20px;
+    font-size: 15px;
+    background-color: rgba(217, 237, 247, 0.8);
+    box-shadow: 0 1px 3px rgba(0,37,55,.05);
+    box-sizing: border-box;
+}
+.previous-next-links a {
+    color: #1981ad;
+}
+.previous-design-link {
+     float: left;
+ }
+.next-design-link {
+    float: right;
 }

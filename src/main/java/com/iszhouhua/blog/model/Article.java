@@ -45,6 +45,16 @@ public class Article implements Serializable {
     private String content;
 
     /**
+     * 是否为原创内容
+     */
+    private Boolean isOriginal;
+
+    /**
+     * 原文地址
+     */
+    private String sourceUrl;
+
+    /**
      *  Markdown格式的文章内容
      */
     private String contentMd;
@@ -117,11 +127,19 @@ public class Article implements Serializable {
         return isComment;
     }
 
+    public boolean isOriginal() {
+        return isOriginal;
+    }
+
     public void setTop(Boolean top) {
         isTop = top;
     }
 
     public void setComment(Boolean comment) {
         isComment = comment;
+    }
+
+    public void setOriginal(boolean original) {
+        isOriginal = original;
     }
 }

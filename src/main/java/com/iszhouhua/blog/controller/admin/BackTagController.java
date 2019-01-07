@@ -19,7 +19,7 @@ public class BackTagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("")
+    @GetMapping
     public Result list() {
         return Result.success("查询成功", tagService.list());
     }

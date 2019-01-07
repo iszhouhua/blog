@@ -39,13 +39,7 @@ public class BackArticleController {
     @Autowired
     private ArticleTagService articleTagService;
 
-    /**
-     * 获取文章集合
-     * @param page 分页对象
-     * @param article 文章对象
-     * @return
-     */
-    @GetMapping("")
+    @GetMapping
     public Result list(Page<Article> page, Article article){
         //title需使用模糊查询，单独处理
         String title=article.getTitle();
@@ -62,12 +56,7 @@ public class BackArticleController {
         return Result.success("查询成功",articlePage);
     }
 
-    /**
-     * 保存文章
-     * @param article 文章对象
-     * @return
-     */
-    @PostMapping("")
+    @PostMapping
     public Result save(@RequestBody Article article){
         if(StringUtils.isBlank(article.getTitle())){
             return Result.fail("标题不能为空");
@@ -102,34 +91,15 @@ public class BackArticleController {
         return Result.success("保存成功",article);
     }
 
-    /**
-     * 获得指定的文章数据
-     * @param id 文章ID
-     * @return
-     */
-    @PutMapping("")
+    @PutMapping
     public Result info(Long id){
         Article article=articleService.getById(id);
         article.setTags(tagService.findTagsByArticleId(article.getId()));
         return Result.success("查询成功",article);
     }
 
-    /**
-     * 删除文章
-     * @param id 文章ID
-     * @param status 文章状态
-     * @param isDelete 是否删除数据库
-     * @return
-     */
-    @DeleteMapping("")
-    public Result remove(Long id,Integer status,boolean isDelete){
-        if(isDelete){
-            return articleService.removeById(id)?Result.success("彻底删除成功"):Result.fail("彻底删除失败");
-        }else{
-            Article article=new Article();
-            article.setStatus(status);
-            article.setId(id);
-            return articleService.updateById(article)?Result.success("操作成功"):Result.fail("操作失败");
-        }
+    @DeleteMapping
+    public Result remove(Long id){
+        return articleService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
     }
 }
