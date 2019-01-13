@@ -13,8 +13,6 @@ import java.security.spec.KeySpec;
 
 /**
  * PBKDF2加密
- * @author ZhouHua
- * @date 2018/12/16
  */
 public class PBKDF2Utils {
     /**

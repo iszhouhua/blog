@@ -5,8 +5,6 @@ import lombok.Data;
 
 /**
  * 返回结果
- * @author ZhouHua
- * @date 2018/11/30
  */
 @Data
 public class Result {

@@ -5,8 +5,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- * @author ZhouHua
- * @date 2018/12/28
+ * IP工具类
  */
 
 public class IPUtils {

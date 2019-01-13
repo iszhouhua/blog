@@ -2,6 +2,7 @@ package com.iszhouhua.blog.model;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -19,10 +20,12 @@ public class Category implements Serializable {
     /**
      * 分类名
      */
+    @NotBlank(message = "分类名不能为空")
     private String name;
 
     /**
      * 分类链接
      */
+    @NotBlank(message = "分类链接不能为空")
     private String url;
 }

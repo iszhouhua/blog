@@ -2,11 +2,11 @@ package com.iszhouhua.blog.controller.admin;
 
 
 import com.iszhouhua.blog.common.util.Result;
+import com.iszhouhua.blog.common.util.ValidatorUtils;
+import com.iszhouhua.blog.model.Category;
 import com.iszhouhua.blog.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 分类后控制器
@@ -22,5 +22,22 @@ public class BackCategoryController {
     @GetMapping
     public Result list(){
         return Result.success("查询成功",categoryService.list());
+    }
+
+    @PostMapping
+    public Result save(@RequestBody Category category){
+        ValidatorUtils.validate(category);
+        categoryService.saveOrUpdate(category);
+        return Result.success("保存成功",category);
+    }
+
+    @PutMapping
+    public Result info(Long id){
+        return Result.success("查询成功",categoryService.getById(id));
+    }
+
+    @DeleteMapping
+    public Result remove(Long id){
+        return categoryService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
     }
 }

@@ -3,6 +3,7 @@ package com.iszhouhua.blog.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -20,13 +21,14 @@ public class Article implements Serializable {
 
     private Long id;
     /**
-     * 文章标题
+     * 文章链接
      */
     private String url;
 
     /**
      * 文章标题
      */
+    @NotBlank(message = "文章标题不能为空")
     private String title;
 
     /**
@@ -42,6 +44,7 @@ public class Article implements Serializable {
     /**
      * 文章内容
      */
+    @NotBlank(message = "文章内容不能为空")
     private String content;
 
     /**

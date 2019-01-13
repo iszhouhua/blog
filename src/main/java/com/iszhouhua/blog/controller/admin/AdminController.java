@@ -2,21 +2,22 @@ package com.iszhouhua.blog.controller.admin;
 
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.constant.SysConfig;
 import com.iszhouhua.blog.common.util.Result;
+import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.service.UserService;
-import org.apache.commons.codec.DecoderException;
-import org.apache.commons.lang3.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 
 /**
  * 后台首页控制器
@@ -25,34 +26,29 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("admin")
+@Slf4j
 public class AdminController {
     @Autowired
     private UserService userService;
 
     /**
      * 登录
-     * @param params 参数
+     * @param user 用户名和密码
      * @param session
      * @return
      */
-    @PostMapping("login")
-    public Result login(@RequestBody Map<String, String> params, HttpSession session) throws NoSuchAlgorithmException, InvalidKeySpecException, DecoderException {
+    @PostMapping(value = "login")
+    public Result login(User user, HttpSession session) throws Exception {
         //检查是否重复登录
-        User user= (User) session.getAttribute(Const.USER_SESSION_KEY);
-        if(null!=user){
-            return Result.success("已登录",user);
+        if(null!=session.getAttribute(Const.USER_SESSION_KEY)){
+            return Result.success("已登录",session.getId());
         }
-        //非空验证
-        if(StringUtils.isEmpty(params.get("username"))){
-            return Result.fail("用户名不能为空");
-        }
-        if(StringUtils.isEmpty(params.get("password"))){
-            return Result.fail("密码不能为空");
-        }
-        Result result = userService.login(params.get("username"),params.get("password"));
+        ValidatorUtils.validate(user);
+        Result result = userService.login(user.getUsername(),user.getPassword());
         if(result.getCode()==CodeEnum.SUCCESS.getValue()){
             //登录成功，将用户信息保存至session
             session.setAttribute(Const.USER_SESSION_KEY,result.getData());
+            result.setData(session.getId());
         }
         return result;
     }
@@ -65,5 +61,34 @@ public class AdminController {
     public Result logout(HttpSession session) {
         session.removeAttribute(Const.USER_SESSION_KEY);
         return Result.success();
+    }
+
+    /**
+     * 上传图片
+     * @return
+     */
+    @PostMapping("uploadImage")
+    public Result uploadImage(MultipartFile image){
+        ValidatorUtils.isNull(image,"上传的图片不能为空");
+        Result result=new Result();
+        //upload的路径
+        String savePath="upload/" + LocalDate.now().getYear() + "/" + LocalDate.now().getMonthValue() + "/";
+        //获取当前年月以创建目录
+        File mediaPath = new File(SysConfig.IMAGE_HOME, savePath);
+        if (!mediaPath.exists()) {
+            mediaPath.mkdirs();
+        }
+        String fileName = System.currentTimeMillis()+image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf('.'));
+        try {
+            image.transferTo(new File(mediaPath.getAbsoluteFile(), fileName));
+            result.setMsg("图片上传成功");
+            result.setCode(CodeEnum.SUCCESS.getValue());
+            result.setData(SysConfig.IMAGE_URL+savePath+fileName);
+        } catch (IOException e) {
+            log.error("图片上传失败",e.getMessage());
+            result.setMsg("图片上传失败");
+            result.setCode(CodeEnum.FAIL.getValue());
+        }
+        return result;
     }
 }

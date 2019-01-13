@@ -133,7 +133,8 @@ INSERT INTO `blog_config` VALUES ('9', 'AUTHOR_DESCRIPTION', '一二三四五，
 INSERT INTO `blog_config` VALUES ('10', 'FILING_ICP', null, '1', 'ICP备案');
 INSERT INTO `blog_config` VALUES ('11', 'FILING_SECURITY', null, '1', '公安备案');
 INSERT INTO `blog_config` VALUES ('12', 'COMMENT_CHECK', 'false', '2', '评论是否需要校检');
-
+INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', 'D:\image\', '2', '图片保存路径');
+INSERT INTO `blog_config` VALUES ('14', 'IMAGE_URL', 'https://www.iszhouhua.com/image/', '2', '图片访问路径');
 -- ----------------------------
 -- Table structure for blog_global
 -- ----------------------------

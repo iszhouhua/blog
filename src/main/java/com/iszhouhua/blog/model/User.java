@@ -2,7 +2,10 @@ package com.iszhouhua.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 /**
@@ -17,6 +20,7 @@ public class User {
     /**
      * 用户名
      */
+    @NotBlank(message = "用户名不能为空")
     private String username;
 
     /**
@@ -27,6 +31,8 @@ public class User {
     /**
      * 密码
      */
+    @NotBlank(message = "密码不能为空")
+    @Length(min = 6,message = "密码不能小于6位")
     private String password;
 
     /**
@@ -37,7 +43,13 @@ public class User {
     /**
      * 邮箱
      */
+    @Email(message = "邮箱格式不正确")
     private String email;
+
+    /**
+     * 邮箱的MD5值，用于显示头像
+     */
+    private String emailMd5;
 
     /**
      * 最后登录时间

@@ -24,9 +24,14 @@ public enum CodeEnum {
     NOT_LOGIN(40001),
 
     /**
-     * 主键或关键字重复
+     * 参数校检不通过
      */
-    DUPLICATE_KEY(40002);
+    VALIDATION_ERROR(40002),
+
+    /**
+     * 重复插入
+     */
+    DUPLICATE_KEY(40003);
 
     private int value;
 

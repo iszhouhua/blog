@@ -4,9 +4,8 @@ package com.iszhouhua.blog.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.iszhouhua.blog.common.constant.CodeEnum;
-import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.common.util.Result;
+import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
 import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
@@ -15,7 +14,6 @@ import com.iszhouhua.blog.service.ArticleTagService;
 import com.iszhouhua.blog.service.TagService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,22 +56,12 @@ public class BackArticleController {
 
     @PostMapping
     public Result save(@RequestBody Article article){
-        if(StringUtils.isBlank(article.getTitle())){
-            return Result.fail("标题不能为空");
-        }
-        if(StringUtils.isBlank(article.getContent())){
-            return Result.fail("文章内容不能为空不能为空");
-        }
+        ValidatorUtils.validate(article);
         if(StringUtils.isBlank(article.getUrl())){
             article.setUrl(article.getTitle());
         }
         article.setUpdateTime(new Date());
-        boolean res;
-        try {
-            res=articleService.saveOrUpdate(article);
-        }catch (DuplicateKeyException e){
-            throw new BlogException(CodeEnum.DUPLICATE_KEY.getValue(),"文章链接或标题重复",e);
-        }
+        boolean res=articleService.saveOrUpdate(article);
         if(!res){
             return Result.fail("保存失败");
         }
@@ -86,6 +74,7 @@ public class BackArticleController {
             }
         }
         if(article.getId()==null){
+            //将新增的文章查询出来
             article=articleService.getOne(new QueryWrapper<>(article));
         }
         return Result.success("保存成功",article);
