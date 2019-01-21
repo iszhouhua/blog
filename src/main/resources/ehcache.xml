@@ -29,8 +29,10 @@
 
     <cache name="link" maxElementsInMemory="10"/>
 
-    <cache name="article" maxElementsInMemory="1000"/>
+    <cache name="article" maxElementsInMemory="100"/>
 
     <cache name="tag" maxElementsInMemory="10"/>
+
+    <cache name="log" timeToIdleSeconds="300" timeToLiveSeconds="1800"  maxElementsInMemory="100"/>
 
 </ehcache>

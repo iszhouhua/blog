@@ -6,6 +6,13 @@
     <result property="emailMd5" column="email_md5"/>
     <result column="author" property="author" />
     <result column="content" property="content" />
+    <result property="email" column="email"/>
+    <result property="userAgent" column="user_agent" />
+    <result column="ip" property="ip" />
+    <result property="parentId" column="parent_id" />
+    <result property="isAdmin" column="is_admin" />
+    <result property="createTime" column="create_time" />
+    <result property="status" column="status" />
     <association property="article" javaType="Article">
       <id property="id" column="article_id"/>
       <result property="title" column="article_title"/>
@@ -14,6 +21,21 @@
   </resultMap>
 
   <select id="selectLatestComments" resultMap="BaseResultMap">
-    SELECT a.id,a.email_md5,a.content,b.title AS article_title,b.url AS article_url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id WHERE a.article_id>0 ORDER BY a.id DESC LIMIT #{count}
+    SELECT a.*,b.title AS article_title,b.url AS article_url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id WHERE a.article_id>0
+    <if test="showCheck == true">
+      AND a.status IN (0,1)
+    </if>
+    <if test="showCheck == false">
+      AND a.status=1
+    </if>
+     ORDER BY a.id DESC LIMIT #{count}
+  </select>
+
+  <select id="selectCommentPage" resultMap="BaseResultMap">
+    SELECT a.*,b.title AS article_title,b.url AS article_url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id ${ew.customSqlSegment}
+  </select>
+
+  <select id="selectCommentById" resultMap="BaseResultMap">
+    SELECT a.*,b.title AS article_title,b.url AS article_url FROM blog_comment a LEFT JOIN blog_article b ON a.article_id=b.id WHERE a.id=#{id}
   </select>
 </mapper>

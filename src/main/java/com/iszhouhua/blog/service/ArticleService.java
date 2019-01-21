@@ -75,4 +75,11 @@ public interface ArticleService extends IService<Article> {
      * @return 文章
      */
     Article findNextById(Long id);
+
+    /**
+     * 获取最新的n条文章
+     * @param number 需要获取的条数
+     * @return
+     */
+    List<Article> findLatestArticle(int number);
 }

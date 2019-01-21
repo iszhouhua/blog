@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * controller 增强器
  * @author ZhouHua
  * @date 2018/12/19
  */
@@ -27,7 +26,7 @@ public class BaseController {
      */
     @ModelAttribute
     public void addAttributes(HttpServletRequest model) {
-        model.setAttribute("latestComments", commentService.findLatestComments(8));
+        model.setAttribute("latestComments", commentService.findLatestComments(8,false));
         model.setAttribute("randomArticles", articleService.findRandomArticles(8));
     }
 

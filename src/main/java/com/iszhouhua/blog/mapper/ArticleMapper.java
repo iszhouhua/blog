@@ -86,4 +86,11 @@ public interface ArticleMapper extends BaseMapper<Article> {
      */
     @Select("select id,url,title from blog_article where status=1 and id>#{id} limit 1")
     Article selectNextById(Long id);
+
+    /**
+     * 查询最新的文章
+     * @return
+     */
+    @Select("select * from blog_article where status=1 order by id desc limit #{number}")
+    List<Article> selectLatestArticle(int number);
 }

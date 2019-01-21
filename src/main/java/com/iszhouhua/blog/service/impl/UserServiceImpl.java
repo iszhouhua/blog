@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Date;
 
 /**
  * 用户服务实现类
@@ -41,13 +42,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         if(res){
             result.setCode(CodeEnum.SUCCESS.getValue());
             result.setMsg("登录成功");
-            //清除密码和盐
             result.setData(user);
             //重置登录失败次数
-            if(user.getLoginFail()>0){
-                user.setLoginFail(0);
-                updateById(user);
-            }
+            user.setLoginFail(0);
+            //更新最后登录时间
+            user.setLastLogin(new Date());
+            updateById(user);
         }else{
             //密码每错误一次，失败次数+1
             Integer loginFail=user.getLoginFail()+1;

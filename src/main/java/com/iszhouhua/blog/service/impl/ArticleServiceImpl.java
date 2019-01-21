@@ -75,4 +75,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return baseMapper.selectNextById(id);
     }
 
+    @Override
+    public List<Article> findLatestArticle(int number) {
+        return baseMapper.selectLatestArticle(number);
+    }
+
 }

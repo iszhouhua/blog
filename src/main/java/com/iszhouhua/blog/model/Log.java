@@ -23,6 +23,11 @@ public class Log implements Serializable {
     private String ip;
 
     /**
+     * 所在城市
+     */
+    private String city;
+
+    /**
      * 首次访问的链接
      */
     private String url;

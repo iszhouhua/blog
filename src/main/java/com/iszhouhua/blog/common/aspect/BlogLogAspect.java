@@ -1,11 +1,11 @@
 package com.iszhouhua.blog.common.aspect;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.google.gson.Gson;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.model.Log;
 import com.iszhouhua.blog.service.LogService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +36,23 @@ public class BlogLogAspect {
         String ip=IPUtils.getIpAddr(request);
         Log blogLog = new Log();
         blogLog.setIp(ip);
+        //所在城市
+        blogLog.setCity(IPUtils.getCity(ip));
+        if(StringUtils.isEmpty(blogLog.getCity())||"0".equals(blogLog.getCity())){
+            blogLog.setCity("未知");
+        }
         //访问链接
         blogLog.setUrl(request.getRequestURL().toString());
         //请求来源
         blogLog.setReferer(request.getHeader("referer"));
         //浏览器类型
         blogLog.setUserAgent(request.getHeader("user-agent"));
-        //保存访客日志到数据库会增加已存在IP的访问次数
-        int isExist=logService.count(new QueryWrapper<Log>().eq("ip",ip));
-        if(isExist>0){
+        //同一IP游客只存一次记录，后面访问只增加访问次数
+        boolean isExist=logService.isExistLogByIp(ip);
+        if(isExist){
             logService.modifyForVisitsByIp(ip);
         }else{
-            logService.save(blogLog);
+            logService.saveLog(blogLog);
         }
         log.info("访客记录：{}",new Gson().toJson(blogLog));
 	}

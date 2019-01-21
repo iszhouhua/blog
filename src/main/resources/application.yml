@@ -4,6 +4,9 @@ spring:
       enabled: false
   profiles:
     active: dev
+  http:
+    converters:
+      preferred-json-mapper: gson
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*Mapper.xml

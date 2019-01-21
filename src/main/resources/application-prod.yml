@@ -8,10 +8,12 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=true&autoReconnect=true
     username: root
-    password: 123456
+    password: mysql_zhouhua
+    hikari:
+      max-lifetime: 60000
 # log 配置
 logging:
-  file: ./logs/blog.log
+  file: data/logs/blog.log
   level:
     com:
       iszhouhua:

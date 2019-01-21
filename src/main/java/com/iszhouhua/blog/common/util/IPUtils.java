@@ -1,14 +1,40 @@
 package com.iszhouhua.blog.common.util;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
+import org.lionsoul.ip2region.DataBlock;
+import org.lionsoul.ip2region.DbConfig;
+import org.lionsoul.ip2region.DbSearcher;
+import org.lionsoul.ip2region.Util;
 import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
  * IP工具类
  */
-
+@Slf4j
 public class IPUtils {
+    /**
+     * ip2region.db文件的存储位置
+     */
+    private static final String DB_PATH="data/ip2region.db";
+
+    /**
+     * 将resources中的data/ip2region.db文件复制到真实目录
+     */
+    static {
+        File dbFile = new File(DB_PATH) ;
+        if(!dbFile.exists()){
+            try {
+                FileUtils.copyInputStreamToFile(IPUtils.class.getClassLoader().getResourceAsStream(DB_PATH),dbFile);
+            } catch (IOException e) {
+                log.error("复制文件失败",e);
+            }
+        }
+    }
 
     /**
      * 获取当前网络ip
@@ -44,5 +70,59 @@ public class IPUtils {
             }
         }
         return ipAddress;
+    }
+
+    /**
+     * 根据IP获取城市数据
+     * @param ip IP地址
+     * @return
+     */
+    public static String getCity(String ip){
+        return getCity(ip,DbSearcher.BTREE_ALGORITHM);
+    }
+
+    /**
+     * 根据IP获得城市数据
+     * @param ip IP地址
+     * @param algorithm 查询算法
+     * @return
+     */
+    public static String getCity(String ip,int algorithm){
+        if (!Util.isIpAddress(ip)) {
+            log.error("无效参数：ip");
+            return null;
+        }
+        //db
+        File file = new File(DB_PATH);
+        if (!file.exists()) {
+            log.error("ip2region.db文件不存在");
+        }
+        try {
+            DbConfig config = new DbConfig();
+            DbSearcher searcher = new DbSearcher(config, DB_PATH);
+            //define the method
+            Method method;
+            switch ( algorithm )
+            {
+                case DbSearcher.BTREE_ALGORITHM:
+                    method = searcher.getClass().getMethod("btreeSearch", String.class);
+                    break;
+                case DbSearcher.BINARY_ALGORITHM:
+                    method = searcher.getClass().getMethod("binarySearch", String.class);
+                    break;
+                case DbSearcher.MEMORY_ALGORITYM:
+                    method = searcher.getClass().getMethod("memorySearch", String.class);
+                    break;
+                default:
+                    log.error("无效参数：algorithm");
+                    return null;
+            }
+            DataBlock dataBlock  = (DataBlock) method.invoke(searcher, ip);
+            String[] region = dataBlock.getRegion().split("\\|");
+            return region[region.length-2];
+        } catch (Exception e) {
+            log.error("根据IP获取城市信息失败",e);
+        }
+        return null;
     }
 }

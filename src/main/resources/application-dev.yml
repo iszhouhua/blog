@@ -15,7 +15,7 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # log 配置
 logging:
-  file: ./logs/blog.log
+  file: data/logs/blog.log
   level:
     com:
       iszhouhua:

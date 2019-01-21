@@ -48,8 +48,18 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    @Cacheable(value = "comment",key = "targetClass + methodName + #count")
-    public List<Comment> findLatestComments(Integer count) {
-        return baseMapper.selectLatestComments(count);
+    @Cacheable(value = "comment",key = "targetClass + methodName + #p0 + #p1")
+    public List<Comment> findLatestComments(Integer count,boolean showCheck) {
+        return baseMapper.selectLatestComments(count,showCheck);
+    }
+
+    @Override
+    public IPage<Comment> findCommentsByPage(Page<Comment> page, QueryWrapper wrapper) {
+        return baseMapper.selectCommentPage(page,wrapper);
+    }
+
+    @Override
+    public Comment findCommentById(Long id) {
+        return baseMapper.selectCommentById(id);
     }
 }
