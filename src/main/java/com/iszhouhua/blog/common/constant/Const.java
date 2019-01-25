@@ -17,7 +17,7 @@ public interface Const {
     int LOGIN_FAIL_COUNT=5;
 
     /**
-     * 每页显示条数
+     * 分页时每页显示的条数
      */
     int PAGE_SIZE=5;
 
@@ -25,4 +25,24 @@ public interface Const {
      * 分页系数
      */
     int PAGE_SIDE_NUM=4;
+
+    /**
+     * 热门文章显示的数量
+     */
+    int HOT_ARTICLE_SIZE=8;
+
+    /**
+     * 热门标签显示的数量
+     */
+    int HOT_TAG_SIZE=20;
+
+    /**
+     * 文章评论显示的数量
+     */
+    int COMMENT_SIZE=10;
+
+    /**
+     * 压缩阈值，超过此大小的图片将被压缩，此处是256kb
+     */
+    long COMPRESSION_SIZE=262144L;
 }

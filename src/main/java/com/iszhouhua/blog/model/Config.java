@@ -2,6 +2,7 @@ package com.iszhouhua.blog.model;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -17,12 +18,13 @@ public class Config implements Serializable {
     private Long id;
 
     /**
-     * 变量名
+     * 参数名
      */
+    @NotBlank(message = "参数名不能为空")
     private String name;
 
     /**
-     * 变量值
+     * 参数值
      */
     private String value;
 

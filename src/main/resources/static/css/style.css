@@ -705,51 +705,6 @@ button.close {
     opacity: 0;
     z-index: -2;
     -webkit-backface-visibility: hidden;
-    -webkit-animation: imageAnimation 36s linear infinite 0s;
-    -moz-animation: imageAnimation 36s linear infinite 0s;
-    -o-animation: imageAnimation 36s linear infinite 0s;
-    -ms-animation: imageAnimation 36s linear infinite 0s;
-    animation: imageAnimation 36s linear infinite 0s
-}
-
-.cb-slideshow li:nth-child(2) span {
-    -webkit-animation-delay: 6s;
-    -moz-animation-delay: 6s;
-    -o-animation-delay: 6s;
-    -ms-animation-delay: 6s;
-    animation-delay: 6s
-}
-
-.cb-slideshow li:nth-child(3) span {
-    -webkit-animation-delay: 12s;
-    -moz-animation-delay: 12s;
-    -o-animation-delay: 12s;
-    -ms-animation-delay: 12s;
-    animation-delay: 12s
-}
-
-.cb-slideshow li:nth-child(4) span {
-    -webkit-animation-delay: 18s;
-    -moz-animation-delay: 18s;
-    -o-animation-delay: 18s;
-    -ms-animation-delay: 18s;
-    animation-delay: 18s
-}
-
-.cb-slideshow li:nth-child(5) span {
-    -webkit-animation-delay: 24s;
-    -moz-animation-delay: 24s;
-    -o-animation-delay: 24s;
-    -ms-animation-delay: 24s;
-    animation-delay: 24s
-}
-
-.cb-slideshow li:nth-child(6) span {
-    -webkit-animation-delay: 30s;
-    -moz-animation-delay: 30s;
-    -o-animation-delay: 30s;
-    -ms-animation-delay: 30s;
-    animation-delay: 30s
 }
 
 header#gal-header {

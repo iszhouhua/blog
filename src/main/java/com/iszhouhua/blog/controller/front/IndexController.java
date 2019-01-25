@@ -53,10 +53,10 @@ public class IndexController extends BaseController {
         IPage<Article> page=articleService.findPageByKeyword(new Page<>(pageIndex,Const.PAGE_SIZE),null);
         model.addAttribute("page",page);
         // 热门文章
-        List<Article> hotArticles=articleService.findHotArticles(8);
+        List<Article> hotArticles=articleService.findHotArticles(Const.HOT_ARTICLE_SIZE);
         model.addAttribute("hotArticles", hotArticles);
         // 热门标签
-        model.addAttribute("hotTags", tagService.findHotTags(20));
+        model.addAttribute("hotTags", tagService.findHotTags(Const.HOT_TAG_SIZE));
         // 友情链接
         model.addAttribute("friendLinks", linkService.findLinkByType(LinkTypeEnum.FRIEND_LINK.getValue()));
         // 个人链接
@@ -79,7 +79,7 @@ public class IndexController extends BaseController {
         model.addAttribute("info",info);
         //查询当前文章的第一页评论
         if(info.isComment()){
-            IPage<Comment> commentPage=commentService.findPageByArticleId(new Page<>(1,10),info.getId());
+            IPage<Comment> commentPage=commentService.findPageByArticleId(new Page<>(1,Const.COMMENT_SIZE),info.getId());
             model.addAttribute("comments",commentPage);
         }
         //上一篇和下一篇

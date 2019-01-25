@@ -23,4 +23,7 @@
 /dist/
 /nbdist/
 /.nb-gradle/
-/data/logs
+
+# custom
+/logs/
+/data/ip2region.db

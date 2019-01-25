@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
     <link rel="stylesheet" th:href="@{/vendor/aos/aos.css(v=2.3.4)}">
-    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.1)}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.4)}">
     <link rel="stylesheet" th:href="@{/vendor/highslide/highslide.css(v=5.0.0)}">
     <link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css(v=4.7.0)}">
     <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
@@ -20,12 +20,14 @@
 <!-- 背景轮播图功能 -->
 <section class="hidden-xs">
     <ul class="cb-slideshow">
-        <li style="list-style-type:none;"><span>天若</span></li>
-        <li style="list-style-type:none;"><span>有情</span></li>
-        <li style="list-style-type:none;"><span>天亦老</span></li>
-        <li style="list-style-type:none;"><span>人若</span></li>
-        <li style="list-style-type:none;"><span>有情</span></li>
-        <li style="list-style-type:none;"><span>死得早</span></li>
+        <script th:inline="javascript">
+            var backgroundList=/*[[${BACKGROUND_LIST}]]*/ "";
+            backgroundList=JSON.parse(backgroundList);
+            var duration=backgroundList.length*6;
+            for (var i in backgroundList) {
+                document.write("<li style='list-style-type:none;'><span style='background-image: url("+backgroundList[i]+");animation:imageAnimation "+duration+"s linear infinite "+i*6+"s;-webkit-animation:imageAnimation "+duration+"s linear infinite "+i*6+"s;'></span></li>");
+            }
+        </script>
     </ul>
 </section>
 <!-- 欧尼酱功能, 谁用谁知道 -->
@@ -99,13 +101,6 @@
     POWERMODE.colorful = 'true';    // make power mode colorful
     POWERMODE.shake = 'true';       // turn off shake
     document.body.addEventListener('input', POWERMODE);
-</script>
-<script>
-    window.slideConfig = {
-        prefix: '/images/slide/background',
-        ext: 'jpg',
-        maxCount: '6'
-    }
 </script>
 <script th:src="@{/js/blog.js(v=1.0.0)}"></script>
 <script th:src="@{/js/onj.js(v=1.0.0)}"></script>

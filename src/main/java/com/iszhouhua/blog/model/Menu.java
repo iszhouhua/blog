@@ -2,6 +2,8 @@ package com.iszhouhua.blog.model;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -19,11 +21,13 @@ public class Menu implements Serializable {
     /**
      * 菜单名
      */
+    @NotBlank(message = "菜单名不能为空")
     private String name;
 
     /**
      * 菜单链接
      */
+    @NotBlank(message = "菜单链接不能为空")
     private String url;
 
     /**
@@ -39,6 +43,8 @@ public class Menu implements Serializable {
     /**
      * 菜单排序，越小的越靠前
      */
+
+    @NotNull(message = "菜单排序不能为空")
     private Integer sort;
 
     public boolean isBlank() {

@@ -8,6 +8,7 @@ import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,19 +71,34 @@ public class ApiController {
      */
     @PostMapping("uploadImage")
     public Result uploadImage(MultipartFile image){
-        LocalDateTime dateTime=LocalDateTime.now();
         ValidatorUtils.isNull(image,"上传的图片不能为空");
+        LocalDateTime dateTime=LocalDateTime.now();
         Result result=new Result();
         //上传的路径
-        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue() + "/";
+        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue();
         //获取当前年月以创建目录
         File mediaPath = new File(SysConfig.IMAGE_HOME, savePath);
         if (!mediaPath.exists()) {
             mediaPath.mkdirs();
         }
-        String fileName = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))+image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf('.'));
+        //以当前系统时间作为文件名
+        String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf('.'));
+        String fileName = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))+suffix;
         try {
-            image.transferTo(new File(mediaPath.getAbsoluteFile(), fileName));
+                if(image.getSize()>Const.COMPRESSION_SIZE){
+                    Thumbnails.Builder builder=Thumbnails.of(image.getInputStream());
+                    //经测试，png格式图片无法正确压缩，若格式为png，则转换成jpg
+                    final boolean suffixIsPng=".png".equals(suffix);
+                    if(suffixIsPng){
+                        builder.outputFormat("jpg");
+                        fileName=fileName.replace(".png",".jpg");
+                    }
+                    builder.scale(1f)
+                            .outputQuality(0.5f)
+                            .toFile(mediaPath.getAbsoluteFile()+"/"+fileName);
+                }else{
+                    image.transferTo(new File(mediaPath.getAbsoluteFile(), fileName));
+            }
             result.setMsg("图片上传成功");
             result.setCode(CodeEnum.SUCCESS.getValue());
             result.setData(SysConfig.IMAGE_URL+savePath+fileName);

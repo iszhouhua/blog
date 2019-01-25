@@ -10,8 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50721
 File Encoding         : 65001
 
-Date: 2019-01-07 14:39:41
+Date: 2019-01-23 22:39:41
 */
+
+SET NAMES 'utf8';
 
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -110,31 +112,32 @@ INSERT INTO `blog_comment` VALUES ('1', '1', 'zhouhua', 'iszhouhua@163.com', '2b
 DROP TABLE IF EXISTS `blog_config`;
 CREATE TABLE `blog_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '变量名',
-  `value` varchar(5000) DEFAULT NULL COMMENT '变量值',
+  `name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名',
+  `value` varchar(5000) DEFAULT NULL COMMENT '参数值',
   `type` tinyint(4) DEFAULT NULL COMMENT '参数类型 1：全局变量 2：系统配置',
   `description` varchar(500) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_name` (`name`) USING BTREE COMMENT '变量名唯一'
+  UNIQUE KEY `uk_name` (`name`) USING BTREE COMMENT '参数名唯一'
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='博客配置表';
 
 -- ----------------------------
 -- Records of blog_config
 -- ----------------------------
 INSERT INTO `blog_config` VALUES ('1', 'BLOG_TITLE', '我的个人博客', '1', '网站标题');
-INSERT INTO `blog_config` VALUES ('2', 'BLOG_KEYWORDS', '个人博客', '1', '网站关键词');
+INSERT INTO `blog_config` VALUES ('2', 'BLOG_KEYWORDS', '个人博客', '1', '网站关键词，关键字之间用,分隔');
 INSERT INTO `blog_config` VALUES ('3', 'BLOG_DESCRIPTION', '我的个人博客', '1', '网站描述');
 INSERT INTO `blog_config` VALUES ('4', 'BLOG_URL', 'http://127.0.0.1:8080/', '1', '网站链接');
 INSERT INTO `blog_config` VALUES ('5', 'BLOG_AUTHOR', 'admin', '1', '网站作者');
 INSERT INTO `blog_config` VALUES ('6', 'BLOG_AVATAR', '/images/avatar.jpg', '1', '头像');
 INSERT INTO `blog_config` VALUES ('7', 'BLOG_NOTICE', '公告', '1', '公告');
-INSERT INTO `blog_config` VALUES ('8', 'DEFAULT_IMAGE', '/images/preview/preview4.jpg', '1', '默认预览图');
+INSERT INTO `blog_config` VALUES ('8', 'DEFAULT_IMAGE', '/images/default-preview.jpg', '1', '默认预览图');
 INSERT INTO `blog_config` VALUES ('9', 'AUTHOR_DESCRIPTION', '一二三四五，上山打老虎。', '1', '头像下的描述内容');
 INSERT INTO `blog_config` VALUES ('10', 'FILING_ICP', null, '1', 'ICP备案');
 INSERT INTO `blog_config` VALUES ('11', 'FILING_SECURITY', null, '1', '公安备案');
 INSERT INTO `blog_config` VALUES ('12', 'COMMENT_CHECK', 'false', '2', '评论是否需要校检');
-INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', '/home/images/', '2', '图片保存路径');
+INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', '/data/images/', '2', '图片保存路径');
 INSERT INTO `blog_config` VALUES ('14', 'IMAGE_URL', 'http://127.0.0.1:8080/image/', '2', '图片访问路径');
+INSERT INTO `blog_config` VALUES ('15', 'BACKGROUND_LIST', '["/images/slide/background1.jpg","/images/slide/background2.jpg","/images/slide/background3.jpg","/images/slide/background4.jpg","/images/slide/background5.jpg","/images/slide/background6.jpg"]', '1', '网站的背景图片集合，格式为JSON数组');
 -- ----------------------------
 -- Table structure for blog_link
 -- ----------------------------

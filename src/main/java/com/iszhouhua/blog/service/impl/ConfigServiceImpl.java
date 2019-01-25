@@ -8,7 +8,6 @@ import com.iszhouhua.blog.service.ConfigService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,33 +21,9 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
 
     @Override
     public Map<String, String> findAllByType(Integer type) {
+        Map<String, String> result = new HashMap<>();
         List<Config> configs = list(new QueryWrapper<Config>().eq("type",type));
-        return listToMap(configs);
-    }
-
-    @Override
-    public Map<String, String> findAll() {
-        return listToMap(list());
-    }
-
-    @Override
-    public boolean saveByMap(Map<String, String> map) {
-        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        while(iterator.hasNext()){
-            Map.Entry<String, String> entry = iterator.next();
-            baseMapper.updateConfigByName(entry.getKey(),entry.getValue());
-        }
-        return true;
-    }
-
-    /**
-     * 配置集合转map
-     * @param list
-     * @return
-     */
-    private Map<String, String> listToMap(List<Config> list){
-        Map<String, String> map = new HashMap<>();
-        list.forEach(variable -> map.put(variable.getName(),variable.getValue()));
-        return map;
+        configs.forEach(variable -> result.put(variable.getName(),variable.getValue()));
+        return result;
     }
 }

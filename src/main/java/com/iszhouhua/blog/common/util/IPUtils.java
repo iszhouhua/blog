@@ -29,7 +29,7 @@ public class IPUtils {
         File dbFile = new File(DB_PATH) ;
         if(!dbFile.exists()){
             try {
-                FileUtils.copyInputStreamToFile(IPUtils.class.getClassLoader().getResourceAsStream(DB_PATH),dbFile);
+                FileUtils.copyInputStreamToFile(IPUtils.class.getClassLoader().getResourceAsStream("ip2region.db"),dbFile);
             } catch (IOException e) {
                 log.error("复制文件失败",e);
             }
@@ -92,10 +92,10 @@ public class IPUtils {
             log.error("无效参数：ip");
             return null;
         }
-        //db
         File file = new File(DB_PATH);
         if (!file.exists()) {
             log.error("ip2region.db文件不存在");
+            return null;
         }
         try {
             DbConfig config = new DbConfig();

@@ -10,29 +10,6 @@
             window.location='/search/'+keyword+'/';
         }
     })
-	
-	// ------- 处理搜索侧边栏结束 --------
-
-	var slideList = []
-	var prefix = window.slideConfig.prefix
-	var ext = '.' + window.slideConfig.ext
-	var maxCount = window.slideConfig.maxCount
-	for(var k = 0; k < 6; k++) {
-		var n = Math.floor(Math.random() * maxCount) + 1
-		while(slideList.indexOf(n) !== -1) {
-			n = Math.floor(Math.random() * maxCount) + 1
-		}
-		slideList.push(n)
-	}
-
-	// ------- 处理背景图 --------------
-
-	var cdSlideShow = $('.cb-slideshow')
-	cdSlideShow.find('span').each(function (i, span) {
-		$(this).css('backgroundImage', 'url(\'' + prefix + slideList[i] + ext + '\')')
-	})
-
-	// ------- 处理背景图结束 -----------
 
 	var panelToggle = $('.panel-toggle')
 	var panelRemove = $('.panel-remove')

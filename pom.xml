@@ -34,6 +34,7 @@
         <user-agent-utils.version>1.21</user-agent-utils.version>
         <ip2region.version>1.7.2</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
     </properties>
 
     <dependencies>
@@ -122,10 +123,16 @@
             <artifactId>ip2region</artifactId>
             <version>${ip2region.version}</version>
         </dependency>
+        <!-- thumbnailator -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${thumbnailator.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>blog</finalName>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

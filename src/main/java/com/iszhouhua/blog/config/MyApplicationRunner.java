@@ -21,9 +21,9 @@ public class MyApplicationRunner implements ApplicationRunner {
     private ConfigService configService;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         //加载配置
         Map<String,String> config=configService.findAllByType(ConfigTypeEnum.SYSTEM_CONFIG.getValue());
-        SysConfig.loadConfig(config);
+        SysConfig.setSysConfig(config);
     }
 }

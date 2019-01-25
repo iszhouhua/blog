@@ -1,0 +1,38 @@
+version: '3'
+services:
+  mysql:
+    container_name: blog-mysql
+    image: mysql/mysql-server:5.7
+    privileged: true
+    restart: always
+    environment:
+      MYSQL_DATABASE: blog
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+      - ./data/blog.sql:/docker-entrypoint-initdb.d/blog.sql
+    expose:
+      - "3306"
+# 测试时使用，正式环境最好不暴露端口到宿主机
+#    ports:
+#      - "3306:3306"
+    command: [
+      '--character-set-server=utf8mb4',
+      '--collation-server=utf8mb4_unicode_ci'
+    ]
+
+  blog:
+    image: maven:3.5-jdk-8
+    container_name: blog
+    privileged: true
+    working_dir: /blog
+    restart: always
+    volumes:
+      - .:/blog
+      - ~/.m2:/root/.m2
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    command: mvn clean spring-boot:run -Dspring-boot.run.profiles=docker

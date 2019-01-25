@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   mvc:
     favicon:
@@ -7,6 +9,9 @@ spring:
   http:
     converters:
       preferred-json-mapper: gson
+  servlet:
+    multipart:
+      max-file-size: 10MB
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*Mapper.xml

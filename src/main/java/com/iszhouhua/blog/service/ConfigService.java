@@ -17,17 +17,4 @@ public interface ConfigService extends IService<Config> {
      * @return 转换成Map之后的配置
      */
     Map<String, String> findAllByType(Integer type);
-
-    /**
-     * 获得所有配置
-     * @return 转换成Map之后的配置
-     */
-    Map<String, String> findAll();
-
-    /**
-     * 保存配置
-     * @param map
-     * @return
-     */
-    boolean saveByMap(Map<String, String> map);
 }
