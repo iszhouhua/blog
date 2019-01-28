@@ -16,7 +16,6 @@ start_up(){
         echo "Blog already startup!"
     else
         nohup java -jar ./$FILE_NAME --spring.profiles.active=prod > /dev/null 2>&1 &
-        show_log
     fi
 }
 
@@ -59,13 +58,18 @@ else
     case "$1" in
         "start")
             start_up
+            sleep 1
+            show_log
             ;;
         "stop")
             shut_down
             ;;
         "restart")
             shut_down
+            sleep 1
             start_up
+            sleep 1
+            show_log
             ;;
         "status")
             show_status

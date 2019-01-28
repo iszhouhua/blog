@@ -12,6 +12,15 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+  datasource:
+    # hikari配置
+    hikari:
+      auto-commit: true
+      connection-timeout: 10000
+      idle-timeout: 300000
+      max-lifetime: 600000
+      minimum-idle: 5
+      maximum-pool-size: 20
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*Mapper.xml

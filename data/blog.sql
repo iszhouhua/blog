@@ -138,6 +138,8 @@ INSERT INTO `blog_config` VALUES ('12', 'COMMENT_CHECK', 'false', '2', '评论�
 INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', '/data/images/', '2', '图片保存路径');
 INSERT INTO `blog_config` VALUES ('14', 'IMAGE_URL', 'http://127.0.0.1:8080/image/', '2', '图片访问路径');
 INSERT INTO `blog_config` VALUES ('15', 'BACKGROUND_LIST', '["/images/slide/background1.jpg","/images/slide/background2.jpg","/images/slide/background3.jpg","/images/slide/background4.jpg","/images/slide/background5.jpg","/images/slide/background6.jpg"]', '1', '网站的背景图片集合，格式为JSON数组');
+INSERT INTO `blog_config` VALUES ('16', 'BLOG_HEAD', null, '1', '博客头部插入的代码，如站点验证代码等');
+INSERT INTO `blog_config` VALUES ('17', 'BLOG_SCRIPT', '<!-- 百度推送代码 --><script>(function(){var bp = document.createElement(''script'');var curProtocol = window.location.protocol.split('':'')[0];if (curProtocol === ''https'') {bp.src = ''https://zz.bdstatic.com/linksubmit/push.js'';}else {bp.src = ''http://push.zhanzhang.baidu.com/push.js'';}var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp, s);})();</script>', '1', '博客尾部插入的脚本，如统计代码、推送代码等');
 -- ----------------------------
 -- Table structure for blog_link
 -- ----------------------------

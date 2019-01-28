@@ -98,7 +98,7 @@ public class ApiController {
                             .toFile(mediaPath.getAbsoluteFile()+"/"+fileName);
                 }else{
                     image.transferTo(new File(mediaPath.getAbsoluteFile(), fileName));
-            }
+                }
             result.setMsg("图片上传成功");
             result.setCode(CodeEnum.SUCCESS.getValue());
             result.setData(SysConfig.IMAGE_URL+savePath+fileName);
