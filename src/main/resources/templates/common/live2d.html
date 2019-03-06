@@ -1,0 +1,14 @@
+<div id="landlord">
+    <div class="message" style="opacity:0"></div>
+    <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+    <div class="hide-button">隐藏</div>
+</div>
+<script type="text/javascript" th:inline="javascript">
+    var message_Path = '/vendor/live2d/'
+    var home_Path = [[${BLOG_URL}]];
+</script>
+<script type="text/javascript" th:src="@{/vendor/live2d/js/live2d.js}"></script>
+<script type="text/javascript" th:src="@{/vendor/live2d/js/message.js}"></script>
+<script type="text/javascript">
+    loadlive2d("live2d", "/vendor/live2d/model/tia/model.json");
+</script>

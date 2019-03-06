@@ -14,6 +14,7 @@
     <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.4)}">
     <link rel="stylesheet" th:href="@{/vendor/highslide/highslide.css(v=5.0.0)}">
     <link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css(v=4.7.0)}">
+    <link rel="stylesheet" th:href="@{/vendor/live2d/css/live2d.css}" />
     <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
     <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
     <script th:src="@{/vendor/aos/aos.js(v=2.3.4)}"></script>
@@ -67,6 +68,7 @@
 <div id="gal-gotop">
     <i class="fa fa-angle-up"></i>
 </div>
+<div layout:replace="~{common/live2d}"></div>
 <script th:src="@{/js/activate-power-mode.js(v=1.0.0)}"></script>
 <script>
     // 配置highslide

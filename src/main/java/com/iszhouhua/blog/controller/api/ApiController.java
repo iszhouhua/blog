@@ -75,7 +75,7 @@ public class ApiController {
         LocalDateTime dateTime=LocalDateTime.now();
         Result result=new Result();
         //上传的路径
-        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue();
+        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue()+"/";
         //获取当前年月以创建目录
         File mediaPath = new File(SysConfig.IMAGE_HOME, savePath);
         if (!mediaPath.exists()) {
@@ -84,6 +84,7 @@ public class ApiController {
         //以当前系统时间作为文件名
         String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf('.'));
         String fileName = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))+suffix;
+        System.out.println(mediaPath.getAbsoluteFile());
         try {
                 if(image.getSize()>Const.COMPRESSION_SIZE){
                     Thumbnails.Builder builder=Thumbnails.of(image.getInputStream());
