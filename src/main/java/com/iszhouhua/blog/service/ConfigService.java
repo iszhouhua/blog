@@ -6,15 +6,25 @@ import com.iszhouhua.blog.model.Config;
 import java.util.Map;
 
 /**
- * 全局变量
+ * 配置服务类
  * @author ZhouHua
  * @since 2018-12-01
  */
 public interface ConfigService extends IService<Config> {
     /**
-     * 根据类型获得所有配置
-     * @param type 配置类型
-     * @return 转换成Map之后的配置
+     * 获得所有全局变量
+     * @return 转换成Map之后的变量
      */
-    Map<String, String> findAllByType(Integer type);
+    Map<String, String> findAllGlobal();
+
+    /**
+     * 清除配置缓存
+     */
+    void clearCache();
+
+    /**
+     * 根据参数名获得指定参数
+     * @return
+     */
+    String findByName(String name);
 }

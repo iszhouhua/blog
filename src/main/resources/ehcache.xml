@@ -33,6 +33,8 @@
 
     <cache name="tag" maxElementsInMemory="10"/>
 
+    <cache name="config" maxElementsInMemory="50"/>
+
     <cache name="log" timeToIdleSeconds="300" timeToLiveSeconds="1800"  maxElementsInMemory="100"/>
 
 </ehcache>

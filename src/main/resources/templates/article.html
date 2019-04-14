@@ -15,7 +15,7 @@
     <article class="article well article-body" id="article">
         <div class="breadcrumb">
             <i class="fa fa-home"></i>
-            <a th:href="@{${BLOG_URL}}" th:title="${BLOG_TITLE}" th:text="${BLOG_TITLE}"></a>
+            <a th:href="@{${GLOBAL.BLOG_URL}}" th:title="${GLOBAL.BLOG_TITLE}" th:text="${GLOBAL.BLOG_TITLE}"></a>
             &gt;
             <a th:href="@{/category/{url}/(url=${info.category.url})}" th:title="${info.category.name}"
                th:text="${info.category.name}"></a>
@@ -52,8 +52,8 @@
             [(${info.content})]
             <div class="alert alert-info statement">
                 <th:block th:if="${info.isOriginal}">
-                    版权声明：<a th:href="${BLOG_URL}" th:title="${BLOG_TITLE}"
-                             th:text="${BLOG_TITLE}"></a>原创文章，转载请注明出处。<br><br>
+                    版权声明：<a th:href="${GLOBAL.BLOG_URL}" th:title="${GLOBAL.BLOG_TITLE}"
+                             th:text="${GLOBAL.BLOG_TITLE}"></a>原创文章，转载请注明出处。<br><br>
                     文章链接：[[${#request.getRequestURL()}]]<br><br>
                     发表时间：[[${#dates.format(info.createTime,'yyyy-MM-dd HH:mm')}]]<br><br>
                     最后更新时间：[[${#dates.format(info.updateTime,'yyyy-MM-dd HH:mm')}]]<br>

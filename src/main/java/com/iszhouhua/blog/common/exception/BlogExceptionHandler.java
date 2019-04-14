@@ -13,12 +13,12 @@ import javax.validation.ValidationException;
 import java.util.Set;
 
 /**
- * controller异常处理器
+ * 后台controller异常处理器
  * @author ZhouHua
  * @date 2018/12/22
  */
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.iszhouhua.blog.controller.api")
 public class BlogExceptionHandler {
 
     /**

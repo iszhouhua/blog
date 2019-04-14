@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="author" th:content="${BLOG_AUTHOR}">
-    <th:block th:unless="${#strings.isEmpty(BLOG_HEAD)}">
-        [(${BLOG_HEAD})]
+    <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
+    <th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_HEAD)}">
+        [(${GLOBAL.BLOG_HEAD})]
     </th:block>
-    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${BLOG_TITLE}"></title>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${GLOBAL.BLOG_TITLE}"></title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
     <link rel="stylesheet" th:href="@{/vendor/aos/aos.css(v=2.3.4)}">
@@ -25,7 +25,7 @@
 <section class="hidden-xs">
     <ul class="cb-slideshow">
         <script th:inline="javascript">
-            var backgroundList=/*[[${BACKGROUND_LIST}]]*/ "";
+            var backgroundList=/*[[${GLOBAL.BACKGROUND_LIST}]]*/ "";
             backgroundList=JSON.parse(backgroundList);
             var duration=backgroundList.length*6;
             for (var i in backgroundList) {
@@ -38,7 +38,7 @@
 <div class="gal-menu gal-dropdown">
     <div class="circle" id="gal">
         <div class="ring">
-            <a th:href="${BLOG_URL}" class="menuItem" style="left: 50%; top: 15%;">首页</a>
+            <a th:href="${GLOBAL.BLOG_URL}" class="menuItem" style="left: 50%; top: 15%;">首页</a>
             <a href="/category" class="menuItem" style="left: 80.3109%; top: 67.5%;">分类</a>
             <a href="/about.html" class="menuItem" style="left: 50%; top: 85%;">关于我</a>
             <a href="/tag" class="menuItem" style="left: 19.6891%; top: 67.5%;">标签</a>
@@ -109,8 +109,8 @@
 </script>
 <script th:src="@{/js/blog.js(v=1.0.0)}"></script>
 <script th:src="@{/js/onj.js(v=1.0.0)}"></script>
-<th:block  th:unless="${#strings.isEmpty(BLOG_SCRIPT)}">
-    [(${BLOG_SCRIPT})]
+<th:block  th:unless="${#strings.isEmpty(GLOBAL.BLOG_SCRIPT)}">
+    [(${GLOBAL.BLOG_SCRIPT})]
 </th:block>
 </body>
 </html>

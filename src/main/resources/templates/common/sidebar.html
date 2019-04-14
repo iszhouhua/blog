@@ -15,12 +15,12 @@
         <div class="panel panel-gal" data-aos="flip-right" data-aos-duration="3000">
             <div class="panel-heading" style="text-align: center">
                 <i class="fa fa-quote-left"></i>
-                [[${BLOG_AUTHOR}]]
+                [[${GLOBAL.BLOG_AUTHOR}]]
                 <i class="fa fa-quote-right"></i>
             </div>
             <div class="author-panel text-center">
-                <img th:src="${BLOG_AVATAR}" width="140" height="140" alt="个人头像" class="author-image">
-                <p class="author-email" th:text="${AUTHOR_DESCRIPTION}"></p>
+                <img th:src="${GLOBAL.BLOG_AVATAR}" width="140" height="140" alt="个人头像" class="author-image">
+                <p class="author-email" th:text="${GLOBAL.AUTHOR_DESCRIPTION}"></p>
             </div>
         </div>
     </aside>

@@ -3,8 +3,8 @@
       layout:decorate="~{common/layout}">
 <head>
     <title th:text="${info.name}"></title>
-    <meta name="keywords" th:content="${BLOG_KEYWORDS}+','+${info.name}">
-    <meta name="description" th:content="${BLOG_DESCRIPTION}">
+    <meta name="keywords" th:content="${GLOBAL.BLOG_KEYWORDS}+','+${info.name}">
+    <meta name="description" th:content="${GLOBAL.BLOG_DESCRIPTION}">
 </head>
 <body>
 <div layout:fragment="content">

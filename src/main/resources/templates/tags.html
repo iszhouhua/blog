@@ -3,15 +3,15 @@
       layout:decorate="~{common/layout}">
 <head>
     <title>标签</title>
-    <meta name="keywords" th:content="${BLOG_KEYWORDS}">
-    <meta name="description" th:content="${BLOG_DESCRIPTION}">
+    <meta name="keywords" th:content="${GLOBAL.BLOG_KEYWORDS}">
+    <meta name="description" th:content="${GLOBAL.BLOG_DESCRIPTION}">
 </head>
 <body>
 <div layout:fragment="content">
     <article class="article well article-body" id="article-tags">
         <div class="breadcrumb">
             <i class="fa fa-home"></i>
-            <a th:href="${BLOG_URL}" th:title="${BLOG_TITLE}" th:text="${BLOG_TITLE}"></a>
+            <a th:href="${GLOBAL.BLOG_URL}" th:title="${GLOBAL.BLOG_TITLE}" th:text="${GLOBAL.BLOG_TITLE}"></a>
             &gt;
             <span>标签</span>
         </div>

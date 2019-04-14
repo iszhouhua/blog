@@ -2,10 +2,11 @@ package com.iszhouhua.blog.controller.api;
 
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.common.constant.SysConfig;
+import com.iszhouhua.blog.model.enums.ConfigNameEnum;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.service.ConfigService;
 import com.iszhouhua.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -32,6 +33,9 @@ import java.time.format.DateTimeFormatter;
 public class ApiController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ConfigService configService;
 
     /**
      * 登录
@@ -77,7 +81,7 @@ public class ApiController {
         //上传的路径
         String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue()+"/";
         //获取当前年月以创建目录
-        File mediaPath = new File(SysConfig.IMAGE_HOME, savePath);
+        File mediaPath = new File(configService.findByName(ConfigNameEnum.IMAGE_HOME.name()), savePath);
         if (!mediaPath.exists()) {
             mediaPath.mkdirs();
         }
@@ -102,7 +106,7 @@ public class ApiController {
                 }
             result.setMsg("图片上传成功");
             result.setCode(CodeEnum.SUCCESS.getValue());
-            result.setData(SysConfig.IMAGE_URL+savePath+fileName);
+            result.setData(configService.findByName(ConfigNameEnum.IMAGE_URL.name())+savePath+fileName);
         } catch (IOException e) {
             log.error("图片上传失败",e.getMessage());
             result.setMsg("图片上传失败");

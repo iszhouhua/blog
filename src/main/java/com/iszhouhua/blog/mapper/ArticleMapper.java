@@ -26,7 +26,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id 文章ID
      * @return
      */
-    @Update("update blog_article set visits=Visits+1 where id=#{id}")
+    @Update("update blog_article set visits=visits+1 where id=#{id}")
     int updateForVisitsById(Long id);
     /**
      * 查询所有置顶文章

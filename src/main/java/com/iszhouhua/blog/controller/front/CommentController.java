@@ -1,12 +1,13 @@
 package com.iszhouhua.blog.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.iszhouhua.blog.common.constant.SysConfig;
+import com.iszhouhua.blog.model.enums.ConfigNameEnum;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import com.iszhouhua.blog.service.CommentService;
+import com.iszhouhua.blog.service.ConfigService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ import java.util.List;
 public class CommentController {
     @Autowired
     private CommentService commentService;
+
+    @Autowired
+    private ConfigService configService;
 
     /**
      * 加载评论
@@ -58,7 +62,7 @@ public class CommentController {
         String ip=IPUtils.getIpAddr(request);
         comment.setIp(ip);
         comment.setAdmin(false);
-        if(SysConfig.COMMENT_CHECK){
+        if(Boolean.parseBoolean(configService.findByName(ConfigNameEnum.COMMENT_CHECK.name()))){
             comment.setStatus(CommentStatusEnum.CHECKING.getValue());
         }else{
             comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());

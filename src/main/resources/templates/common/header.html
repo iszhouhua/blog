@@ -5,9 +5,9 @@
                     data-target=".bs-navbar-collapse" aria-expanded="false">
                 <span class="fa fa-lg fa-reorder"></span>
             </button>
-            <a th:href="@{${BLOG_URL}}">
+            <a th:href="@{${GLOBAL.BLOG_URL}}">
                 <!-- 这里使用文字(navbar_text or config.title) -->
-                <div class="navbar-brand" th:text="${BLOG_TITLE}"></div>
+                <div class="navbar-brand" th:text="${GLOBAL.BLOG_TITLE}"></div>
             </a>
         </div>
         <div class="collapse navbar-collapse bs-navbar-collapse">

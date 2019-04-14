@@ -4,7 +4,7 @@
 <head>
     <title th:text="${keyword}"></title>
     <meta name="keywords" th:content="${keyword}">
-    <meta name="description" th:content="${BLOG_DESCRIPTION}">
+    <meta name="description" th:content="${GLOBAL.BLOG_DESCRIPTION}">
 </head>
 <body>
 <div layout:fragment="content">
@@ -35,7 +35,7 @@
                     <div class="item">
                         <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
                             <div class="img">
-                                <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
+                                <img th:src="${item.image}?:${GLOBAL.DEFAULT_IMAGE}" th:alt-title="${item.title}">
                             </div>
                             <div class="info"><p th:text="${item.description}"></p></div>
                         </a>
@@ -67,7 +67,7 @@
                 <div class="alert alert-gal article-body content-article">
                     <p style="text-align: center;">
                         <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}">
-                            <img th:src="${item.image}?:${DEFAULT_IMAGE}" th:alt-title="${item.title}">
+                            <img th:src="${item.image}?:${GLOBAL.DEFAULT_IMAGE}" th:alt-title="${item.title}">
                         </a>
                     </p>
                 </div>

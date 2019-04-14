@@ -3,16 +3,16 @@
       layout:decorate="~{common/layout}">
 <head>
     <title></title>
-    <meta name="keywords" th:content="${BLOG_KEYWORDS}">
-    <meta name="description" th:content="${BLOG_DESCRIPTION}">
+    <meta name="keywords" th:content="${GLOBAL.BLOG_KEYWORDS}">
+    <meta name="description" th:content="${GLOBAL.BLOG_DESCRIPTION}">
 </head>
 <body>
 <div layout:fragment="content">
-    <div th:unless="${#strings.isEmpty(BLOG_NOTICE)}" class="alert well fade in" id="gal-issue"
+    <div th:unless="${#strings.isEmpty(GLOBAL.BLOG_NOTICE)}" class="alert well fade in" id="gal-issue"
          role="alert">
         <button type="button" class="close" data-dismiss="alert">×</button>
         <!-- 公告内容 -->
-        [(${BLOG_NOTICE})]
+        [(${GLOBAL.BLOG_NOTICE})]
         <!-- 公告内容结束 -->
     </div>
     <!-- 内容主体 -->

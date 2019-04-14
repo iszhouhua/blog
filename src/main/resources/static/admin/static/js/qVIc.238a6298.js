@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["qVIc"],{qVIc:function(e,t,n){"use strict";n.r(t);var i={name:"CreateForm",components:{ArticleDetail:n("lLti").a}},a=n("KHd+"),l=Object(a.a)(i,function(){var e=this.$createElement;return(this._self._c||e)("article-detail",{attrs:{"is-edit":!1}})},[],!1,null,null,null);l.options.__file="create.vue";t.default=l.exports}}]);

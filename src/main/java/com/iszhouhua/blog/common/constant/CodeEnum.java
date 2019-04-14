@@ -29,9 +29,14 @@ public enum CodeEnum {
     VALIDATION_ERROR(40002),
 
     /**
-     * 重复插入
+     * 重复插入数据
      */
-    DUPLICATE_KEY(40003);
+    DUPLICATE_KEY(40003),
+
+    /**
+     * 未找到数据
+     */
+    NOT_FOUND(40004);
 
     private int value;
 

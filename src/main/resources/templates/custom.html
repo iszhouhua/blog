@@ -3,8 +3,8 @@
       layout:decorate="~{common/layout}">
 <head>
     <title th:text="${info.title}"></title>
-    <meta name="keywords" th:content="${info.getKeywords()}?:${BLOG_KEYWORDS}">
-    <meta name="description" th:content="${info.description}?:${BLOG_DESCRIPTION}">
+    <meta name="keywords" th:content="${info.getKeywords()}?:${GLOBAL.BLOG_KEYWORDS}">
+    <meta name="description" th:content="${info.description}?:${GLOBAL.BLOG_DESCRIPTION}">
     <link rel="stylesheet" th:href="@{/css/article.css(v=1.0.1)}">
     <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css(v=2.1.1)}">
     <link rel="stylesheet" th:href="@{/vendor/highlight/styles/github.css(v=9.13.1)}">

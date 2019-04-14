@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([["++5l"],{"++5l":function(t,e,i){"use strict";i.r(e);var l={name:"EditForm",components:{ArticleDetail:i("lLti").a}},n=i("KHd+"),a=Object(n.a)(l,function(){var t=this.$createElement;return(this._self._c||t)("article-detail",{attrs:{"is-edit":!0}})},[],!1,null,null,null);a.options.__file="edit.vue";e.default=a.exports}}]);

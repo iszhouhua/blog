@@ -3,7 +3,9 @@ package com.iszhouhua.blog.controller.front;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Tag;
 import com.iszhouhua.blog.service.TagService;
@@ -59,7 +61,7 @@ public class TagController extends BaseController {
     public String tag(Model model,@PathVariable(value = "url") String url,@PathVariable(value = "pageIndex") Integer pageIndex) {
         Tag tag=tagService.getOne(new QueryWrapper<Tag>().eq("url",url));
         if(null==tag){
-            return notFound();
+            throw new BlogException(CodeEnum.NOT_FOUND.getValue(),"标签不存在："+url);
         }
         IPage<Article> page=articleService.findPageByTag(new Page<>(pageIndex,Const.PAGE_SIZE),tag.getId());
         model.addAttribute("info",tag);

@@ -1,12 +1,18 @@
 package com.iszhouhua.blog.controller.front;
 
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.model.Article;
+import com.iszhouhua.blog.model.Comment;
+import com.iszhouhua.blog.model.Menu;
 import com.iszhouhua.blog.service.ArticleService;
 import com.iszhouhua.blog.service.CommentService;
+import com.iszhouhua.blog.service.ConfigService;
+import com.iszhouhua.blog.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ZhouHua
@@ -20,22 +26,30 @@ public class BaseController {
     @Autowired
     protected ArticleService articleService;
 
-    /**
-     * 前台controller共用数据
-     * @param model
-     */
-    @ModelAttribute
-    public void addAttributes(HttpServletRequest model) {
-        model.setAttribute("latestComments", commentService.findLatestComments(8,false));
-        model.setAttribute("randomArticles", articleService.findRandomArticles(8));
+    @Autowired
+    protected MenuService menuService;
+
+    @Autowired
+    protected ConfigService configService;
+
+    @ModelAttribute("latestComments")
+    public List<Comment> latestComments() {
+        return commentService.findLatestComments(8,false);
     }
 
-    /**
-     * 未找到数据，重定向到404页面
-     * @return
-     */
-    String notFound(){
-        return "redirect:404.html";
+    @ModelAttribute("randomArticles")
+    public List<Article> randomArticles() {
+        return articleService.findRandomArticles(8);
+    }
+
+    @ModelAttribute("MENUS")
+    public List<Menu> menus(){
+        return menuService.findAllMenu();
+    }
+
+    @ModelAttribute("GLOBAL")
+    public Map<String,String> global(){
+        return configService.findAllGlobal();
     }
 
     /**

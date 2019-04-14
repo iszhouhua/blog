@@ -2,7 +2,9 @@ package com.iszhouhua.blog.controller.front;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
@@ -74,7 +76,7 @@ public class IndexController extends BaseController {
     public String index(Model model, @PathVariable(value = "url") String url) {
         Article info=articleService.findArticleByUrl(url);
         if(null==info){
-            return notFound();
+            throw new BlogException(CodeEnum.NOT_FOUND.getValue(),"文章不存在："+url);
         }
         model.addAttribute("info",info);
         //查询当前文章的第一页评论

@@ -3,7 +3,9 @@ package com.iszhouhua.blog.controller.front;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Category;
 import com.iszhouhua.blog.service.CategoryService;
@@ -59,7 +61,7 @@ public class CategoryController extends BaseController {
     public String category(Model model,@PathVariable(value = "url") String url,@PathVariable(value = "pageIndex") Integer pageIndex) {
         Category category=categoryService.getOne(new QueryWrapper<Category>().eq("url",url));
         if(null==category){
-            return notFound();
+            throw new BlogException(CodeEnum.NOT_FOUND.getValue(),"类别不存在："+url);
         }
         IPage<Article> page=articleService.findPageByCategory(new Page<>(pageIndex,Const.PAGE_SIZE),category.getId());
         model.addAttribute("info",category);

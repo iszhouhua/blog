@@ -8,6 +8,7 @@ import com.iszhouhua.blog.mapper.CommentMapper;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import com.iszhouhua.blog.service.CommentService;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.List;
  * @since 2018-12-01
  */
 @Service
+@CacheConfig(cacheNames = "comment")
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
@@ -48,7 +50,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
 
     @Override
-    @Cacheable(value = "comment",key = "targetClass + methodName + #p0 + #p1")
+    @Cacheable(key = "targetClass + methodName + #p0 + #p1")
     public List<Comment> findLatestComments(Integer count,boolean showCheck) {
         return baseMapper.selectLatestComments(count,showCheck);
     }
