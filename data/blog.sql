@@ -113,7 +113,7 @@ DROP TABLE IF EXISTS `blog_config`;
 CREATE TABLE `blog_config` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL DEFAULT '' COMMENT '参数名',
-  `value` varchar(5000) DEFAULT NULL COMMENT '参数值',
+  `value` longtext COMMENT '参数值',
   `type` tinyint(4) DEFAULT NULL COMMENT '参数类型 1：全局变量 2：系统配置',
   `description` varchar(500) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`),
@@ -139,7 +139,7 @@ INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', '/data/images/', '2', '图
 INSERT INTO `blog_config` VALUES ('14', 'IMAGE_URL', 'http://127.0.0.1:8080/image/', '2', '图片访问路径');
 INSERT INTO `blog_config` VALUES ('15', 'BACKGROUND_LIST', '["/images/slide/background1.jpg","/images/slide/background2.jpg","/images/slide/background3.jpg","/images/slide/background4.jpg","/images/slide/background5.jpg","/images/slide/background6.jpg"]', '1', '网站的背景图片集合，格式为JSON数组');
 INSERT INTO `blog_config` VALUES ('16', 'BLOG_HEAD', null, '1', '博客头部插入的代码，如站点验证代码等');
-INSERT INTO `blog_config` VALUES ('17', 'BLOG_SCRIPT', '<!-- 百度推送代码 --><script>(function(){var bp = document.createElement(''script'');var curProtocol = window.location.protocol.split('':'')[0];if (curProtocol === ''https'') {bp.src = ''https://zz.bdstatic.com/linksubmit/push.js'';}else {bp.src = ''http://push.zhanzhang.baidu.com/push.js'';}var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp, s);})();</script>', '1', '博客尾部插入的脚本，如统计代码、推送代码等');
+INSERT INTO `blog_config` VALUES ('17', 'BLOG_SCRIPT', '<script><!-- 百度推送代码 -->(function(){var bp = document.createElement(''script'');var curProtocol = window.location.protocol.split('':'')[0];if (curProtocol === ''https'') {bp.src = ''https://zz.bdstatic.com/linksubmit/push.js'';}else {bp.src = ''http://push.zhanzhang.baidu.com/push.js'';}var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp, s);})();</script>', '1', '博客尾部插入的脚本，如统计代码、推送代码等');
 -- ----------------------------
 -- Table structure for blog_link
 -- ----------------------------
@@ -243,3 +243,24 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', '64e1b8d34f425d19e1ee2ea7236d3028', '2018-12-31 20:13:25', '2018-12-31 20:13:25', '0', '0');
+
+-- ----------------------------
+-- Table structure for blog_spider
+-- ----------------------------
+DROP TABLE IF EXISTS `blog_spider`;
+CREATE TABLE `blog_spider` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL COMMENT '爬虫标识名',
+  `title_rule` varchar(500) NOT NULL COMMENT '标题爬取规则',
+  `content_rule` varchar(500) NOT NULL COMMENT '文章内容爬取规则',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_name` (`name`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='爬虫规则';
+
+-- ----------------------------
+-- Records of blog_spider
+-- ----------------------------
+INSERT INTO `blog_spider` VALUES ('1', '博客园', 'h1.postTitle', 'div.postBody');
+INSERT INTO `blog_spider` VALUES ('2', 'CSDN', 'h1.title-article', 'div#content_views');
+INSERT INTO `blog_spider` VALUES ('3', '简书', 'h1.title', 'div.show-content');
+INSERT INTO `blog_spider` VALUES ('4', '思否', '#articleTitle a', 'div.article');

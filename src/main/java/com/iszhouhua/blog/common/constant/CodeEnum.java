@@ -36,7 +36,12 @@ public enum CodeEnum {
     /**
      * 未找到数据
      */
-    NOT_FOUND(40004);
+    NOT_FOUND(40004),
+
+    /**
+     *  文章抓取失败
+     */
+    SPIDER_ERROR(40005);
 
     private int value;
 

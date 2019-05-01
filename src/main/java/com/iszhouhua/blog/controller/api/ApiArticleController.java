@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,10 +76,6 @@ public class ApiArticleController {
                 return Result.fail("文章已成功保存，但关联标签保存失败");
             }
         }
-        if(article.getId()==null){
-            //将新增的文章查询出来
-            article=articleService.getOne(new QueryWrapper<>(article));
-        }
         return Result.success("保存成功",article);
     }
 
@@ -108,8 +105,8 @@ public class ApiArticleController {
     }
 
     @DeleteMapping
-    public Result remove(Long id){
-        return articleService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
+    public Result remove(Long[] ids){
+        return articleService.removeByIds(Arrays.asList(ids))?Result.success("删除成功"):Result.fail("删除失败");
     }
 
     /**

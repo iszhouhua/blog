@@ -45,4 +45,12 @@ public interface Const {
      * 压缩阈值，超过此大小的图片将被压缩，此处是256kb
      */
     long COMPRESSION_SIZE=262144L;
+    /**
+     * 爬虫默认的userAgent
+     */
+    String USER_AGENT="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36";
+    /**
+     * 爬虫抓取链接超时时间，单位：毫秒
+     */
+   int SPIDER_TIMEOUT=10000;
 }

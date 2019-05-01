@@ -26,7 +26,7 @@ public class FrontExceptionHandler {
     }
 
     /**
-     * 其他异常，统一返回500页面
+     * 其他未知异常，统一返回500页面
      * @param e
      * @return
      */

@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
-    <th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_HEAD)}">
-        [(${GLOBAL.BLOG_HEAD})]
-    </th:block>
     <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE" th:text="${GLOBAL.BLOG_TITLE}"></title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
@@ -19,6 +16,9 @@
     <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
     <script th:src="@{/vendor/aos/aos.js(v=2.3.4)}"></script>
     <script th:src="@{/vendor/highslide/highslide-full.min.js(v=5.0.0)}"></script>
+    <th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_HEAD)}">
+[(${GLOBAL.BLOG_HEAD})]
+    </th:block>
 </head>
 <body>
 <!-- 背景轮播图功能 -->
@@ -110,7 +110,7 @@
 <script th:src="@{/js/blog.js(v=1.0.0)}"></script>
 <script th:src="@{/js/onj.js(v=1.0.0)}"></script>
 <th:block  th:unless="${#strings.isEmpty(GLOBAL.BLOG_SCRIPT)}">
-    [(${GLOBAL.BLOG_SCRIPT})]
+[(${GLOBAL.BLOG_SCRIPT})]
 </th:block>
 </body>
 </html>

@@ -3,7 +3,7 @@ package com.iszhouhua.blog.model.enums;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 系统配置参数名枚举类
+ * 系统配置参数名
  * @author ZhouHua
  * @date 2018/04/13
  */

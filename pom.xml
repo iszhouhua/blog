@@ -35,6 +35,7 @@
         <ip2region.version>1.7.2</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
+        <jsoup.version>1.11.3</jsoup.version>
     </properties>
 
     <dependencies>
@@ -128,6 +129,12 @@
             <groupId>net.coobird</groupId>
             <artifactId>thumbnailator</artifactId>
             <version>${thumbnailator.version}</version>
+        </dependency>
+        <!-- jsoup -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
     </dependencies>
 
