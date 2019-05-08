@@ -2,10 +2,10 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.storage.OSSFactory;
 import com.iszhouhua.blog.mapper.SpiderMapper;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Spider;
-import com.iszhouhua.blog.model.enums.ConfigNameEnum;
 import com.iszhouhua.blog.service.ConfigService;
 import com.iszhouhua.blog.service.SpiderService;
 import lombok.extern.slf4j.Slf4j;
@@ -65,37 +65,21 @@ public class SpiderServiceImpl extends ServiceImpl<SpiderMapper, Spider> impleme
      * @return 下载图片之后的文章
      */
     private Element downImage(Element content) {
-        //上传的路径
-        LocalDateTime dateTime=LocalDateTime.now();
-        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue()+"/";
-        // 创建图片文件夹
-        File filePath = new File(configService.findByName(ConfigNameEnum.IMAGE_HOME.name()),savePath);
-        if (!filePath.exists()) {
-            filePath.mkdirs();
-        }
         // 获得所有图片
         Iterator<Element> iterator = content.getElementsByTag("img").iterator();
         while (iterator.hasNext()) {
             Element image=iterator.next();
             String url = image.attr("abs:src");
             InputStream inputStream = null;
-            OutputStream outputStream = null;
-            // 获得文件名
-            String fileName =DigestUtils.md5Hex(url) +"."+StringUtils.substringAfterLast(url,".");
-            File file=new File(filePath,fileName);
+            // 获得后缀
+            String suffix ="."+StringUtils.substringAfterLast(url,".");
             // 开始下载图片
             try {
                 HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                 connection.setRequestProperty("User-Agent", Const.USER_AGENT);
                 connection.setConnectTimeout(Const.SPIDER_TIMEOUT);
                 inputStream = connection.getInputStream();
-                byte[] tmp = new byte[1024];
-                int length;
-                outputStream = new FileOutputStream(file);
-                while ((length = inputStream.read(tmp)) != -1){
-                    outputStream.write(tmp, 0, length);
-                }
-                String imageUrl=configService.findByName(ConfigNameEnum.IMAGE_URL.name())+savePath+fileName;
+                String imageUrl = OSSFactory.build().uploadSuffix(inputStream, suffix);
                 image.attr("src", imageUrl);
             } catch (Exception e) {
                 log.error("图片下载失败："+url,e);
@@ -106,11 +90,8 @@ public class SpiderServiceImpl extends ServiceImpl<SpiderMapper, Spider> impleme
                     if (inputStream != null){
                         inputStream.close();
                     }
-                    if (outputStream != null){
-                        outputStream.close();
-                    }
                 } catch (IOException e) {
-                    log.error("关闭输入/输出流时出现异常",e);
+                    log.error("关闭输入流时出现异常",e);
                 }
             }
         }

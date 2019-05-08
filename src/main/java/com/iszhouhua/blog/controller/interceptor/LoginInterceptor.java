@@ -3,6 +3,7 @@ package com.iszhouhua.blog.controller.interceptor;
 import com.google.gson.Gson;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
+import com.iszhouhua.blog.common.util.GsonUtils;
 import com.iszhouhua.blog.common.util.Result;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -28,7 +29,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         response.setContentType("application/json; charset=utf-8");
         PrintWriter out = response.getWriter();
         Result result=new Result(CodeEnum.NOT_LOGIN.getValue(),"未登录！");
-        out.write(new Gson().toJson(result));
+        out.write(GsonUtils.toJson(result));
         out.close();
         return false;
     }

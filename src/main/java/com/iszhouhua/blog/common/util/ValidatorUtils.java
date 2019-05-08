@@ -1,7 +1,13 @@
 package com.iszhouhua.blog.common.util;
 
 import com.iszhouhua.blog.common.constant.CodeEnum;
+import com.iszhouhua.blog.common.constant.StorageType;
 import com.iszhouhua.blog.common.exception.BlogException;
+import com.iszhouhua.blog.common.storage.*;
+import com.iszhouhua.blog.common.storage.group.AliyunGroup;
+import com.iszhouhua.blog.common.storage.group.LocalGroup;
+import com.iszhouhua.blog.common.storage.group.QcloudGroup;
+import com.iszhouhua.blog.common.storage.group.QiniuGroup;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintViolation;
@@ -16,7 +22,7 @@ public class ValidatorUtils {
     private static Validator validator;
 
     static {
-        validator = Validation.buildDefaultValidatorFactory().getValidator();
+        validator = SpringUtils.getBean(Validator.class);
     }
 
 
@@ -46,6 +52,28 @@ public class ValidatorUtils {
                 msg.append(constraint.getMessage());
             }
             throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(),msg.toString());
+        }
+    }
+
+    /**
+     * 校验存储配置信息
+     * @param value  待校验的值
+     * @throws BlogException  校验不通过，则报BlogException异常
+     */
+    public static void validateStorageConfig(String value) throws BlogException {
+        StorageConfig storageConfig=GsonUtils.fromJson(value,StorageConfig.class);
+        if(storageConfig.getType() == StorageType.QINIU.getValue()){
+            //校验七牛数据
+            validate(storageConfig, QiniuGroup.class);
+        }else if(storageConfig.getType() == StorageType.ALIYUN.getValue()){
+            //校验阿里云数据
+            validate(storageConfig, AliyunGroup.class);
+        }else if(storageConfig.getType() == StorageType.QCLOUD.getValue()){
+            //校验腾讯云数据
+            validate(storageConfig, QcloudGroup.class);
+        }else if(storageConfig.getType() == StorageType.LOCAL.getValue()){
+            //校验本地数据
+            validate(storageConfig, LocalGroup.class);
         }
     }
 }

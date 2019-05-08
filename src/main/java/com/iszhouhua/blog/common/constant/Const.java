@@ -42,9 +42,9 @@ public interface Const {
     int COMMENT_SIZE=10;
 
     /**
-     * 压缩阈值，超过此大小的图片将被压缩，此处是256kb
+     * 压缩阈值，超过此大小的图片将被压缩，此处是512kb
      */
-    long COMPRESSION_SIZE=262144L;
+    long COMPRESSION_SIZE=524288L;
     /**
      * 爬虫默认的userAgent
      */

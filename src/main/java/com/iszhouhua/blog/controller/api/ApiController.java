@@ -1,8 +1,8 @@
 package com.iszhouhua.blog.controller.api;
-
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.model.enums.ConfigNameEnum;
+import com.iszhouhua.blog.common.exception.BlogException;
+import com.iszhouhua.blog.common.storage.OSSFactory;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.User;
@@ -15,12 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpSession;
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 /**
  * 控制登录和上传等
@@ -33,9 +30,6 @@ import java.time.format.DateTimeFormatter;
 public class ApiController {
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ConfigService configService;
 
     /**
      * 登录
@@ -76,37 +70,33 @@ public class ApiController {
     @PostMapping("uploadImage")
     public Result uploadImage(MultipartFile image){
         ValidatorUtils.isNull(image,"上传的图片不能为空");
-        LocalDateTime dateTime=LocalDateTime.now();
-        Result result=new Result();
-        //上传的路径
-        String savePath=dateTime.getYear() + "/" + dateTime.getMonthValue()+"/";
-        //获取当前年月以创建目录
-        File mediaPath = new File(configService.findByName(ConfigNameEnum.IMAGE_HOME.name()), savePath);
-        if (!mediaPath.exists()) {
-            mediaPath.mkdirs();
+        if(!image.getContentType().contains("image")){
+            throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(),"文件格式错误");
         }
-        //以当前系统时间作为文件名
-        String suffix=image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf('.'));
-        String fileName = dateTime.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))+suffix;
-        System.out.println(mediaPath.getAbsoluteFile());
+
+        //上传文件
+        String suffix = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
+        Result result=new Result();
         try {
-                if(image.getSize()>Const.COMPRESSION_SIZE){
-                    Thumbnails.Builder builder=Thumbnails.of(image.getInputStream());
-                    //经测试，png格式图片无法正确压缩，若格式为png，则转换成jpg
-                    final boolean suffixIsPng=".png".equals(suffix);
-                    if(suffixIsPng){
-                        builder.outputFormat("jpg");
-                        fileName=fileName.replace(".png",".jpg");
-                    }
-                    builder.scale(1f)
-                            .outputQuality(0.5f)
-                            .toFile(mediaPath.getAbsoluteFile()+"/"+fileName);
-                }else{
-                    image.transferTo(new File(mediaPath.getAbsoluteFile(), fileName));
+            //判断图片是否较大，超过阈值进行压缩
+            if(image.getSize()>Const.COMPRESSION_SIZE){
+                Thumbnails.Builder builder=Thumbnails.of(image.getInputStream());
+                //经测试，png格式图片无法正确压缩，若格式为png，则转换成jpg
+                final boolean suffixIsPng=".png".equals(suffix);
+                if(suffixIsPng){
+                    builder.outputFormat("jpg");
+                    suffix=".jpg";
                 }
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                builder.scale(1f).outputQuality(0.5f).toOutputStream(bytes);
+                String url=OSSFactory.build().uploadSuffix(bytes.toByteArray(), suffix);
+                result.setData(url);
+            }else{
+                String url = OSSFactory.build().uploadSuffix(image.getBytes(), suffix);
+                result.setData(url);
+            }
             result.setMsg("图片上传成功");
             result.setCode(CodeEnum.SUCCESS.getValue());
-            result.setData(configService.findByName(ConfigNameEnum.IMAGE_URL.name())+savePath+fileName);
         } catch (IOException e) {
             log.error("图片上传失败",e.getMessage());
             result.setMsg("图片上传失败");

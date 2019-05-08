@@ -1,5 +1,6 @@
 package com.iszhouhua.blog.controller.api;
 
+import com.iszhouhua.blog.common.constant.ConfigConst;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.Config;
@@ -26,6 +27,9 @@ public class ApiConfigController {
     @PostMapping
     public Result save(@RequestBody Config config){
         ValidatorUtils.validate(config);
+        if(config.getName().equals(ConfigConst.FILE_STORAGE)){
+            ValidatorUtils.validateStorageConfig(config.getValue());
+        }
         boolean result=configService.saveOrUpdate(config);
         if(result){
             configService.clearCache();

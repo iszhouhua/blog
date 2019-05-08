@@ -18,7 +18,7 @@ import java.util.Map;
  * @author ZhouHua
  * @date 2018/12/19
  */
-public class BaseController {
+public abstract class BaseController {
 
     @Autowired
     protected CommentService commentService;

@@ -3,7 +3,7 @@
 
 基于[SpringBoot](https://github.com/spring-projects/spring-boot)搭建的开源个人博客系统，主题基于Hexo主题[hexo-theme-gal](https://github.com/ZEROKISEKI/hexo-theme-gal)进行修改。
 
-技术栈：SpringBoot、Thymeleaf、MySQL、MyBatis-Plus、Lombok、Gson、ehcache、validation、Bootstrap、jQuery、FontAwesome……
+技术栈：SpringBoot、Thymeleaf、MySQL、MyBatis-Plus、Lombok、Gson、ehcache、validation、Bootstrap、jQuery、FontAwesome、Jsoup……
 
 示例博客：[周华个人博客](https://www.iszhouhua.com)
 
@@ -61,3 +61,33 @@ clean package war:war -Dmaven.test.skip=true
 后台访问地址：`http://127.0.0.1:8080/admin`
 
 后台采用前后端分离的方式实现，如需二次开发，需在此下载前端源码：<https://github.com/iszhouhua/blog-vue>
+
+------
+
+## 界面展示
+
+![1557279251039](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508093436.png)
+
+![20190508095012](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508095012.png)
+
+![20190508095714](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508095714.png)
+
+![20190508101138](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101138.png)
+
+![20190508101254](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101254.png)
+
+![20190508101400](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101400.png)
+
+![20190508101440](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101440.png)
+
+![20190508101544](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101544.png)
+
+![20190508101622](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101622.png)
+
+## 2019.5.1 
+
+添加规则管理，转载文章时可直接根据规则自动装配内容。
+
+## 2019.5.8
+
+添加云存储支持，包括七牛云、阿里云、腾讯云。

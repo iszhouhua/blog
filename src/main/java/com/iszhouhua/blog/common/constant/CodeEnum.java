@@ -15,7 +15,7 @@ public enum CodeEnum {
      */
     FAIL(0),
     /**
-     * 未知错误
+     * 未知错误/其他异常
      */
     UNKNOWN_ERROR(-1),
     /**
@@ -39,9 +39,14 @@ public enum CodeEnum {
     NOT_FOUND(40004),
 
     /**
-     *  文章抓取失败
+     * 文章抓取失败
      */
-    SPIDER_ERROR(40005);
+    SPIDER_ERROR(40005),
+
+    /**
+     * 文件上传异常
+     */
+    UPLOAD_ERROR(40006);
 
     private int value;
 

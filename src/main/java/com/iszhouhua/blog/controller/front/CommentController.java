@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.controller.front;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.iszhouhua.blog.model.enums.ConfigNameEnum;
+import com.iszhouhua.blog.common.constant.ConfigConst;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.model.Comment;
@@ -62,7 +62,7 @@ public class CommentController {
         String ip=IPUtils.getIpAddr(request);
         comment.setIp(ip);
         comment.setAdmin(false);
-        if(Boolean.parseBoolean(configService.findByName(ConfigNameEnum.COMMENT_CHECK.name()))){
+        if(Boolean.parseBoolean(configService.findByName(ConfigConst.COMMENT_CHECK))){
             comment.setStatus(CommentStatusEnum.CHECKING.getValue());
         }else{
             comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());

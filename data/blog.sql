@@ -118,7 +118,7 @@ CREATE TABLE `blog_config` (
   `description` varchar(500) DEFAULT NULL COMMENT '描述',
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_name` (`name`) USING BTREE COMMENT '参数名唯一'
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='博客配置表';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COMMENT='博客配置表';
 
 -- ----------------------------
 -- Records of blog_config
@@ -135,11 +135,10 @@ INSERT INTO `blog_config` VALUES ('9', 'AUTHOR_DESCRIPTION', '一二三四五，
 INSERT INTO `blog_config` VALUES ('10', 'FILING_ICP', null, '1', 'ICP备案');
 INSERT INTO `blog_config` VALUES ('11', 'FILING_SECURITY', null, '1', '公安备案');
 INSERT INTO `blog_config` VALUES ('12', 'COMMENT_CHECK', 'false', '2', '评论是否需要校检');
-INSERT INTO `blog_config` VALUES ('13', 'IMAGE_HOME', '/data/images/', '2', '图片保存路径');
-INSERT INTO `blog_config` VALUES ('14', 'IMAGE_URL', 'http://127.0.0.1:8080/image/', '2', '图片访问路径');
-INSERT INTO `blog_config` VALUES ('15', 'BACKGROUND_LIST', '["/images/slide/background1.jpg","/images/slide/background2.jpg","/images/slide/background3.jpg","/images/slide/background4.jpg","/images/slide/background5.jpg","/images/slide/background6.jpg"]', '1', '网站的背景图片集合，格式为JSON数组');
-INSERT INTO `blog_config` VALUES ('16', 'BLOG_HEAD', null, '1', '博客头部插入的代码，如站点验证代码等');
-INSERT INTO `blog_config` VALUES ('17', 'BLOG_SCRIPT', '<script><!-- 百度推送代码 -->(function(){var bp = document.createElement(''script'');var curProtocol = window.location.protocol.split('':'')[0];if (curProtocol === ''https'') {bp.src = ''https://zz.bdstatic.com/linksubmit/push.js'';}else {bp.src = ''http://push.zhanzhang.baidu.com/push.js'';}var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp, s);})();</script>', '1', '博客尾部插入的脚本，如统计代码、推送代码等');
+INSERT INTO `blog_config` VALUES ('13', 'BACKGROUND_LIST', '[\"/images/slide/background1.jpg\",\"/images/slide/background2.jpg\",\"/images/slide/background3.jpg\",\"/images/slide/background4.jpg\",\"/images/slide/background5.jpg\",\"/images/slide/background6.jpg\"]', '1', '网站的背景图片集合，格式为JSON数组');
+INSERT INTO `blog_config` VALUES ('14', 'BLOG_HEAD', '<meta name=\"google-site-verification\" content=\"_-xMXp-rAz3pUIziyjcIoJ8D9VOV6yb7XrB5qaeq_Fg\" />\n<meta name=\"baidu-site-verification\" content=\"HsvFoNGZDC\" />\n<meta name=\"360-site-verification\" content=\"42179cf63604add68d1e11b26f44c322\" />\n<meta name=\"sogou_site_verification\" content=\"XvRe3wQaqS\"/>\n', '1', '博客头部插入的代码，如站点验证代码等');
+INSERT INTO `blog_config` VALUES ('15', 'BLOG_SCRIPT','<script>/*百度统计*/     var _hmt = _hmt || [];    (function() {        var hm = document.createElement(\"script\");        hm.src = \"https://hm.baidu.com/hm.js?77737a53e73e57c6c44b4640d1c108a1\";        var s = document.getElementsByTagName(\"script\")[0];        s.parentNode.insertBefore(hm, s);    })();</script>\n<script>/*百度自动推送*/  (function(){     var bp = document.createElement(\'script\');     var curProtocol = window.location.protocol.split(\':\')[0];     if (curProtocol === \'https\') {         bp.src = \'https://zz.bdstatic.com/linksubmit/push.js\';     }     else {         bp.src = \'http://push.zhanzhang.baidu.com/push.js\';     }     var s = document.getElementsByTagName(\"script\")[0];     s.parentNode.insertBefore(bp, s); })(); </script>\n<script>/*360自动收录*/ (function(){ var src = (document.location.protocol == \"http:\") ? \"http://js.passport.qihucdn.com/11.0.1.js?6396cb521d4daf069727dc8d995a3878\":\"https://jspassport.ssl.qhimg.com/11.0.1.js?6396cb521d4daf069727dc8d995a3878\"; document.write(\'<script src=\"\' + src + \'\" id=\"sozz\"><\\/script>\'); })(); </script>\n' , '1', '博客尾部插入的脚本，如统计代码、推送代码等');
+INSERT INTO `blog_config` VALUES ('16', 'FILE_STORAGE', '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"\",\"qiniuBucketName\":\"\",\"qiniuDomain\":\"\",\"qiniuPrefix\":\"\",\"qiniuSecretKey\":\"\",\"localDirectory\":\"/data/images/\",\"localDomain\":\"http://127.0.0.1:8080/\",\"type\":4,\"localPrefix\":\"upload\"}', '2', '云/本地存储配置信息');
 -- ----------------------------
 -- Table structure for blog_link
 -- ----------------------------

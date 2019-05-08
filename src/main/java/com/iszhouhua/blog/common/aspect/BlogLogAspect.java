@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.common.aspect;
 
 import com.google.gson.Gson;
+import com.iszhouhua.blog.common.util.GsonUtils;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.model.Log;
 import com.iszhouhua.blog.service.LogService;
@@ -54,6 +55,6 @@ public class BlogLogAspect {
         }else{
             logService.saveLog(blogLog);
         }
-        log.info("访客记录：{}",new Gson().toJson(blogLog));
+        log.info("访客记录：{}",GsonUtils.toJson(blogLog));
 	}
 }

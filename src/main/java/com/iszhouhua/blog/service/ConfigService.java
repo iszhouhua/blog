@@ -27,4 +27,11 @@ public interface ConfigService extends IService<Config> {
      * @return
      */
     String findByName(String name);
+
+    /**
+     * 根据参数名，获取参数值的Object对象
+     * @param name    参数名
+     * @param clazz  Object对象
+     */
+    <T> T getConfigObject(String name, Class<T> clazz);
 }
