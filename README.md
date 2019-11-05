@@ -58,9 +58,7 @@ clean package war:war -Dmaven.test.skip=true
 后台管理
 --------
 
-后台访问地址：`http://127.0.0.1:8080/admin`
-
-后台采用前后端分离的方式实现，如需二次开发，需在此下载前端源码：<https://github.com/iszhouhua/blog-vue>
+后台采用前后端分离的方式实现，源码位于vue文件夹下<https://github.com/iszhouhua/blog/tree/master/vue>
 
 ------
 
@@ -91,3 +89,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2019.5.8
 
 添加云存储支持，包括七牛云、阿里云、腾讯云。
+
+## 2019.11.5
+
+加入记住密码

@@ -22,4 +22,8 @@ public class ConfigConst {
      * 评论是否需要校检之后才显示
      */
     public final static String COMMENT_CHECK = "COMMENT_CHECK";
+    /**
+     * 网站域名
+     */
+    public final static String DOMIN = "BLOG_URL";
 }
