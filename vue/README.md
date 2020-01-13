@@ -24,6 +24,10 @@ npm run dev
 
 浏览器访问 <http://127.0.0.1:8888>
 
+账号：admin
+
+密码：123456
+
 ## 发布
 
 ```bash
@@ -45,16 +49,16 @@ location /admin {
 
 ## 界面展示
 
-![20190508101138](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101138.png)
+![20190508101138](http://img.iszhouhua.com/printscreen/20190508101138.png)
 
-![20190508101254](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101254.png)
+![20190508101254](http://img.iszhouhua.com/printscreen/20190508101254.png)
 
-![20190508101400](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101400.png)
+![20190508101400](http://img.iszhouhua.com/printscreen/20190508101400.png)
 
-![20190508101440](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101440.png)
+![20190508101440](http://img.iszhouhua.com/printscreen/20190508101440.png)
 
-![20190508101544](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101544.png)
+![20190508101544](http://img.iszhouhua.com/printscreen/20190508101544.png)
 
-![20190508101622](https://raw.githubusercontent.com/iszhouhua/blog/master/data/screenshots/20190508101622.png)
+![20190508101622](http://img.iszhouhua.com/printscreen/20190508101622.png)
 
 ------
