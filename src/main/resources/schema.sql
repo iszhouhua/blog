@@ -149,7 +149,8 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
                             `password` char(32) NOT NULL,
                             `salt` char(16) NOT NULL COMMENT '密码盐',
                             `email` varchar(200) DEFAULT NULL COMMENT '邮箱',
-                            `last_login_time` datetime DEFAULT NULL COMMENT '最后登录时间',
+                            `email_md5` char(32) DEFAULT NULL COMMENT '邮箱的MD5值，用于显示头像',
+                            `last_login` datetime DEFAULT NULL COMMENT '最后登录时间',
                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                             `login_fail` tinyint(4) NOT NULL DEFAULT '0' COMMENT '登录失败次数，超过一定次数禁止登录',
                             `is_disable` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否禁用 0：否 1：是',
@@ -167,10 +168,10 @@ begin
     if row_num = 0 then
         -- 不存在用户数据，说明是刚刚创建的数据库表，添加初始化数据。
         -- 如果有人把用户数据删除了，那么就会重新插入一遍这些数据。
-        REPLACE INTO `blog_article`(`id`, `url`, `title`, `description`, `image`, `content`, `content_md`, `category_id`, `create_time`, `update_time`, `is_top`, `is_comment`, `is_original`, `source_url`, `visits`, `status`) VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null, '<h1><a id=\"Hello_World_0\"></a>Hello World</h1>\n<p>你好，世界。<br />\n欢迎使用本博客系统。<br />\n写博客需要坚持，一起努力加油吧！</p>\n', '# Hello World\n你好，世界。\n欢迎使用本博客系统。\n写博客需要坚持，一起努力加油吧！', '1', '2019-01-01 00:00:00', '2018-12-30 15:37:31', '0', '1', '1', null, '0', '1'),
-                                          ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, '2018-12-25 11:03:43', '2018-12-25 11:03:43', '0', '1', '1', null, '0', '3');
+        REPLACE INTO `blog_article`(`id`, `url`, `title`, `description`, `image`, `content`, `content_md`, `category_id`, `create_time`, `update_time`, `is_top`, `is_comment`, `is_original`, `source_url`, `visits`, `status`) VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null, '<h1><a id=\"Hello_World_0\"></a>Hello World</h1>\n<p>你好，世界。<br />\n欢迎使用本博客系统。<br />\n写博客需要坚持，一起努力加油吧！</p>\n', '# Hello World\n你好，世界。\n欢迎使用本博客系统。\n写博客需要坚持，一起努力加油吧！', '1',NOW(), NOW(), '0', '1', '1', null, '0', '1'),
+                                          ('2', 'about', '关于我', '关于我', null, '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', '<p style=\"text-align: center;\">\r\n	<span style=\"font-size: 14pt;\">欢迎来到<strong>我的个人博客</strong></span>\r\n</p>\r\n<div class=\"alert alert-danger\">我是一个好人。<br>我真的是一个好人哦！\r\n</div>\r\n<div class=\"alert alert-success\">这是个自定义文章示例界面<br>内容完全自定义<br>嘿嘿嘿~</div>\r\n<div class=\"alert alert-danger\">博客项目在<a href=\"https://github.com/iszhouhua/blog\">这里https://github.com/iszhouhua/blog</a><br>参考的博客主题在<a href=\"https://github.com/ZEROKISEKI/hexo-theme-gal\">这里https://github.com/ZEROKISEKI/hexo-theme-gal</a><br>参考网站在<a href=\"https://www.mmgal.com/\">这里https://www.mmgal.com/</a></div>', null, NOW(),NOW(), '0', '1', '1', null, '0', '3');
 
-        REPLACE INTO `blog_comment`(`id`, `article_id`, `author`, `email`, `email_md5`, `user_agent`, `content`, `ip`, `parent_id`, `is_admin`, `create_time`, `status`) VALUES ('1', '1', 'zhouhua', 'iszhouhua@163.com', '2bf0ebee5f19445f2af02908d5c3ab0e', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36', '欢迎！', '127.0.0.1', '0', '0', '2018-01-01 15:46:59', '1');
+        REPLACE INTO `blog_comment`(`id`, `article_id`, `author`, `email`, `email_md5`, `user_agent`, `content`, `ip`, `parent_id`, `is_admin`, `create_time`, `status`) VALUES ('1', '1', 'zhouhua', 'iszhouhua@163.com', '2bf0ebee5f19445f2af02908d5c3ab0e', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.67 Safari/537.36', '欢迎！', '127.0.0.1', '0', '0', NOW(), '1');
 
         REPLACE INTO `blog_category` (`id`, `name`, `url`) VALUES ('1', '未分类', 'default');
 
@@ -187,7 +188,7 @@ begin
                                                                                ('3', '简书', 'h1.title', 'div.show-content'),
                                                                                ('4', '思否', '#articleTitle a', 'div.article');
 
-        REPLACE INTO `sys_user`(`id`, `username`, `nickname`, `password`, `salt`, `email`, `email_md5`, `last_login`, `create_time`, `login_fail`, `is_disable`) VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', '64e1b8d34f425d19e1ee2ea7236d3028', null, NOW(), '0', '0');
+        REPLACE INTO `sys_user`(`id`, `username`, `nickname`, `password`, `salt`, `email`, `email_md5`, `last_login`, `create_time`, `login_fail`, `is_disable`) VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', 'e10adc3949ba59abbe56e057f20f883e', null, NOW(), '0', '0');
     end if;
 end;$$
 
