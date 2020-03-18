@@ -3,6 +3,7 @@ package com.iszhouhua.blog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.iszhouhua.blog.model.Log;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -13,26 +14,6 @@ import java.util.Map;
  * @since 2018-12-01
  */
 public interface LogService extends IService<Log> {
-    /**
-     * 根据IP增加访问次数
-     * @param ip 访客IP
-     * @return
-     */
-    boolean modifyForVisitsByIp(String ip);
-
-    /**
-     * 根据IP查询日志是否已存在
-     * @param ip 访客IP
-     * @return
-     */
-    boolean isExistLogByIp(String ip);
-
-    /**
-     * 保存日志
-     * @param log 日志
-     * @return
-     */
-    boolean saveLog(Log log);
 
     /**
      * 获取最新的n条日志
@@ -58,4 +39,10 @@ public interface LogService extends IService<Log> {
      * @return
      */
     List<Map<String,Integer>> statCity();
+
+    /**
+     * 添加日志
+     * @param log 日志
+     */
+    void addLog(Log log);
 }

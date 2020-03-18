@@ -54,7 +54,7 @@ public class User {
     /**
      * 最后登录时间
      */
-    private Date lastLogin;
+    private Date lastLoginTime;
 
     /**
      * 创建时间

@@ -99,3 +99,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2020.3.5
 
 修改数据库脚本，改为运行时自动运行脚本，方便后续修改数据库结构
+
+## 2020.3.18
+
+修改日志记录，修复无法评论的bug

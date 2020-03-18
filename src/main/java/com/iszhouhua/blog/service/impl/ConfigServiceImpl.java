@@ -2,9 +2,8 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.gson.Gson;
 import com.iszhouhua.blog.common.exception.BlogException;
-import com.iszhouhua.blog.common.util.GsonUtils;
+import com.iszhouhua.blog.common.util.JsonUtils;
 import com.iszhouhua.blog.mapper.ConfigMapper;
 import com.iszhouhua.blog.model.Config;
 import com.iszhouhua.blog.model.enums.ConfigTypeEnum;
@@ -53,7 +52,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     public <T> T getConfigObject(String name, Class<T> clazz) {
         String value = findByName(name);
         if(StringUtils.isNotBlank(value)){
-            return GsonUtils.fromJson(value, clazz);
+            return JsonUtils.fromJson(value, clazz);
         }
         try {
             return clazz.newInstance();

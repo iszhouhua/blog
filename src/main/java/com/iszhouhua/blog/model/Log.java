@@ -28,32 +28,62 @@ public class Log implements Serializable {
     private String city;
 
     /**
-     * 首次访问的链接
+     * 访问链接
      */
     private String url;
 
     /**
-     * 首次访问的来源
+     * 来源
      */
     private String referer;
 
     /**
-     * 首次访问的浏览器类型
+     * 浏览器类型
      */
     private String userAgent;
-
-    /**
-     * 总访问次数
-     */
-    private Integer visits;
-
-    /**
-     * 最后访问时间
-     */
-    private Date updateTime;
 
     /**
      * 创建时间
      */
     private Date createTime;
+
+    /**
+     * 接口响应时长（单位：毫秒）
+     */
+    private Integer duration;
+
+    /**
+     * 访问类型
+     */
+    private String type;
+
+    /**
+     * 访问参数
+     */
+    private String params;
+
+    /**
+     * 返回结果
+     */
+    private String result;
+
+    /**
+     * 执行的方法
+     */
+    private String method;
+
+    /**
+     * 请求是否正常 1：正常 0：异常
+     */
+    private Boolean isNormal;
+
+    /**
+     * 浏览器
+     */
+    private String browser;
+
+    /**
+     * 操作系统
+     */
+    private String operatingSystem;
 }

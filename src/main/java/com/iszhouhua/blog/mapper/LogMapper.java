@@ -18,18 +18,10 @@ import java.util.Map;
  */
 public interface LogMapper extends BaseMapper<Log> {
     /**
-     * 指定IP的访问次数+1
-     * @param ip
-     * @return
-     */
-    @Update("update blog_log set visits=visits+1,update_time=now() where ip=#{ip}")
-    int updateForVisitsByIp(String ip);
-
-    /**
      * 查询最新的日志
      * @return
      */
-    @Select("select * from blog_log order by update_time desc limit #{number}")
+    @Select("select * from blog_log order by create_time desc limit #{number}")
     List<Log> selectLatestLog(int number);
 
     /**
@@ -45,4 +37,18 @@ public interface LogMapper extends BaseMapper<Log> {
      */
     @Select("SELECT city,COUNT(city) count FROM blog_log GROUP BY city ORDER BY count DESC LIMIT 10")
     List<Map<String,Integer>> selectCityCount();
+
+    /**
+     * 查询所有浏览器
+     * @return
+     */
+    @Select("select browser from blog_log")
+    List<String> selectAllBrowser();
+
+    /**
+     * 查询所有操作系统
+     * @return
+     */
+    @Select("select operating_system from blog_log")
+    List<String> selectAllOperatingSystem();
 }

@@ -46,7 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             //重置登录失败次数
             user.setLoginFail(0);
             //更新最后登录时间
-            user.setLastLogin(new Date());
+            user.setLastLoginTime(new Date());
             updateById(user);
         }else{
             //密码每错误一次，失败次数+1

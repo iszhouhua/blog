@@ -4,7 +4,7 @@ package com.iszhouhua.blog.common.storage;
 import com.google.gson.JsonObject;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.exception.BlogException;
-import com.iszhouhua.blog.common.util.GsonUtils;
+import com.iszhouhua.blog.common.util.JsonUtils;
 import com.qcloud.cos.COSClient;
 import com.qcloud.cos.ClientConfig;
 import com.qcloud.cos.request.UploadFileRequest;
@@ -47,7 +47,7 @@ public class QcloudCloudStorage extends BaseStorage {
         //上传到腾讯云
         UploadFileRequest request = new UploadFileRequest(config.getQcloudBucketName(), path, data);
         String response = client.uploadFile(request);
-        JsonObject jsonObject = GsonUtils.parseObject(response);
+        JsonObject jsonObject = JsonUtils.parseObject(response);
         if(jsonObject.get("code").getAsInt() != 0) {
             throw new BlogException(CodeEnum.UPLOAD_ERROR.getValue(),"文件上传失败，" + jsonObject.get("message"));
         }

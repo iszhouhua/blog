@@ -11,7 +11,9 @@ import com.iszhouhua.blog.service.ConfigService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +24,8 @@ import java.util.List;
  * @author ZhouHua
  * @date 2018/12/25
  */
-@RestController("comment")
+@RestController
+@RequestMapping("comment")
 public class CommentController {
     @Autowired
     private CommentService commentService;
@@ -40,6 +43,11 @@ public class CommentController {
     @PostMapping("more")
     public List<Comment> commentPage(int current, int size, long articleId){
         return commentService.findPageByArticleId(new Page<>(current,size,false),articleId).getRecords();
+    }
+
+    @GetMapping("aaaa")
+    public String aaaa(){
+        return "index";
     }
 
     /**

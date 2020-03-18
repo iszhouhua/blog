@@ -93,15 +93,15 @@ CREATE TABLE IF NOT EXISTS `blog_log` (
                             `id` bigint(20) NOT NULL AUTO_INCREMENT,
                             `ip` varchar(128) NOT NULL COMMENT 'IP地址',
                             `city` varchar(20) DEFAULT NULL COMMENT '所在城市',
-                            `url` varchar(200) DEFAULT NULL COMMENT '首次访问的链接',
-                            `referer` varchar(500) DEFAULT NULL COMMENT '首次访问的来源',
-                            `user_agent` varchar(500) DEFAULT NULL COMMENT '首次访问的浏览器类型',
-                            `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '最后访问时间',
+                            `url` varchar(200) NOT NULL COMMENT '访问链接',
+                            `referer` varchar(500) DEFAULT NULL COMMENT '来源',
+                            `user_agent` varchar(500) DEFAULT NULL COMMENT '浏览器类型',
+                            `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后访问时间',
                             `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                             `visits` int(11) DEFAULT '1' COMMENT '总访问次数',
                             PRIMARY KEY (`id`),
                             UNIQUE KEY `uk_ip` (`ip`) USING BTREE COMMENT 'IP唯一'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='访客日志表';$$
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日志表';$$
 
 -- ----------------------------
 -- Table structure for blog_menu
@@ -158,10 +158,10 @@ CREATE TABLE IF NOT EXISTS `sys_user` (
                             UNIQUE KEY `uk_username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;$$
 
--- 当存储过程`p`存在时，删除。
-drop procedure if exists p;$$
--- 创建存储过程`p`
-create procedure p()
+-- 当存储过程`proc_temp`存在时，删除。
+drop procedure if exists proc_temp;$$
+-- 创建存储过程`proc`
+create procedure proc_temp()
 begin
     declare row_num int;
     select count(*) into row_num from `sys_user`;
@@ -188,10 +188,10 @@ begin
                                                                                ('3', '简书', 'h1.title', 'div.show-content'),
                                                                                ('4', '思否', '#articleTitle a', 'div.article');
 
-        REPLACE INTO `sys_user`(`id`, `username`, `nickname`, `password`, `salt`, `email`, `email_md5`, `last_login`, `create_time`, `login_fail`, `is_disable`) VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', 'e10adc3949ba59abbe56e057f20f883e', null, NOW(), '0', '0');
+        REPLACE INTO `sys_user`(`id`, `username`, `nickname`, `password`, `salt`, `email`, `email_md5`, `last_login`, `create_time`, `login_fail`, `is_disable`) VALUES ('1', 'admin', '管理员', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'admin@admin.com', '2bf0ebee5f19445f2af02908d5c3ab0e', null, NOW(), '0', '0');
     end if;
 end;$$
 
--- 调用存储过程`p`
-call p();$$
-drop procedure if exists p;$$
+-- 调用存储过程`proc_temp`
+call proc_temp();$$
+drop procedure if exists proc_temp;$$

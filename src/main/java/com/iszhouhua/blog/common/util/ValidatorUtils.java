@@ -11,7 +11,6 @@ import com.iszhouhua.blog.common.storage.group.QiniuGroup;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Set;
 
@@ -61,7 +60,7 @@ public class ValidatorUtils {
      * @throws BlogException  校验不通过，则报BlogException异常
      */
     public static void validateStorageConfig(String value) throws BlogException {
-        StorageConfig storageConfig=GsonUtils.fromJson(value,StorageConfig.class);
+        StorageConfig storageConfig= JsonUtils.fromJson(value,StorageConfig.class);
         if(storageConfig.getType() == StorageType.QINIU.getValue()){
             //校验七牛数据
             validate(storageConfig, QiniuGroup.class);
