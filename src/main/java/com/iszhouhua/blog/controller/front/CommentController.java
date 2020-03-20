@@ -45,11 +45,6 @@ public class CommentController {
         return commentService.findPageByArticleId(new Page<>(current,size,false),articleId).getRecords();
     }
 
-    @GetMapping("aaaa")
-    public String aaaa(){
-        return "index";
-    }
-
     /**
      * 评论文章
      * @param comment

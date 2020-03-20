@@ -14,6 +14,7 @@
     <result column="is_comment" property="isComment" />
     <result column="visits" property="visits" />
     <result column="status" property="status" />
+    <result column="type" property="type" />
     <result column="is_top" property="isTop" />
     <result column="is_original" property="isOriginal" />
     <result column="source_url" property="sourceUrl" />
@@ -27,15 +28,15 @@
   </resultMap>
 
   <select id="selectArticleByUrl" resultMap="BaseResultMap">
-    SELECT a.id,a.visits,a.title,a.is_original,a.source_url,a.description,a.is_comment,a.content,a.create_time,a.update_time,a.url,a.status,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.url=#{url} AND a.status IN (1,3)
+    SELECT a.id,a.visits,a.title,a.is_original,a.source_url,a.description,a.is_comment,a.content,a.create_time,a.update_time,a.url,a.status,a.type,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.url=#{url} AND a.status = 1
   </select>
 
   <select id="selectTopArticles" resultMap="BaseResultMap">
-    SELECT a.id,a.title,a.description,a.is_top,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.is_top=TRUE AND a.status=1
+    SELECT a.id,a.title,a.description,a.is_top,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.is_top=TRUE AND a.status=1 and a.type = 0
   </select>
 
   <select id="selectArticleList" resultMap="BaseResultMap">
-    SELECT a.id,a.title,a.description,a.is_top,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=1
+    SELECT a.id,a.title,a.description,a.is_top,a.image,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=1 and a.type = 0
       <if test="keyword == null">
         AND a.is_top=FALSE
       </if>
@@ -45,10 +46,10 @@
   </select>
 
   <select id="selectListByTag" resultMap="BaseResultMap">
-    SELECT a.id,a.title,a.description,a.image,a.is_top,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id LEFT JOIN blog_article_tag c ON a.id=c.article_id WHERE a.status=1 AND c.tag_id=#{tagId}
+    SELECT a.id,a.title,a.description,a.image,a.is_top,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id LEFT JOIN blog_article_tag c ON a.id=c.article_id WHERE a.status=1 and a.type=0 AND c.tag_id=#{tagId}
   </select>
 
   <select id="selectListByCategory" resultMap="BaseResultMap">
-    SELECT a.id,a.title,a.description,a.image,a.is_top,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=1 AND a.category_id=#{categoryId}
+    SELECT a.id,a.title,a.description,a.image,a.is_top,a.create_time,a.url,b.name AS category_name,b.url AS category_url FROM blog_article a LEFT JOIN blog_category b ON a.category_id=b.id WHERE a.status=1 and a.type=0 AND a.category_id=#{categoryId}
   </select>
 </mapper>

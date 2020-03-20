@@ -20,12 +20,7 @@ public enum ArticleStatusEnum{
     /**
      * 回收站
      */
-    RECYCLE(2, "回收站"),
-
-    /**
-     * 自定义文章
-     */
-    CUSTOM(3,"自定义文章");
+    RECYCLE(2, "回收站");
 
     private int value;
     private String desc;

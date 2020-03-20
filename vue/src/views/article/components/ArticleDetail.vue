@@ -6,7 +6,7 @@
         <!-- <OriginalDropdown v-model="postForm.isOriginal" :source-url.sync="postForm.sourceUrl"/> -->
         <CommentDropdown v-model="postForm.isComment" style="margin-left: 10px;"/>
         <TopDropdown v-model="postForm.isTop" style="margin-left: 10px;" />
-        <el-button v-loading="loading" style="margin-left: 10px;" type="info" @click="submitForm(3)">自定义</el-button>
+        <!-- <el-button v-loading="loading" style="margin-left: 10px;" type="info" @click="submitForm(3)">自定义</el-button> -->
         <el-button v-loading="loading" style="margin-left: 10px;" type="warning" @click="submitForm(0)">草稿</el-button>
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm(1)">发布</el-button>
       </sticky>
@@ -40,7 +40,7 @@
             </el-col>
           </el-row>
           <el-row :gutter="20">
-            <el-col :span="7">
+            <el-col :span="5">
               <el-form-item label-width="80px" label="文章分类:" class="postInfo-container-item">
                 <el-select v-model="postForm.categoryId" filterable placeholder="选择分类" class="postInfo-container-input">
                   <el-option v-for="item in categoryOptions" :key="item.id" :label="item.name" :value="item.id"/>
@@ -48,7 +48,16 @@
               </el-form-item>
             </el-col>
 
-            <el-col :span="6" :offset="1">
+            <el-col :span="4">
+              <el-form-item label-width="80px" label="文章类型:" class="postInfo-container-item">
+                <el-radio-group v-model="postForm.type">
+                  <el-radio :label="0">普通</el-radio>
+                  <el-radio :label="1">自定义</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+
+            <el-col :span="5">
               <el-form-item label-width="80px" label="发布时间:" class="postInfo-container-item">
                 <el-date-picker v-model="postForm.createTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="选择发布时间"/>
               </el-form-item>
@@ -130,6 +139,7 @@ const defaultForm = {
   categoryId: 1, // 文章分类
   image: undefined, // 文章预览图
   url: undefined, // 文章访问链接
+  type: 0,
   tags: [],
   id: undefined,
   isOriginal: true,

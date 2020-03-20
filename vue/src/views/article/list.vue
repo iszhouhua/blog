@@ -9,6 +9,10 @@
         <el-option key="0" label="草稿" value="0"/>
         <el-option key="1" label="已发布" value="1"/>
       </el-select>
+      <el-select v-model="listQuery.type" placeholder="文章类型" clearable class="filter-item" style="width: 130px">
+        <el-option key="0" label="普通文章" value="0"/>
+        <el-option key="1" label="自定义" value="1"/>
+      </el-select>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">搜索</el-button>
       <el-button style="float: right;margin-right: 10px;" type="danger" icon="el-icon-delete" @click="deleteArticle(multipleSelection)">删除已选</el-button>
     </div>
@@ -27,7 +31,7 @@
       <el-table-column header-align="center" label="标题" min-width="100">
         <template slot-scope="scope">
           <a :href="$store.getters.global.BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ scope.row.title }}</a>
-          <el-tag v-if="articleStatus===0">{{ categoryFilter(scope.row.categoryId) }}</el-tag>
+          <el-tag v-if="scope.row.type===0">{{ categoryFilter(scope.row.categoryId) }}</el-tag>
         </template>
       </el-table-column>
 
@@ -63,6 +67,12 @@
       <el-table-column v-if="articleStatus===0" align="center" label="状态" width="80">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status===1? 'success' : 'info'">{{ scope.row.status===1?'已发布':'草稿' }}</el-tag>
+        </template>
+      </el-table-column>
+
+      <el-table-column align="center" label="文章类型" width="100">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.type===0? 'Info' : 'danger'">{{ scope.row.type===0?'普通文章':'自定义' }}</el-tag>
         </template>
       </el-table-column>
 

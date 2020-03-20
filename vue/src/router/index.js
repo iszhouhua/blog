@@ -65,12 +65,12 @@ export const constantRouterMap = [
         name: 'articleList',
         meta: { title: '文章列表', icon: 'list' }
       },
-      {
-        path: 'custom',
-        component: () => import('@/views/article/custom'),
-        name: 'customList',
-        meta: { title: '自定义文章列表', icon: 'custom' }
-      },
+      // {
+      //   path: 'custom',
+      //   component: () => import('@/views/article/custom'),
+      //   name: 'customList',
+      //   meta: { title: '自定义文章列表', icon: 'custom' }
+      // },
       {
         path: 'recycle',
         component: () => import('@/views/article/recycle'),

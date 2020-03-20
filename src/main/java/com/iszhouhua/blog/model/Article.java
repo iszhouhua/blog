@@ -94,9 +94,14 @@ public class Article implements Serializable {
     private Integer visits;
 
     /**
-     * 状态 0：草稿 1：已发布 2：回收站 3：自定义文章
+     * 状态 0：草稿 1：已发布 2：回收站
      */
     private Integer status;
+
+    /**
+     * 文章类型 0：普通文章 1：自定义文章
+     */
+    private Integer type;
 
     /**
      * 文章标签

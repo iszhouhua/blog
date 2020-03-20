@@ -60,7 +60,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param count 需要查询的数量
      * @return
      */
-    @Select("select id,url,title,visits from blog_article where status=1 order by visits desc limit #{count}")
+    @Select("select id,url,title,visits from blog_article where status=1 and type=0 order by visits desc limit #{count}")
     List<Article> selectHotArticles(Integer count);
 
     /**
@@ -68,7 +68,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param count 需要查询的数量
      * @return
      */
-    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=1 ORDER BY t1.id ASC LIMIT #{count}")
+    @Select("SELECT t1.id,t1.url,t1.title,t1.visits FROM blog_article AS t1 JOIN (SELECT ROUND(RAND() * (SELECT MAX(id) FROM blog_article)) AS id) AS t2 WHERE t1.id >= t2.id and t1.status=1 and t1.type=0 ORDER BY t1.id ASC LIMIT #{count}")
     List<Article> selectRandomArticles(Integer count);
 
     /**
@@ -76,7 +76,7 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id 文章ID
      * @return
      */
-    @Select("select id,url,title from blog_article where status=1 and id<#{id} limit 1")
+    @Select("select id,url,title from blog_article where `status`=1 and `type`=0 and id<#{id} limit 1")
     Article selectPreviousById(Long id);
 
     /**
@@ -84,13 +84,13 @@ public interface ArticleMapper extends BaseMapper<Article> {
      * @param id 文章ID
      * @return
      */
-    @Select("select id,url,title from blog_article where status=1 and id>#{id} limit 1")
+    @Select("select id,url,title from blog_article where `status`=1 and `type`=0 and id>#{id} limit 1")
     Article selectNextById(Long id);
 
     /**
      * 查询最新的文章
      * @return
      */
-    @Select("select * from blog_article where status=1 order by id desc limit #{number}")
+    @Select("select * from blog_article where `status`=1 and `type`=0 order by id desc limit #{number}")
     List<Article> selectLatestArticle(int number);
 }

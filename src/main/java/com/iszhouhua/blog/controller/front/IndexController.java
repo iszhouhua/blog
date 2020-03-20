@@ -8,6 +8,7 @@ import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.enums.ArticleStatusEnum;
+import com.iszhouhua.blog.model.enums.ArticleTypeEnum;
 import com.iszhouhua.blog.model.enums.LinkTypeEnum;
 import com.iszhouhua.blog.service.LinkService;
 import com.iszhouhua.blog.service.TagService;
@@ -90,7 +91,7 @@ public class IndexController extends BaseController {
         Article nextArticle=articleService.findNextById(info.getId());
         model.addAttribute("nextArticle",nextArticle);
         //自定义文章
-        if(info.getStatus()==ArticleStatusEnum.CUSTOM.getValue()){
+        if(ArticleTypeEnum.CUSTOM.getValue().equals(info.getType())){
             return "custom";
         }
         return "article";
