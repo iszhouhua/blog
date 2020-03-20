@@ -4,11 +4,12 @@
 
 ## 开发
 
-使用此项目前，请先下载后端代码：<https://github.com/iszhouhua/blog>，并运行。
-
 ```bash
 # 克隆项目
-git clone https://github.com/iszhouhua/blog-vue.git
+git clone https://github.com/iszhouhua/blog.git
+
+# 进入项目目录
+cd blog/vue
 
 # 安装依赖
 npm install

@@ -25,7 +25,13 @@ begin
             ADD COLUMN `browser` varchar(50) NULL DEFAULT NULL COMMENT '浏览器',
             ADD COLUMN `operating_system` varchar(100) NULL DEFAULT NULL COMMENT '操作系统';
     end if;
-
+    SELECT count(*) into row_num FROM  information_schema.COLUMNS WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='blog_article' AND COLUMN_NAME='type';
+    if row_num = 0 then
+        -- 修改文章表
+        ALTER TABLE `blog_article`
+            ADD COLUMN `type`  tinyint NOT NULL DEFAULT 0 COMMENT '文章类型 0：普通文章 1：自定义文章';
+        UPDATE blog_article SET `type`=1,`status`=1 WHERE `status`=3;
+    end if;
 end;$$
 
 -- 调用存储过程`proc_temp`

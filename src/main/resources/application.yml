@@ -16,7 +16,6 @@ spring:
     schema: # schema.sql中一般存放的是DDL脚本，即通常为创建或更新库表的脚本
       - classpath:sql/schema.sql
       - classpath:sql/schema-2020-03-18.sql
-      - classpath:sql/schema-2020-03-20.sql
     data: classpath:sql/data.sql # data.sql中一般是DML脚本，即通常为数据插入脚本
     initialization-mode: always # spring某个版本之后需要加上这句，否则不会自动执行sql文件
     separator: $$
