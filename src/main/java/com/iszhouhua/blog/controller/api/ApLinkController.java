@@ -27,8 +27,9 @@ public class ApLinkController {
     @PostMapping
     public Result save(@RequestBody Link link){
         ValidatorUtils.validate(link);
-        linkService.saveOrUpdate(link);
-        return Result.success("保存成功",link);
+        boolean res = linkService.saveOrUpdate(link);
+        linkService.clearCache();
+        return res?Result.success("保存成功",link):Result.fail("保存失败");
     }
 
     @PutMapping
@@ -38,6 +39,8 @@ public class ApLinkController {
 
     @DeleteMapping
     public Result remove(Long id){
-        return linkService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
+        boolean res = linkService.removeById(id);
+        linkService.clearCache();
+        return res?Result.success("删除成功"):Result.fail("删除失败");
     }
 }

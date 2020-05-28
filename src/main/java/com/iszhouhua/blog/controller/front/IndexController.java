@@ -79,6 +79,7 @@ public class IndexController extends BaseController {
         if(null==info){
             throw new BlogException(CodeEnum.NOT_FOUND.getValue(),"文章不存在："+url);
         }
+        articleService.updateForVisitsById(info.getId());
         model.addAttribute("info",info);
         //查询当前文章的第一页评论
         if(info.isComment()){

@@ -8,12 +8,16 @@ import com.iszhouhua.blog.mapper.CommentMapper;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import com.iszhouhua.blog.service.CommentService;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,40 +32,50 @@ import java.util.List;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
     @Override
-    public IPage<Comment> findPageByArticleId(Page<Comment> page,Long articleId) {
-        IPage<Comment> commentPage=baseMapper.selectPage(page,new QueryWrapper<Comment>().eq("article_id",articleId).eq("status",CommentStatusEnum.PUBLISHED.getValue()).orderByDesc("id"));
-        //获得所有引用评论
-        commentPage.getRecords().forEach(comment -> {
-            //只要parentId大于0，就表示存在引用评论
-            List<Comment> replyList=new ArrayList<>();
-            long parentId=comment.getParentId();
-            while (parentId>0){
-                Comment reply=baseMapper.selectById(parentId);
-                if(reply!=null){
-                    replyList.add(reply);
-                    parentId=reply.getParentId();
-                }else{
-                    parentId=0;
-                }
+    public IPage<Comment> findPageByArticleId(Page<Comment> page, Long articleId) {
+        IPage<Comment> commentPage = baseMapper.selectPage(page, new QueryWrapper<Comment>()
+                .eq("article_id", articleId)
+                .eq("parent_id", 0)
+                .eq("status", CommentStatusEnum.PUBLISHED.getValue())
+                .orderByDesc("id"));
+        //获得文章的非一级评论
+        List<Comment> subComments = baseMapper.selectList(new QueryWrapper<Comment>()
+                .eq("article_id", articleId)
+                .gt("parent_id", 0)
+                .eq("status", CommentStatusEnum.PUBLISHED.getValue()));
+        if (CollectionUtils.isNotEmpty(subComments)) {
+            //子评论拼接
+            Map<Long, List<Comment>> subCommentsMap = new HashMap<>();
+            for (Comment subComment : subComments) {
+                subCommentsMap.compute(subComment.getArticleId(), (k, v) -> {
+                    if (v == null) return new ArrayList<>();
+                    v.add(subComment);
+                    return v;
+                });
             }
-            comment.setComments(replyList);
-        });
+            commentPage.getRecords().forEach(comment -> comment.setComments(subCommentsMap.get(comment.getArticleId())));
+        }
         return commentPage;
     }
 
     @Override
     @Cacheable(key = "targetClass + methodName + #p0 + #p1")
-    public List<Comment> findLatestComments(Integer count,boolean showCheck) {
-        return baseMapper.selectLatestComments(count,showCheck);
+    public List<Comment> findLatestComments(Integer count, boolean showCheck) {
+        return baseMapper.selectLatestComments(count, showCheck);
     }
 
     @Override
     public IPage<Comment> findCommentsByPage(Page<Comment> page, QueryWrapper wrapper) {
-        return baseMapper.selectCommentPage(page,wrapper);
+        return baseMapper.selectCommentPage(page, wrapper);
     }
 
     @Override
     public Comment findCommentById(Long id) {
         return baseMapper.selectCommentById(id);
+    }
+
+    @Override
+    @CacheEvict(allEntries = true)
+    public void clearCache() {
     }
 }

@@ -1476,21 +1476,21 @@ ul.pills-gal li a:hover {
     text-decoration: none
 }
 
-#comments-template .comments-container.comments-root-container .comments-comments-container.comment-list > li {
-    background-color: rgba(230, 238, 232, 0.5);
-    box-shadow: black 0 0 8px;
-    -webkit-box-shadow: black 0 0 8px;
-    -moz-box-shadow: black 0 0 8px;
-    -o-box-shadow: black 0 0 8px;
-    margin: 10px 0;
+#comments-template .comments-container.comments-root-container .comments-comments-container.comment-list li {
+    background-color: rgba(230, 238, 232, 0.65);
+    box-shadow: black 0px 0px 8px;
+    margin: 10px 0px;
     list-style: none;
     padding: 2px;
     border-radius: 4px;
+    transition: background-color 0.3s ease-in-out 0s, box-shadow 0.3s ease-in-out 0s;
+    -webkit-box-shadow: black 0 0 8px;
+    -moz-box-shadow: black 0 0 8px;
+    -o-box-shadow: black 0 0 8px;
     -webkit-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     -moz-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     -ms-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
     -o-transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out
 }
 
 #comments-template .comments-container.comments-root-container .comments-comments-container.comment-list > li:hover {

@@ -12,6 +12,11 @@ spring:
   servlet:
     multipart:
       max-file-size: 10MB
+  # 配置缓存,初始缓存容量,最大容量,过期时间
+  cache:
+    type: caffeine
+    caffeine:
+      spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1m
   datasource:
     schema: # schema.sql中一般存放的是DDL脚本，即通常为创建或更新库表的脚本
       - classpath:sql/schema.sql

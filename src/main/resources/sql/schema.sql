@@ -175,7 +175,7 @@ begin
 
         REPLACE INTO `blog_category` (`id`, `name`, `url`) VALUES ('1', '未分类', 'default');
 
-        REPLACE INTO `blog_link`(`id`, `name`, `url`, `type`) VALUES ('1', '周华个人博客', 'https://www.iszhouhua.com', '1'),
+        REPLACE INTO `blog_link`(`id`, `name`, `url`, `type`) VALUES ('1', '周华个人博客', 'http://www.iszhouhua.com', '1'),
                                                               ('2', 'GitHub', 'https://iszhouhua.github,io', '2');
 
         REPLACE INTO `blog_menu`(`id`, `name`, `url`, `is_blank`, `icon`, `sort`) VALUES ('1', '首页', '/', '0', 'fa-home', '1'),

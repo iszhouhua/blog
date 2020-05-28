@@ -27,8 +27,9 @@ public class ApiTagController {
     @PostMapping
     public Result save(@RequestBody Tag tag){
         ValidatorUtils.validate(tag);
-        tagService.saveOrUpdate(tag);
-        return Result.success("保存成功",tag);
+        boolean res = tagService.saveOrUpdate(tag);
+        tagService.clearCache();
+        return res?Result.success("保存成功",tag):Result.fail("保存失败");
     }
 
     @PutMapping
@@ -38,6 +39,8 @@ public class ApiTagController {
 
     @DeleteMapping
     public Result remove(Long id){
-        return tagService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
+        boolean res = tagService.removeById(id);
+        tagService.clearCache();
+        return res?Result.success("删除成功"):Result.fail("删除失败");
     }
 }

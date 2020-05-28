@@ -76,6 +76,7 @@ public class ApiArticleController {
                 return Result.fail("文章已成功保存，但关联标签保存失败");
             }
         }
+        articleService.clearCache();
         return Result.success("保存成功",article);
     }
 
@@ -94,6 +95,7 @@ public class ApiArticleController {
         if(!res){
             return Result.fail("保存失败");
         }
+        articleService.clearCache();
         return Result.success("保存成功",article);
     }
 
@@ -106,7 +108,9 @@ public class ApiArticleController {
 
     @DeleteMapping
     public Result remove(Long[] ids){
-        return articleService.removeByIds(Arrays.asList(ids))?Result.success("删除成功"):Result.fail("删除失败");
+        boolean res = articleService.removeByIds(Arrays.asList(ids));
+        articleService.clearCache();
+        return res?Result.success("删除成功"):Result.fail("删除失败");
     }
 
     /**

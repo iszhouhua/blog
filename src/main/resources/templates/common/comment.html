@@ -15,9 +15,6 @@
                             <div class="comment-author vcard">
                                 <img th:src="'https://secure.gravatar.com/avatar/'+${item.emailMd5}+'?s=54'">
                                 <b class="fn" th:text="${item.author}"></b>
-                                <th:block th:unless="${#lists.isEmpty(item.comments)}">
-                                    回复 <b class="fn" th:text="${item.comments[0].author}"></b>
-                                </th:block>
                                 <span class="says">说：</span>
                             </div>
                             <div class="comment-metadata">
@@ -32,62 +29,65 @@
                         </div>
                         <div class="reply"><a class="comment-reply-login">回复</a></div>
                     </article>
-                    <article class="comment-body comment-children" th:each="reply,replyStat:${item.comments}">
-                        <footer class="comment-meta">
-                            <div class="comment-author vcard">
-                                <img th:src="'https://secure.gravatar.com/avatar/'+${reply.emailMd5}" width="54"
-                                     height="54">
-                                <b class="fn" th:text="${reply.author}"></b>
-                                <th:block th:unless="${replyStat.last}">
-                                    回复 <b class="fn" th:text="${item.comments[replyStat.count].author}"></b>
-                                </th:block>
-                                <span class="says">说：</span>
-                            </div>
-                            <div class="comment-metadata">
-                                <time th:datetime="${reply.createTime}"
-                                      th:text="${#dates.format(reply.createTime,'yyyy年MM月dd日 HH:mm:ss')}"></time>
-                            </div>
-                        </footer>
-                        <div class="comment-content">
-                            <p th:utext="${reply.content}"></p>
-                        </div>
-                        <div class="reply"><a class="comment-reply-link">回复</a></div>
-                    </article>
+                    <ol class="children" style="padding-left: 20px;">
+                        <li th:each="reply,replyStat:${item.comments}">
+                            <article class="comment-body comment-children">
+                                <footer class="comment-meta">
+                                    <div class="comment-author vcard">
+                                        <img th:src="'https://secure.gravatar.com/avatar/'+${reply.emailMd5}" width="54"
+                                             height="54">
+                                        <b class="fn" th:text="${reply.author}"></b>
+                                        回复 <b class="fn" th:text="${item.author}"></b>
+                                        <span class="says">说：</span>
+                                    </div>
+                                    <div class="comment-metadata">
+                                        <time th:datetime="${reply.createTime}"
+                                              th:text="${#dates.format(reply.createTime,'yyyy年MM月dd日 HH:mm:ss')}"></time>
+                                    </div>
+                                </footer>
+                                <div class="comment-content">
+                                    <p th:utext="${reply.content}"></p>
+                                </div>
+                                <div class="reply"><a class="comment-reply-link">回复</a></div>
+                            </article>
+                        </li>
+                    </ol>
+                </li>
             </ul>
             <th:block th:if="${comments.hasNext()}">
                 <button class="btn btn-danger btn-lg btn-block" id="more-comments">点击加载更多...</button>
                 <script th:inline="javascript">
-                    let current=[[${comments.current}]];
-                    let pages=[[${comments.pages}]];
-                    let size=[[${comments.size}]];
-                    let articleId=[[${info.id}]];
+                    let current = [[${comments.current}]];
+                    let pages = [[${comments.pages}]];
+                    let size = [[${comments.size}]];
+                    let articleId = [[${info.id}]];
                     $('#more-comments').click(function () {
                         $(this).addClass("disabled");
-                        $.post("comment/more", {current:++current, size:size,articleId:articleId},
-                            function(data){
+                        $.post("comment/more", {current: ++current, size: size, articleId: articleId},
+                            function (data) {
                                 for (let item of data) {
-                                    let li="<li><article class='comment-body'><footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/"+item.emailMd5+"?s=54'/><b class='fn'>"+item.author+"</b>";
-                                    if(item.comments.length>0){
-                                        li+="回复 <b class='fn'>"+item.comments[0].author+"</b>";
+                                    let li = "<li><article class='comment-body'><footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.emailMd5 + "?s=54'/><b class='fn'>" + item.author + "</b>";
+                                    if (item.comments.length > 0) {
+                                        li += "回复 <b class='fn'>" + item.comments[0].author + "</b>";
                                     }
-                                    li+="<span class='says'>说：</span></div><div class='comment-metadata'>"+item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4")+"</div></footer><div class='comment-content'><p>"+item.content+"</p></div><div class='reply'><a class='comment-reply-login'>回复</a></div></article>";
-                                    if(item.comments.length>0){
-                                        li+="<article class='comment-body comment-children'>";
-                                        for (let i in item.comments){
-                                            li+="<footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/"+item.comments[i].emailMd5+"' width='54' height='54'><b class='fn'>"+item.comments[i].author+"</b>";
-                                            if(i<item.comments.length){
-                                                li+="回复 <b class='fn'>"+item.comments[i+1].author+"</b>";
+                                    li += "<span class='says'>说：</span></div><div class='comment-metadata'>" + item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4") + "</div></footer><div class='comment-content'><p>" + item.content + "</p></div><div class='reply'><a class='comment-reply-login'>回复</a></div></article>";
+                                    if (item.comments.length > 0) {
+                                        li += "<article class='comment-body comment-children'>";
+                                        for (let i in item.comments) {
+                                            li += "<footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.comments[i].emailMd5 + "' width='54' height='54'><b class='fn'>" + item.comments[i].author + "</b>";
+                                            if (i < item.comments.length) {
+                                                li += "回复 <b class='fn'>" + item.comments[i + 1].author + "</b>";
                                             }
-                                            li+="<span class='says'>说：</span></div><div class='comment-metadata'>"+item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4")+"</div></footer><div class='comment-content'><p>"+item.comments[i].content+"</p></div><div class='reply'><a class='comment-reply-link'>回复</a></div></article>";
+                                            li += "<span class='says'>说：</span></div><div class='comment-metadata'>" + item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4") + "</div></footer><div class='comment-content'><p>" + item.comments[i].content + "</p></div><div class='reply'><a class='comment-reply-link'>回复</a></div></article>";
                                         }
                                     }
-                                    li+="</li>";
+                                    li += "</li>";
                                     $('#comment-list').append(li);
                                 }
                             });
-                        if(pages<=current){
+                        if (pages <= current) {
                             $(this).hide();
-                        }else{
+                        } else {
                             $(this).removeClass("disabled");
                         }
                     })
@@ -102,11 +102,13 @@
                         <div class="form-group" style="margin: 15px 10px 20px 15px;">
                             <input type="hidden" id="articleId" name="articleId" th:value="${info.id}"/>
                             <label for="author">昵称：</label>
-                            <input type="text" class="comment-input" id="author" name="author" value="" placeholder="请输入昵称"/>
+                            <input type="text" class="comment-input" id="author" name="author" value=""
+                                   placeholder="请输入昵称"/>
                         </div>
                         <div class="form-group" style="margin: 15px 10px 20px 10px;">
                             <label for="email">邮箱：</label>
-                            <input type="text" class="comment-input" id="email" name="email" value="" placeholder="请输入邮箱"/>
+                            <input type="text" class="comment-input" id="email" name="email" value=""
+                                   placeholder="请输入邮箱"/>
                         </div>
                         <textarea class="comments-editor-write-field" id="content" placeholder="赶快发表你的见解吧！"
                                   name="content" cols="45" rows="8"

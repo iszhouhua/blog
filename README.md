@@ -3,9 +3,9 @@
 
 基于[SpringBoot](https://github.com/spring-projects/spring-boot)搭建的开源个人博客系统，主题基于Hexo主题[hexo-theme-gal](https://github.com/ZEROKISEKI/hexo-theme-gal)进行修改。
 
-技术栈：SpringBoot、Thymeleaf、MySQL、MyBatis-Plus、Lombok、Gson、ehcache、validation、Bootstrap、jQuery、FontAwesome、Jsoup……
+技术栈：SpringBoot、Thymeleaf、MySQL、MyBatis-Plus、Lombok、Gson、caffeine、validation、Bootstrap、jQuery、FontAwesome、Jsoup……
 
-示例博客：[周华个人博客](https://www.iszhouhua.com)
+示例博客：[周华个人博客](http://www.iszhouhua.com)
 
 ## 快速开始
 
@@ -103,3 +103,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2020.3.18
 
 修改日志记录，修复无法评论的bug
+
+## 2020.5.27
+
+缓存改用caffeine

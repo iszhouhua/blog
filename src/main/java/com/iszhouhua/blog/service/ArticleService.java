@@ -21,6 +21,12 @@ public interface ArticleService extends IService<Article> {
     Article findArticleByUrl(String url);
 
     /**
+     * 增加文章浏览次数
+     * @param articleId
+     */
+    void updateForVisitsById(Long articleId);
+
+    /**
      * 获得所有置顶文章
      * @return 文章集合
      */
@@ -82,4 +88,9 @@ public interface ArticleService extends IService<Article> {
      * @return
      */
     List<Article> findLatestArticle(int number);
+
+    /**
+     * 清除缓存
+     */
+    void clearCache();
 }

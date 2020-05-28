@@ -48,4 +48,9 @@ public interface CommentService extends IService<Comment> {
      * @return
      */
     Comment findCommentById(Long id);
+
+    /**
+     * 清除缓存
+     */
+    void clearCache();
 }

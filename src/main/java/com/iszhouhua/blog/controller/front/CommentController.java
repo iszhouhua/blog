@@ -70,6 +70,7 @@ public class CommentController {
         }else{
             comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());
         }
+        commentService.clearCache();
         return commentService.save(comment)?Result.success("评论成功"):Result.fail("评论失败");
     }
 }

@@ -5,12 +5,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.ArticleMapper;
 import com.iszhouhua.blog.model.Article;
+import com.iszhouhua.blog.model.Comment;
+import com.iszhouhua.blog.model.Log;
 import com.iszhouhua.blog.service.ArticleService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 文章服务实现类
@@ -18,16 +25,19 @@ import java.util.List;
  * @since 2018-12-01
  */
 @Service
+@CacheConfig(cacheNames = "article")
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
 
     @Override
     public Article findArticleByUrl(String url) {
         Article article=baseMapper.selectArticleByUrl(url);
-        //每查询一次，浏览次数+1
-        if(article!=null){
-            baseMapper.updateForVisitsById(article.getId());
-        }
         return article;
+    }
+
+    @Override
+    @Async
+    public void updateForVisitsById(Long articleId) {
+        baseMapper.updateForVisitsById(articleId);
     }
 
     @Override
@@ -55,7 +65,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
-    @Cacheable(value = "article",key = "targetClass + methodName + #count")
+    @Cacheable(key = "targetClass + methodName + #count")
     public List<Article> findHotArticles(Integer count) {
         return baseMapper.selectHotArticles(count);
     }
@@ -80,4 +90,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         return baseMapper.selectLatestArticle(number);
     }
 
+    @Override
+    @CacheEvict(allEntries = true)
+    public void clearCache() {
+    }
 }

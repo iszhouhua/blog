@@ -60,6 +60,7 @@ public class ApiCommentController {
         }else{
             commentService.updateById(comment);
         }
+        commentService.clearCache();
         return Result.success("操作成功",comment);
     }
 
