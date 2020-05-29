@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * 文章表
+ *
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -58,7 +59,7 @@ public class Article implements Serializable {
     private String sourceUrl;
 
     /**
-     *  Markdown格式的文章内容
+     * Markdown格式的文章内容
      */
     private String contentMd;
 
@@ -70,7 +71,7 @@ public class Article implements Serializable {
     /**
      * 最后更新时间
      */
-    @TableField(update="now()")
+    @TableField(update = "now()")
     private Date updateTime;
 
     /**
@@ -117,37 +118,12 @@ public class Article implements Serializable {
 
     /**
      * 获得文章关键字
-     * @return
      */
     public String getKeywords() {
-        if(tags==null||tags.isEmpty()){
+        if (tags == null || tags.isEmpty()) {
             return null;
         }
-        List<String> list=tags.stream().map(Tag::getName).collect(Collectors.toList());
-        return String.join(",",list);
-    }
-
-    public boolean isTop() {
-        return isTop;
-    }
-
-    public boolean isComment() {
-        return isComment;
-    }
-
-    public boolean isOriginal() {
-        return isOriginal;
-    }
-
-    public void setTop(Boolean top) {
-        isTop = top;
-    }
-
-    public void setComment(Boolean comment) {
-        isComment = comment;
-    }
-
-    public void setOriginal(boolean original) {
-        isOriginal = original;
+        List<String> list = tags.stream().map(Tag::getName).collect(Collectors.toList());
+        return String.join(",", list);
     }
 }

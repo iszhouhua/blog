@@ -10,12 +10,14 @@ import java.security.spec.InvalidKeySpecException;
 
 /**
  * 用户服务类
+ *
  * @author ZhouHua
  * @since 2018-12-17
  */
 public interface UserService extends IService<User> {
     /**
      * 用户登录
+     *
      * @param username 用户名
      * @param password 密码
      * @return
@@ -23,5 +25,13 @@ public interface UserService extends IService<User> {
      * @throws DecoderException
      * @throws InvalidKeySpecException
      */
-    Result login(String username,String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException;
+    Result login(String username, String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException;
+
+    /**
+     * 根据用户ID获取用户信息
+     *
+     * @param userId 用户ID
+     * @return
+     */
+    User findUserById(Long userId);
 }

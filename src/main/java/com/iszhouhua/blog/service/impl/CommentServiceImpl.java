@@ -5,19 +5,23 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.CommentMapper;
+import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Comment;
+import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.model.enums.CommentStatusEnum;
+import com.iszhouhua.blog.model.enums.CommentTargetTypeEnum;
+import com.iszhouhua.blog.service.ArticleService;
 import com.iszhouhua.blog.service.CommentService;
-import org.apache.commons.collections.CollectionUtils;
+import com.iszhouhua.blog.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.util.stream.Collectors.toSet;
 
 /**
  * <p>
@@ -31,47 +35,101 @@ import java.util.Map;
 @CacheConfig(cacheNames = "comment")
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ArticleService articleService;
+
     @Override
+    @Cacheable(key = "targetClass + methodName + #p0.current +#p0.size + #p1")
     public IPage<Comment> findPageByArticleId(Page<Comment> page, Long articleId) {
         IPage<Comment> commentPage = baseMapper.selectPage(page, new QueryWrapper<Comment>()
-                .eq("article_id", articleId)
-                .eq("parent_id", 0)
+                .eq("target_type", CommentTargetTypeEnum.ARTICLE.getValue())
+                .eq("target_id", articleId)
                 .eq("status", CommentStatusEnum.PUBLISHED.getValue())
                 .orderByDesc("id"));
-        //获得文章的非一级评论
+        //获得评论下的子评论
+        List<Comment> list = commentPage.getRecords();
+        Set<Long> commentIds = list.stream().map(Comment::getId).collect(toSet());
         List<Comment> subComments = baseMapper.selectList(new QueryWrapper<Comment>()
-                .eq("article_id", articleId)
-                .gt("parent_id", 0)
-                .eq("status", CommentStatusEnum.PUBLISHED.getValue()));
-        if (CollectionUtils.isNotEmpty(subComments)) {
-            //子评论拼接
-            Map<Long, List<Comment>> subCommentsMap = new HashMap<>();
-            for (Comment subComment : subComments) {
-                subCommentsMap.compute(subComment.getArticleId(), (k, v) -> {
-                    if (v == null) return new ArrayList<>();
-                    v.add(subComment);
-                    return v;
-                });
-            }
-            commentPage.getRecords().forEach(comment -> comment.setComments(subCommentsMap.get(comment.getArticleId())));
+                .eq("target_type", CommentTargetTypeEnum.COMMENT.getValue())
+                .in("target_id", commentIds));
+        //子评论分组
+        Map<Long, List<Comment>> subCommentsMap = new HashMap<>();
+        for (Comment subComment : subComments) {
+            subCommentsMap.compute(subComment.getTargetId(), (k, v) -> {
+                if (v == null) {
+                    v = new ArrayList<>();
+                }
+                packageComment(subComment);
+                v.add(subComment);
+                return v;
+            });
+        }
+
+        for (Comment comment : list) {
+            packageComment(comment);
+            comment.setSubComments(subCommentsMap.get(comment.getId()));
         }
         return commentPage;
+    }
+
+    /**
+     * 封装评论
+     *
+     * @param comment
+     */
+    private void packageComment(Comment comment) {
+        Long userId = comment.getUserId();
+        User user = userService.findUserById(userId);
+        comment.setUser(user);
+        Long replyUserId = comment.getReplyUserId();
+        if (Objects.nonNull(replyUserId)) {
+            User replyUser = userService.findUserById(replyUserId);
+            comment.setReplyUser(replyUser);
+        }
+        if (CommentTargetTypeEnum.ARTICLE.getValue() == comment.getTargetType()) {
+            Article article = articleService.findArticleById(comment.getTargetId());
+            comment.setArticle(article);
+        } else if (CommentTargetTypeEnum.COMMENT.getValue() == comment.getTargetType()) {
+            Comment parentComment = baseMapper.selectById(comment.getTargetId());
+            comment.setParentComment(parentComment);
+            Article article = articleService.findArticleById(parentComment.getTargetId());
+            comment.setArticle(article);
+        }
     }
 
     @Override
     @Cacheable(key = "targetClass + methodName + #p0 + #p1")
     public List<Comment> findLatestComments(Integer count, boolean showCheck) {
-        return baseMapper.selectLatestComments(count, showCheck);
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        if (showCheck) {
+            wrapper.in("status", CommentStatusEnum.CHECKING.getValue(), CommentStatusEnum.PUBLISHED.getValue());
+        } else {
+            wrapper.eq("status", CommentStatusEnum.PUBLISHED.getValue());
+        }
+        wrapper.orderByDesc("id");
+        wrapper.last(" LIMIT " + count);
+        List<Comment> list = baseMapper.selectList(wrapper);
+        list.forEach(this::packageComment);
+        return list;
     }
 
     @Override
     public IPage<Comment> findCommentsByPage(Page<Comment> page, QueryWrapper wrapper) {
-        return baseMapper.selectCommentPage(page, wrapper);
+        IPage<Comment> iPage = baseMapper.selectPage(page, wrapper);
+        if (iPage.getTotal() > 0) {
+            iPage.getRecords().forEach(comment -> packageComment(comment));
+        }
+        return iPage;
     }
 
     @Override
     public Comment findCommentById(Long id) {
-        return baseMapper.selectCommentById(id);
+        Comment comment = baseMapper.selectById(id);
+        packageComment(comment);
+        return comment;
     }
 
     @Override

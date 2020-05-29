@@ -1,21 +1,24 @@
 package com.iszhouhua.blog.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 用户表
+ *
  * @author ZhouHua
- * @date 2018/12/17
+ * @date 2020/5/29
  */
 @Data
-@TableName("sys_user")
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     /**
      * 用户名
@@ -32,7 +35,7 @@ public class User {
      * 密码
      */
     @NotBlank(message = "密码不能为空")
-    @Length(min = 6,message = "密码不能小于6位")
+    @Length(min = 6, message = "密码不能小于6位")
     private String password;
 
     /**
@@ -47,11 +50,6 @@ public class User {
     private String email;
 
     /**
-     * 邮箱的MD5值，用于显示头像
-     */
-    private String emailMd5;
-
-    /**
      * 最后登录时间
      */
     private Date lastLoginTime;
@@ -64,18 +62,20 @@ public class User {
     /**
      * 登录失败次数，超过一定次数禁用账号
      */
-    private Integer loginFail;
+    private Integer loginFailNum;
 
     /**
      * 是否禁用 0：否 1：是
      */
     private Boolean isDisable;
 
-    public boolean isDisable() {
-        return isDisable;
-    }
+    /**
+     * 用户是否为管理员 0：不是 1：是
+     */
+    private Boolean isAdmin;
 
-    public void setDisable(Boolean disable) {
-        isDisable = disable;
-    }
+    /**
+     * 用户头像
+     */
+    private String avatar;
 }

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 /**
  * 菜单表
+ *
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -43,15 +44,6 @@ public class Menu implements Serializable {
     /**
      * 菜单排序，越小的越靠前
      */
-
     @NotNull(message = "菜单排序不能为空")
     private Integer sort;
-
-    public boolean isBlank() {
-        return isBlank;
-    }
-
-    public void setBlank(Boolean blank) {
-        isBlank = blank;
-    }
 }

@@ -3,18 +3,21 @@ package com.iszhouhua.blog.controller.interceptor;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.exception.BlogException;
+import com.iszhouhua.blog.model.User;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * 后台登录拦截器
+ *
  * @author ZhouHua
  * @date 2018/12/21
  */
-public class LoginInterceptor implements HandlerInterceptor {
+public class AdminInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -22,11 +25,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        //如果user不为空则放行
-        if (null != request.getSession().getAttribute(Const.USER_SESSION_KEY)) {
+        //如果是管理员则放行
+        User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
+        if (Objects.nonNull(user) && user.getIsAdmin()) {
             return true;
         }
         //否则进行拦截
-        throw new BlogException(CodeEnum.NOT_LOGIN.getValue(),"未登录！");
+        throw new BlogException(CodeEnum.NOT_LOGIN.getValue(), "未登录！");
     }
 }

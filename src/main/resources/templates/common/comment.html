@@ -13,8 +13,8 @@
                     <article class="comment-body">
                         <footer class="comment-meta">
                             <div class="comment-author vcard">
-                                <img th:src="'https://secure.gravatar.com/avatar/'+${item.emailMd5}+'?s=54'">
-                                <b class="fn" th:text="${item.author}"></b>
+                                <img th:src="${item.user.avatar}?:'/images/default-avatar.jpg'">
+                                <b class="fn" th:text="${item.user.nickname}"></b>
                                 <span class="says">说：</span>
                             </div>
                             <div class="comment-metadata">
@@ -30,14 +30,15 @@
                         <div class="reply"><a class="comment-reply-login">回复</a></div>
                     </article>
                     <ol class="children" style="padding-left: 20px;">
-                        <li th:each="reply,replyStat:${item.comments}">
+                        <li th:each="reply,replyStat:${item.subComments}">
                             <article class="comment-body comment-children">
                                 <footer class="comment-meta">
                                     <div class="comment-author vcard">
-                                        <img th:src="'https://secure.gravatar.com/avatar/'+${reply.emailMd5}" width="54"
+                                        <img th:src="${reply.user.avatar}?:'/images/default-avatar.jpg'"
+                                             width="54"
                                              height="54">
-                                        <b class="fn" th:text="${reply.author}"></b>
-                                        回复 <b class="fn" th:text="${item.author}"></b>
+                                        <b class="fn" th:text="${reply.user.nickname}"></b>
+                                        回复 <b class="fn" th:text="${reply.replyUser.nickname}"></b>
                                         <span class="says">说：</span>
                                     </div>
                                     <div class="comment-metadata">
@@ -66,7 +67,7 @@
                         $.post("comment/more", {current: ++current, size: size, articleId: articleId},
                             function (data) {
                                 for (let item of data) {
-                                    let li = "<li><article class='comment-body'><footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.emailMd5 + "?s=54'/><b class='fn'>" + item.author + "</b>";
+                                    let li = "<li><article class='comment-body'><footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.user.avatar + "?s=54'/><b class='fn'>" + item.author + "</b>";
                                     if (item.comments.length > 0) {
                                         li += "回复 <b class='fn'>" + item.comments[0].author + "</b>";
                                     }
@@ -74,7 +75,7 @@
                                     if (item.comments.length > 0) {
                                         li += "<article class='comment-body comment-children'>";
                                         for (let i in item.comments) {
-                                            li += "<footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.comments[i].emailMd5 + "' width='54' height='54'><b class='fn'>" + item.comments[i].author + "</b>";
+                                            li += "<footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.comments[i].user.avatar + "' width='54' height='54'><b class='fn'>" + item.comments[i].author + "</b>";
                                             if (i < item.comments.length) {
                                                 li += "回复 <b class='fn'>" + item.comments[i + 1].author + "</b>";
                                             }

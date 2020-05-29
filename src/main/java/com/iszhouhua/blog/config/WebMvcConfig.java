@@ -1,6 +1,6 @@
 package com.iszhouhua.blog.config;
 
-import com.iszhouhua.blog.controller.interceptor.LoginInterceptor;
+import com.iszhouhua.blog.controller.interceptor.AdminInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 拦截器
+ *
  * @author ZhouHua
  * @date 2018/12/17
  */
@@ -18,7 +19,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //后台登录拦截器
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/api/**").excludePathPatterns("/api/login");
+        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/api/**").excludePathPatterns("/api/login");
     }
 
     @Override
@@ -29,6 +30,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 跨域配置
+     *
      * @param registry
      */
     @Override

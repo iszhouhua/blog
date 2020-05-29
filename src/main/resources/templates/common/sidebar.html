@@ -35,8 +35,10 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="item:${latestComments}">
-                    <span class="author-avatar"><img class="avatar" width="40" height="40" th:src="'https://secure.gravatar.com/avatar/'+${item.emailMd5}"></span>
-                    <a th:href="@{/{url}.html(url=${item.article.url})}" class="hint--left hint--rounded" th:data-hint2="${item.article.title}">
+                    <span class="author-avatar"><img class="avatar" width="40" height="40"
+                                                     th:src="${item.user.avatar}?:'/images/default-avatar.jpg'"></span>
+                    <a th:href="@{/{url}.html(url=${item.article.url})}" class="hint--left hint--rounded"
+                       th:data-hint2="${item.article.title}">
                         <div class="comment-log"><p th:text="${item.content}"></p></div>
                     </a>
                 </li>
@@ -57,7 +59,7 @@
                 <span class="post-title">
                     <a th:href="@{/{url}.html(url=${item.url})}" th:title="${item.title}" th:text="${item.title}"></a>
                 </span>
-                <span class="badge">[[${item.visits}]] ℃</span>
+                    <span class="badge">[[${item.visits}]] ℃</span>
                 </li>
             </ul>
         </div>
@@ -76,7 +78,7 @@
                 <span class="post-title">
                     <a th:href="@{/{url}.html(url=${item.url})}" th:text="${item.title}"></a>
                 </span>
-                <span class="badge">[[${item.visits}]] ℃</span>
+                    <span class="badge">[[${item.visits}]] ℃</span>
                 </li>
 
             </ul>
@@ -99,7 +101,8 @@
             </ul>
             <div class="tab-content">
                 <div class="cloud-tags tab-pane nav bs-sidenav fade" id="sidebar-tags">
-                    <a th:each="item:${hotTags}" class="tag-cloud-link" th:href="@{/tag/{url}/(url=${item.url})}" th:text="${item.name}"></a>
+                    <a th:each="item:${hotTags}" class="tag-cloud-link" th:href="@{/tag/{url}/(url=${item.url})}"
+                       th:text="${item.name}"></a>
                 </div>
                 <div class="friend-links tab-pane nav bs-sidenav fade" id="sidebar-friend-links">
                     <li th:each="item:${friendLinks}">

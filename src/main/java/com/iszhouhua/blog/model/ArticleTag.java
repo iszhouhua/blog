@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 /**
  * 文章与标签的对应关系
+ *
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -28,8 +29,8 @@ public class ArticleTag implements Serializable {
      */
     private Long tagId;
 
-    public ArticleTag(Long articleId,Long tagId){
-        this.articleId=articleId;
-        this.tagId=tagId;
+    public ArticleTag(Long articleId, Long tagId) {
+        this.articleId = articleId;
+        this.tagId = tagId;
     }
 }

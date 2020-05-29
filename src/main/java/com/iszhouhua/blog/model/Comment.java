@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * 评论表
+ *
  * @author ZhouHua
  * @since 2018-12-14
  */
@@ -20,24 +21,24 @@ public class Comment implements Serializable {
     private Long id;
 
     /**
-     * 评论的文章，为0表示属于留言内容
+     * 目标类型 1：文章 2：评论
      */
-    private Long articleId;
+    private Integer targetType;
 
     /**
-     * 评论者
+     * 评论主体id：文章id、评论id等
      */
-    private String author;
+    private Long targetId;
 
     /**
-     * 评论者的邮箱
+     * 评论用户ID
      */
-    private String email;
+    private Long userId;
 
     /**
-     * 邮箱MD5值，用于显示gravatar头像
+     * 回复目标的用户id
      */
-    private String emailMd5;
+    private Long replyUserId;
 
     /**
      * 评论内容
@@ -45,7 +46,7 @@ public class Comment implements Serializable {
     private String content;
 
     /**
-     * 评论者的浏览器
+     * 评论者使用的浏览器
      */
     private String userAgent;
 
@@ -55,14 +56,9 @@ public class Comment implements Serializable {
     private String ip;
 
     /**
-     * 引用的回复，0表示没有引用
+     * 父级评论
      */
     private Long parentId;
-
-    /**
-     * 是否为博主评论
-     */
-    private Boolean isAdmin;
 
     /**
      * 评论时间
@@ -81,16 +77,26 @@ public class Comment implements Serializable {
     private Article article;
 
     /**
-     * 引用的评论
+     * 子级评论
      */
     @TableField(exist = false)
-    List<Comment> comments;
+    private List<Comment> subComments;
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
+    /**
+     * 父级评论
+     */
+    @TableField(exist = false)
+    private Comment parentComment;
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
+    /**
+     * 评论人
+     */
+    @TableField(exist = false)
+    private User user;
+
+    /**
+     * 被追评的人
+     */
+    @TableField(exist = false)
+    private User replyUser;
 }
