@@ -16,9 +16,9 @@ begin
             ADD COLUMN `avatar` varchar(200) NULL DEFAULT NULL COMMENT '用户头像',
             ADD COLUMN `is_admin` bit(1) NOT NULL DEFAULT b'0' COMMENT '用户是否为管理员 0：不是 1：是',
             CHANGE COLUMN `login_fail` `login_fail_num` tinyint(3) NOT NULL DEFAULT 0 COMMENT '登录失败次数，超过一定次数禁止登录',
-            DROP COLUMN `email_md5`;
+            DROP COLUMN `email_md5`,
+            ADD UNIQUE INDEX `uk_email` (`email`);
         UPDATE `blog_user` SET `is_admin` = 1, `avatar` = '/images/avatar.jpg';
-        INSERT INTO `blog_user` (`id`, `username`, `nickname`, `password`, `salt`, `email`, `last_login_time`, `create_time`, `login_fail_num`, `is_disable`, `avatar`, `is_admin`) VALUES ('0', 'unknown', '匿名用户', 'f592d0ce304114b279e85b18f804334b', '7af4a47cb431d8f4', 'unknown@unknown.com', NULL, CURRENT_TIMESTAMP, '0', '0', '/images/default-avatar.jpg', b'0');
     end if;
 
     SELECT count(*)

@@ -29,6 +29,7 @@ public class User implements Serializable {
     /**
      * 昵称
      */
+    @NotBlank(message = "用户昵称不能为空")
     private String nickname;
 
     /**
@@ -46,6 +47,7 @@ public class User implements Serializable {
     /**
      * 邮箱
      */
+    @NotBlank(message = "邮箱不能为空")
     @Email(message = "邮箱格式不正确")
     private String email;
 

@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -100,5 +101,28 @@ public class IndexController extends BaseController {
             return "custom";
         }
         return "article";
+    }
+
+    /**
+     * 登录
+     *
+     * @return
+     */
+    @GetMapping("/login")
+    public String login(HttpSession session) {
+        if (null != session.getAttribute(Const.USER_SESSION_KEY)) {
+            return "/";
+        }
+        return "login";
+    }
+
+    /**
+     * 注册
+     *
+     * @return
+     */
+    @GetMapping(value = "/register")
+    public String register() {
+        return "register";
     }
 }

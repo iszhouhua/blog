@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.config;
 
 import com.iszhouhua.blog.controller.interceptor.AdminInterceptor;
+import com.iszhouhua.blog.controller.interceptor.LoginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,8 +19,24 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //前后台登录后都可以请求的内容
+        String[] frontLoginPaths = {
+                "/api/comment/save",
+                "/api/logout",
+                "/api/user/changePass"
+        };
         //后台登录拦截器
-        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/api/**").excludePathPatterns("/api/login");
+        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/api/**").
+                excludePathPatterns(frontLoginPaths)
+                .excludePathPatterns(
+                        "/api/login",
+                        "/api/uploadImage",
+                        "/api/comment/more",
+                        "/api/user/register"
+                );
+        //前台登录拦截器
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns(frontLoginPaths);
     }
 
     @Override

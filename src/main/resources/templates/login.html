@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
+    <title th:text="'登录 - '+${GLOBAL.BLOG_TITLE}"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/login.css(v=1.0.0)}">
+</head>
+<body class="login login-action-login wp-core-ui locale-zh-cn">
+<div id="login">
+    <h1>
+        <a th:href="@{${GLOBAL.BLOG_URL}}">
+            <!-- 这里使用文字(navbar_text or config.title) -->
+            <div class="navbar-brand" th:text="${GLOBAL.BLOG_TITLE}"></div>
+        </a>
+    </h1>
+    <div id="login_error"> 还可以尝试登录 <strong>7</strong> 次。<br></div>
+    <form name="loginform" id="loginform" action="https://www.hhgal.com/wp-login.php" method="post"><p><label
+            for="user_login">用户名或电子邮件地址<br/> <input type="text" name="log" id="user_login" class="input" value=""
+                                                    size="20"/></label></p>
+        <p><label for="user_pass">密码<br/> <input type="password" name="pwd" id="user_pass" class="input" value=""
+                                                 size="20"/></label></p>
+        <!--        <p class="forgetmenot"><label for="rememberme"><input name="rememberme" type="checkbox" id="rememberme" value="forever"/> 记住我的登录信息</label></p>-->
+        <p class="submit"><input type="submit" name="wp-submit" id="wp-submit"
+                                 class="button button-primary button-large" value="登录"/>
+            <input type="hidden" name="redirect_to" value="https://www.hhgal.com/"/>
+            <input type="hidden" name="testcookie" value="1"/></p></form>
+    <p id="nav"><a th:href="@{/register}">注册</a> |
+        <a th:href="@{/lostpassword}">忘记密码？</a></p>
+    <script type="text/javascript">function wp_attempt_focus() {
+        setTimeout(function () {
+            try {
+                d = document.getElementById('user_login');
+                d.focus();
+                d.select();
+            } catch (e) {
+            }
+        }, 200);
+    }
+
+    wp_attempt_focus();
+    if (typeof wpOnload == 'function') wpOnload();</script>
+    <p id="backtoblog"><a href="https://www.hhgal.com/">&larr; 返回到我的Galgame资源发布站</a></p></div>
+<div class="clear"></div>
+</body>
+</html>

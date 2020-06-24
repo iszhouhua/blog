@@ -47,7 +47,20 @@ public class ApiCommentController {
         return Result.success("查询成功", commentPage);
     }
 
-    @PostMapping
+    /**
+     * 加载更多评论
+     *
+     * @param current   需要加载的页数
+     * @param size      需要加载的数量
+     * @param articleId 文章ID
+     * @return
+     */
+    @GetMapping("more")
+    public List<Comment> commentPage(int current, int size, long articleId) {
+        return commentService.findPageByArticleId(new Page<>(current, size, false), articleId).getRecords();
+    }
+
+    @PostMapping(value = {"", "save"})
     public Result save(@RequestBody Comment comment, HttpServletRequest request) {
         if (Objects.isNull(comment.getId())) {
             User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);

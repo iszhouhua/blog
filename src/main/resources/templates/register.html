@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
+    <title th:text="'注册 - '+${GLOBAL.BLOG_TITLE}"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/login.css(v=1.0.0)}">
+    <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css(v=2.1.1)}">
+</head>
+<body class="login login-action-register wp-core-ui locale-zh-cn">
+<div id="login">
+    <h1>
+        <a th:href="@{${GLOBAL.BLOG_URL}}">
+            <!-- 这里使用文字(navbar_text or config.title) -->
+            <div class="navbar-brand" th:text="${GLOBAL.BLOG_TITLE}"></div>
+        </a>
+    </h1>
+    <p class="message register">在这个站点注册</p>
+    <form name="registerform" id="registerform">
+        <p>
+            <label for="username">用户名<br/>
+                <input type="text" name="username" id="username" required class="input" value="" size="20"
+                       pattern="^[a-zA-Z0-9]\w{5,19}$" oninvalid="this.setCustomValidity('6~20字母数字或下划线');"
+                       oninput="this.setCustomValidity('')"/>
+            </label>
+        </p>
+        <p>
+            <label for="email">电子邮件<br/>
+                <input type="email" name="email" id="email" required class="input" value="" size="25"/>
+            </label>
+        </p>
+        <p>
+            <label for="nickname">昵称<br/>
+                <input id="nickname" class="input" type="text" size="25" value="" required name="nickname"/>
+            </label>
+        </p>
+        <p>
+            <label for="password">密码(至少6位)<br/>
+                <input id="password" class="input" type="password" size="25" value=""
+                       name="password" required pattern="^[a-zA-Z0-9]\w{5,19}$"
+                       oninvalid="this.setCustomValidity('6~20字母数字或下划线')" oninput="this.setCustomValidity('')"/>
+            </label>
+        </p>
+        <p>
+            <label for="confirm_password">重复密码<br/>
+                <input id="confirm_password" class="input" type="password" size="25" value="" required
+                       name="confirm_password"
+                       onchange="checkPassword()"/>
+            </label>
+        </p>
+        <script>
+            function checkPassword() {
+                var pass1 = document.getElementById("password");
+                var pass2 = document.getElementById("confirm_password");
+                if (pass1.value != pass2.value)
+                    pass2.setCustomValidity("两次输入的密码不匹配");
+                else
+                    pass2.setCustomValidity("");
+            }
+        </script>
+        <p id="reg_passmail">
+            <b style="color:red">请正确填写邮箱，修改密码时需要用到。</b>
+        </p> <br class="clear"/>
+        <p class="submit">
+            <input type="submit" name="wp-submit" id="wp-submit"
+                   class="button button-primary button-large" value="注册"/></p>
+    </form>
+    <p id="nav"><a th:href="@{/login}">登录</a> | <a th:href="@{/lostpassword}">忘记密码？</a></p>
+</div>
+<script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
+<script th:src="@{/vendor/toastr/toastr.min.js(v=2.1.1)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
+</body>
+</html>

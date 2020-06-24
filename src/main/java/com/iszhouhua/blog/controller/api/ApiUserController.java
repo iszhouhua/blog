@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.Objects;
 
 /**
  * 用户管理
@@ -27,7 +29,12 @@ public class ApiUserController {
     @PostMapping
     public Result save(@RequestBody User user, HttpSession session) {
         ValidatorUtils.validate(user);
-        boolean res = userService.updateById(user);
+        boolean res;
+        if (Objects.isNull(user.getId())) {
+            res = userService.save(user);
+        } else {
+            res = userService.updateById(user);
+        }
         if (!res) {
             return Result.fail("保存失败");
         }
@@ -61,5 +68,32 @@ public class ApiUserController {
         //退出登录
         session.removeAttribute(Const.USER_SESSION_KEY);
         return Result.success("修改密码成功");
+    }
+
+    @PostMapping("register")
+    public Result register(@RequestBody User user, HttpSession session) throws Exception {
+        ValidatorUtils.validate(user);
+        if (null != userService.findUserByUsername(user.getUsername())) {
+            return Result.fail("用户名已被注册");
+        }
+        if (null != userService.findUserByEmail(user.getEmail())) {
+            return Result.fail("邮箱已被注册");
+        }
+        //生成盐
+        String salt = PBKDF2Utils.getSalt();
+        //加密
+        String password = PBKDF2Utils.getPBKDF2(user.getPassword(), salt);
+        user.setSalt(salt);
+        user.setPassword(password);
+        user.setIsAdmin(false);
+        user.setIsDisable(false);
+        user.setLoginFailNum(0);
+        user.setCreateTime(new Date());
+        boolean flag = userService.save(user);
+        if (!flag) {
+            return Result.fail("注册失败");
+        }
+        session.setAttribute(Const.USER_SESSION_KEY, user);
+        return Result.success("注册成功");
     }
 }
