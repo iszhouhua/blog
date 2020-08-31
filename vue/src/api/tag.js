@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getTag() {
+export function getTagList() {
   return request({
-    url: '/tag',
+    url: '/tag/list',
     method: 'get'
   })
 }
 
-export function putTag(id) {
+export function getTag(id) {
   return request({
     url: '/tag',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }

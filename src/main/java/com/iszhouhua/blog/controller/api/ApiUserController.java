@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -43,7 +42,7 @@ public class ApiUserController {
         return Result.success("保存成功", user);
     }
 
-    @PutMapping
+    @GetMapping
     public Result info(HttpSession session) {
         User user = (User) session.getAttribute(Const.USER_SESSION_KEY);
         return Result.success("获取成功", user);
@@ -68,32 +67,5 @@ public class ApiUserController {
         //退出登录
         session.removeAttribute(Const.USER_SESSION_KEY);
         return Result.success("修改密码成功");
-    }
-
-    @PostMapping("register")
-    public Result register(@RequestBody User user, HttpSession session) throws Exception {
-        ValidatorUtils.validate(user);
-        if (null != userService.findUserByUsername(user.getUsername())) {
-            return Result.fail("用户名已被注册");
-        }
-        if (null != userService.findUserByEmail(user.getEmail())) {
-            return Result.fail("邮箱已被注册");
-        }
-        //生成盐
-        String salt = PBKDF2Utils.getSalt();
-        //加密
-        String password = PBKDF2Utils.getPBKDF2(user.getPassword(), salt);
-        user.setSalt(salt);
-        user.setPassword(password);
-        user.setIsAdmin(false);
-        user.setIsDisable(false);
-        user.setLoginFailNum(0);
-        user.setCreateTime(new Date());
-        boolean flag = userService.save(user);
-        if (!flag) {
-            return Result.fail("注册失败");
-        }
-        session.setAttribute(Const.USER_SESSION_KEY, user);
-        return Result.success("注册成功");
     }
 }

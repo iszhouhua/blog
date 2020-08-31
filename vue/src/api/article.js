@@ -1,18 +1,18 @@
 import request from '@/utils/request'
 import qs from 'qs'
 
-export function getArticle(query) {
+export function getArticleList(query) {
   return request({
-    url: '/article',
+    url: '/article/list',
     method: 'get',
     params: query
   })
 }
 
-export function putArticle(id) {
+export function getArticle(id) {
   return request({
     url: '/article',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }

@@ -32,7 +32,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public Result login(String username, String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException {
         Result result = Result.fail();
         //判断账号是否可用
-        User user = getOne(new QueryWrapper<User>().eq("username", username));
+        User user = getOne(new QueryWrapper<User>().eq("username", username).or().eq("email", username));
         if (null == user) {
             result.setMsg("账号不存在");
             return result;
@@ -65,7 +65,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             }
         }
         updateById(user);
-        removeSensitiveData(user);
         return result;
     }
 
@@ -73,7 +72,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Cacheable(key = "#userId")
     public User findUserById(Long userId) {
         User user = baseMapper.selectById(userId);
-        removeSensitiveData(user);
         return user;
     }
 
@@ -96,15 +94,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @CachePut(key = "#user.id")
     public boolean updateById(User user) {
         return super.updateById(user);
-    }
-
-    /**
-     * 移除敏感数据
-     *
-     * @param user
-     */
-    private void removeSensitiveData(User user) {
-        user.setPassword(null);
-        user.setSalt(null);
     }
 }

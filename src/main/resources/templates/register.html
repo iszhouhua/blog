@@ -62,10 +62,10 @@
             <b style="color:red">请正确填写邮箱，修改密码时需要用到。</b>
         </p> <br class="clear"/>
         <p class="submit">
+            <a th:href="@{/login}">登录</a>
             <input type="submit" name="wp-submit" id="wp-submit"
                    class="button button-primary button-large" value="注册"/></p>
     </form>
-    <p id="nav"><a th:href="@{/login}">登录</a> | <a th:href="@{/lostpassword}">忘记密码？</a></p>
 </div>
 <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>

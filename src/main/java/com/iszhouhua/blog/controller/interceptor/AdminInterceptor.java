@@ -27,8 +27,13 @@ public class AdminInterceptor implements HandlerInterceptor {
         }
         //如果是管理员则放行
         User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
-        if (Objects.nonNull(user) && user.getIsAdmin()) {
-            return true;
+        if (Objects.nonNull(user)) {
+            if (user.getIsAdmin()) {
+                return true;
+            } else {
+                //非管理员禁止登陆
+                throw new BlogException(CodeEnum.FORBIDDEN.getValue(), "权限不足！");
+            }
         }
         //否则进行拦截
         throw new BlogException(CodeEnum.NOT_LOGIN.getValue(), "未登录！");

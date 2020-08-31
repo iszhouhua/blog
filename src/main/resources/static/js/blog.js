@@ -83,18 +83,103 @@
 
     // ------- 处理返回顶端结束 ----------
 
+    // ------- 处理注册 -------------
+
+    $('#registerform').submit(function (event) {
+        event.preventDefault();
+        let formdata = $(this).serializeArray();
+        let data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+        $.post("api/register", JSON.stringify(data), function (response) {
+            if (response.code === 1) {
+                toastr.success(response.msg);
+                setTimeout(function () {
+                    let redirect_to = location.search + location.hash;
+                    if (redirect_to) window.location = redirect_to.substring(13);
+                    else window.location = '/';
+                }, 1000);
+            } else {
+                toastr.error(response.msg);
+            }
+        });
+    })
+
+    // ------- 处理注册结束 ----------
+
+    // ------- 处理登录 -------------
+
+    $('#loginform').submit(function (event) {
+        event.preventDefault();
+        let formdata = $(this).serializeArray();
+        let data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+        $.post("api/login", JSON.stringify(data), function (response) {
+            if (response.code === 1) {
+                toastr.success(response.msg);
+                setTimeout(function () {
+                    let redirect_to = location.search + location.hash;
+                    if (redirect_to) window.location = redirect_to.substring(13);
+                    else window.location = '/';
+                }, 1000);
+            } else {
+                toastr.error(response.msg);
+            }
+        });
+    })
+
+    // ------- 处理登录结束 ----------
+
+    // ------- 处理评论框 -------------
+
+    $(".comment-reply-link").click(function (event) {
+        let obj = $(this).parent().parent();
+        obj.after($("#respond"));
+        $("#targetType").val(2);
+        let parentObj = obj.parent();
+        let parentId = parentObj.attr("id");
+        let targetId = parentObj.parent().parent().attr("id");
+        if (targetId) {
+            $("#parentId").val(parentId);
+            $("#targetId").val(targetId);
+        } else {
+            $("#parentId").val(null);
+            $("#targetId").val(parentId);
+        }
+        $("#cancel-comment-reply-link").show();
+    });
+
+    $("#cancel-comment-reply-link").click(function (event) {
+        $("#targetType").val(1);
+        $("#parentId").val(null);
+        $("#targetId").val($("#articleId").val());
+        $("#cancel-comment-reply-link").hide();
+        $("#comments-content").append($("#respond"))
+    });
+    // ------- 处理评论框 -------------
+
     // ------- 处理评论 -------------
 
     $('#commentform').submit(function (event) {
         event.preventDefault();
-        var content = this.content.value;
+        let formdata = $(this).serializeArray();
+        let data = {};
+        $(formdata).each(function (index, obj) {
+            if (obj.value) {
+                data[obj.name] = obj.value;
+            }
+        });
+        var content = data.content;
         if (content === null || content === '') {
             $('#content').focus();
             $('#content').attr('placeholder', '评论内容不能为空');
         } else {
             $('#comment-submit').hide();
             $('#loading').show();
-            $.post("api/comment/save", $(this).serialize(), function (response) {
+            $.post("api/comment/save", JSON.stringify(data), function (response) {
                 if (response.code === 1) {
                     toastr.success(response.msg);
                     setTimeout(function () {
@@ -110,29 +195,5 @@
     })
 
     // ------- 处理评论结束 ----------
-
-    // ------- 处理注册 -------------
-
-    $('#registerform').submit(function (event) {
-        event.preventDefault();
-        let formdata = $(this).serializeArray();
-        let data = {};
-        $(formdata).each(function (index, obj) {
-            data[obj.name] = obj.value;
-        });
-        $.post("api/user/register", JSON.stringify(data), function (response) {
-            if (response.code === 1) {
-                toastr.success(response.msg);
-                setTimeout(function () {
-                    window.location = '/';
-                }, 1000);
-            } else {
-                toastr.error(response.msg);
-            }
-        });
-    })
-
-    // ------- 处理注册结束 ----------
-
 })($)
 

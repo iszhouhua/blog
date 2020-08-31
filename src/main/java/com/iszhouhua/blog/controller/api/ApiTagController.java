@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 标签管理
+ *
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -19,28 +20,28 @@ public class ApiTagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping
+    @GetMapping("list")
     public Result list() {
         return Result.success("查询成功", tagService.list());
     }
 
     @PostMapping
-    public Result save(@RequestBody Tag tag){
+    public Result save(@RequestBody Tag tag) {
         ValidatorUtils.validate(tag);
         boolean res = tagService.saveOrUpdate(tag);
         tagService.clearCache();
-        return res?Result.success("保存成功",tag):Result.fail("保存失败");
+        return res ? Result.success("保存成功", tag) : Result.fail("保存失败");
     }
 
-    @PutMapping
-    public Result info(Long id){
-        return Result.success("查询成功",tagService.getById(id));
+    @GetMapping
+    public Result info(Long id) {
+        return Result.success("查询成功", tagService.getById(id));
     }
 
     @DeleteMapping
-    public Result remove(Long id){
+    public Result remove(Long id) {
         boolean res = tagService.removeById(id);
         tagService.clearCache();
-        return res?Result.success("删除成功"):Result.fail("删除失败");
+        return res ? Result.success("删除成功") : Result.fail("删除失败");
     }
 }

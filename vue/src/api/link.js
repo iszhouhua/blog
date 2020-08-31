@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getLink() {
+export function getLinkList() {
   return request({
     url: '/link',
     method: 'get'
   })
 }
 
-export function putLink(id) {
+export function getLink(id) {
   return request({
     url: '/link',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }

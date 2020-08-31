@@ -1729,6 +1729,7 @@ ul.pills-gal li a:hover {
     -o-transform: scale(1.5) rotate(1deg);
     transform: scale(1.5) rotate(1deg)
 }
+
 @media (max-width: 768px
 ) {
     body {
@@ -1745,4 +1746,12 @@ ul.pills-gal li a:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0);
     text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+}
+
+#reply-title #cancel-comment-reply-link {
+    padding: 2px 5px;
+    background-color: #d9534f;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
 }

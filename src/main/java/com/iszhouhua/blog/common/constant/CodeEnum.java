@@ -2,6 +2,7 @@ package com.iszhouhua.blog.common.constant;
 
 /**
  * 全局状态码
+ *
  * @author ZhouHua
  * @date 2018/10/30
  */
@@ -18,6 +19,10 @@ public enum CodeEnum {
      * 未知错误/其他异常
      */
     UNKNOWN_ERROR(-1),
+    /**
+     * 禁止访问
+     */
+    FORBIDDEN(403),
     /**
      * 未登录
      */
@@ -50,11 +55,11 @@ public enum CodeEnum {
 
     private int value;
 
-    CodeEnum(int value){
+    CodeEnum(int value) {
         this.value = value;
     }
 
-    public int getValue(){
+    public int getValue() {
         return value;
     }
 }

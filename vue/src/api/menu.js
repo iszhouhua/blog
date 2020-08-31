@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getMenu() {
+export function getMenuList() {
   return request({
-    url: '/menu',
+    url: '/menu/list',
     method: 'get'
   })
 }
 
-export function putMenu(id) {
+export function getMenu(id) {
   return request({
     url: '/menu',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }

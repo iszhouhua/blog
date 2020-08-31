@@ -3,6 +3,8 @@ package com.iszhouhua.blog.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -23,11 +25,13 @@ public class Comment implements Serializable {
     /**
      * 目标类型 1：文章 2：评论
      */
+    @NotNull(message = "评论类型不能为空")
     private Integer targetType;
 
     /**
      * 评论主体id：文章id、评论id等
      */
+    @NotNull(message = "评论目标ID不能为空")
     private Long targetId;
 
     /**
@@ -43,6 +47,7 @@ public class Comment implements Serializable {
     /**
      * 评论内容
      */
+    @NotBlank(message = "评论内容不能为空")
     private String content;
 
     /**

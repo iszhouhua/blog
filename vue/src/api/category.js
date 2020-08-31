@@ -1,16 +1,16 @@
 import request from '@/utils/request'
 
-export function getCategory() {
+export function getCategoryList() {
   return request({
-    url: '/category',
+    url: '/category/list',
     method: 'get'
   })
 }
 
-export function putCategory(id) {
+export function getCategory(id) {
   return request({
     url: '/category',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }

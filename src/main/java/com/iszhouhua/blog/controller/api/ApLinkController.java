@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 链接管理
+ *
  * @author ZhouHua
  * @since 2018-04-13
  */
@@ -19,28 +20,28 @@ public class ApLinkController {
     @Autowired
     private LinkService linkService;
 
-    @GetMapping
-    public Result list(){
-        return Result.success("查询成功",linkService.list());
+    @GetMapping("list")
+    public Result list() {
+        return Result.success("查询成功", linkService.list());
     }
 
     @PostMapping
-    public Result save(@RequestBody Link link){
+    public Result save(@RequestBody Link link) {
         ValidatorUtils.validate(link);
         boolean res = linkService.saveOrUpdate(link);
         linkService.clearCache();
-        return res?Result.success("保存成功",link):Result.fail("保存失败");
+        return res ? Result.success("保存成功", link) : Result.fail("保存失败");
     }
 
-    @PutMapping
-    public Result info(Long id){
-        return Result.success("查询成功",linkService.getById(id));
+    @GetMapping
+    public Result info(Long id) {
+        return Result.success("查询成功", linkService.getById(id));
     }
 
     @DeleteMapping
-    public Result remove(Long id){
+    public Result remove(Long id) {
         boolean res = linkService.removeById(id);
         linkService.clearCache();
-        return res?Result.success("删除成功"):Result.fail("删除失败");
+        return res ? Result.success("删除成功") : Result.fail("删除失败");
     }
 }

@@ -3,13 +3,17 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.ConfigConst;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.common.util.Result;
+import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.Comment;
 import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.model.enums.CommentStatusEnum;
+import com.iszhouhua.blog.model.enums.CommentTargetTypeEnum;
 import com.iszhouhua.blog.service.CommentService;
+import com.iszhouhua.blog.service.ConfigService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +36,10 @@ public class ApiCommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
+    @Autowired
+    private ConfigService configService;
+
+    @GetMapping("list")
     public Result list(Page<Comment> page, String content, Integer status) {
         QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
         if (status == null) {
@@ -62,12 +69,23 @@ public class ApiCommentController {
 
     @PostMapping(value = {"", "save"})
     public Result save(@RequestBody Comment comment, HttpServletRequest request) {
+        ValidatorUtils.validate(comment);
+        if (comment.getTargetType().equals(CommentTargetTypeEnum.COMMENT.getValue())) {
+            if (Objects.isNull(comment.getParentId())) {
+                Comment targetComment = commentService.getById(comment.getTargetId());
+                comment.setReplyUserId(targetComment.getUserId());
+            } else {
+                Comment parentComment = commentService.getById(comment.getParentId());
+                comment.setReplyUserId(parentComment.getUserId());
+            }
+        }
         if (Objects.isNull(comment.getId())) {
+            Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);
+            comment.setStatus(isCheck ? CommentStatusEnum.CHECKING.getValue() : CommentStatusEnum.PUBLISHED.getValue());
             User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
             comment.setUserId(user.getId());
             comment.setUserAgent(request.getHeader("user-agent"));
             comment.setIp(IPUtils.getIpAddr(request));
-            comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());
             commentService.save(comment);
         } else {
             commentService.updateById(comment);
@@ -76,7 +94,7 @@ public class ApiCommentController {
         return Result.success("操作成功", comment);
     }
 
-    @PutMapping
+    @GetMapping
     public Result info(Long id) {
         return Result.success("查询成功", commentService.findCommentById(id));
     }

@@ -1,5 +1,5 @@
 import { login, logout } from '@/api/login'
-import { putUser } from '@/api/user'
+import { getUser } from '@/api/user'
 import { getGlobal } from '@/api/config'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
@@ -42,7 +42,7 @@ const user = {
     // 获取用户信息
     GetUserInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        putUser().then(response => {
+        getUser().then(response => {
           commit('SET_USER', response.data)
           resolve(response)
         }).catch(error => {

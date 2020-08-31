@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
-export function putUser() {
+export function getUser() {
   return request({
     url: '/user',
-    method: 'put'
+    method: 'get'
   })
 }
 

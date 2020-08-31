@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * 分类管理
+ *
  * @author ZhouHua
  * @since 2018-12-22
  */
@@ -19,25 +20,25 @@ public class ApiCategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping
-    public Result list(){
-        return Result.success("查询成功",categoryService.list());
+    @GetMapping("list")
+    public Result list() {
+        return Result.success("查询成功", categoryService.list());
     }
 
     @PostMapping
-    public Result save(@RequestBody Category category){
+    public Result save(@RequestBody Category category) {
         ValidatorUtils.validate(category);
         categoryService.saveOrUpdate(category);
-        return Result.success("保存成功",category);
+        return Result.success("保存成功", category);
     }
 
-    @PutMapping
-    public Result info(Long id){
-        return Result.success("查询成功",categoryService.getById(id));
+    @GetMapping
+    public Result info(Long id) {
+        return Result.success("查询成功", categoryService.getById(id));
     }
 
     @DeleteMapping
-    public Result remove(Long id){
-        return categoryService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
+    public Result remove(Long id) {
+        return categoryService.removeById(id) ? Result.success("删除成功") : Result.fail("删除失败");
     }
 }
