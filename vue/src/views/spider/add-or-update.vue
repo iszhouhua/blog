@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { putSpider, postSpider } from '@/api/spider'
+import { getSpider, postSpider } from '@/api/spider'
 
 export default {
   data() {
@@ -60,7 +60,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putSpider(id).then(response => {
+          getSpider(id).then(response => {
             this.dataForm = response.data
           })
         }

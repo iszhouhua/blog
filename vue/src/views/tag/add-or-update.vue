@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { putTag, postTag } from '@/api/tag'
+import { getTag, postTag } from '@/api/tag'
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putTag(id).then(response => {
+          getTag(id).then(response => {
             this.dataForm = response.data
           })
         }

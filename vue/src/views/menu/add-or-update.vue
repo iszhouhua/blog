@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { putMenu, postMenu } from '@/api/menu'
+import { getMenu, postMenu } from '@/api/menu'
 
 export default {
   data() {
@@ -72,7 +72,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putMenu(id).then(response => {
+          getMenu(id).then(response => {
             this.dataForm = response.data
           })
         }

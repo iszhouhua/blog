@@ -10,7 +10,7 @@
 
       <el-table-column align="center" label="菜单链接" min-width="100">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+scope.row.url" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
+          <a :href="BLOG_URL+scope.row.url" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
         </template>
       </el-table-column>
 
@@ -40,7 +40,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getMenu, postMenu, deleteMenu } from '@/api/menu'
+import { getMenuList, postMenu, deleteMenu } from '@/api/menu'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'MenuList',
@@ -48,7 +48,8 @@ export default {
   data() {
     return {
       list: [],
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   created() {
@@ -56,7 +57,7 @@ export default {
   },
   methods: {
     getList() {
-      getMenu(this.listQuery).then(response => {
+      getMenuList(this.listQuery).then(response => {
         this.list = response.data
       })
     },

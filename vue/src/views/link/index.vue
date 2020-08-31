@@ -36,7 +36,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getLink, deleteLink } from '@/api/link'
+import { getLinkList, deleteLink } from '@/api/link'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'LinkList',
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     getList() {
-      getLink(this.listQuery).then(response => {
+      getLinkList(this.listQuery).then(response => {
         this.list = response.data
       })
     },

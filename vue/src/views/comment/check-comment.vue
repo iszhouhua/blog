@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { putComment, postComment } from '@/api/comment'
+import { getComment, postComment } from '@/api/comment'
 import { parseTime } from '@/utils'
 
 export default {
@@ -66,7 +66,7 @@ export default {
       this.visible = true
       this.$nextTick(() => {
         // this.$refs['dataForm'].resetFields()
-        putComment(id).then(response => {
+        getComment(id).then(response => {
           this.dataForm = response.data
           this.dataForm.createTime = parseTime(response.data.createTime)
         })

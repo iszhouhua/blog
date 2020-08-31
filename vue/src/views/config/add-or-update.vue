@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { putConfig, postConfig } from '@/api/config'
+import { getConfig, postConfig } from '@/api/config'
 import UploadImage from '@/components/UploadImage'
 import OssConfig from './oss-config'
 
@@ -99,7 +99,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (id) {
-          putConfig(id).then(response => {
+          getConfig(id).then(response => {
             response.data.valueArr = []
             this.dataForm = response.data
             if (this.dataForm.name === CONFIG_KEY.BACKGROUND_LIST) {

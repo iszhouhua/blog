@@ -46,6 +46,7 @@ begin
     if row_num = 0 then
         -- 修改文章表
         ALTER TABLE `blog_article`
+            MODIFY COLUMN `status`  tinyint(4) NOT NULL COMMENT '状态 0：草稿 1：已发布 2：回收站',
             ADD COLUMN `type` tinyint NOT NULL DEFAULT 0 COMMENT '文章类型 0：普通文章 1：自定义文章';
         UPDATE blog_article SET `type`=1, `status`=1 WHERE `status` = 3;
     end if;

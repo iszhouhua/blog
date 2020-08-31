@@ -34,7 +34,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getConfig, deleteConfig } from '@/api/config'
+import { getConfigList, deleteConfig } from '@/api/config'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'ConfigList',
@@ -50,7 +50,7 @@ export default {
   },
   methods: {
     getList() {
-      getConfig(this.listQuery).then(response => {
+      getConfigList(this.listQuery).then(response => {
         this.list = response.data
       })
     },

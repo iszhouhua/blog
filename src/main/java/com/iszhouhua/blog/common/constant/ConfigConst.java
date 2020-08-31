@@ -25,5 +25,5 @@ public class ConfigConst {
     /**
      * 网站域名
      */
-    public final static String DOMIN = "BLOG_URL";
+    public final static String DOMAIN = "BLOG_URL";
 }

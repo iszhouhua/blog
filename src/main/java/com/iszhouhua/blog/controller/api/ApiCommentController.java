@@ -40,15 +40,12 @@ public class ApiCommentController {
     private ConfigService configService;
 
     @GetMapping("list")
-    public Result list(Page<Comment> page, String content, Integer status) {
-        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
-        if (status == null) {
-            queryWrapper.ne("a.status", 2);
-        } else {
-            queryWrapper.eq("a.status", status);
-        }
+    public Result list(Page<Comment> page, Comment comment) {
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>(comment);
+        String content = comment.getContent();
+        comment.setContent(null);
         if (StringUtils.isNotBlank(content)) {
-            queryWrapper.like("a.content", content);
+            queryWrapper.like("content", content);
         }
         IPage<Comment> commentPage = commentService.findCommentsByPage(page, queryWrapper);
         return Result.success("查询成功", commentPage);

@@ -28,7 +28,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getSpider, deleteSpider } from '@/api/spider'
+import { getSpiderList, deleteSpider } from '@/api/spider'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'SpiderList',
@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     getList() {
-      getSpider().then(response => {
+      getSpiderList().then(response => {
         this.list = response.data
       })
     },

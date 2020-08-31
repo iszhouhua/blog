@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { putLink, postLink } from '@/api/link'
+import { getLink, postLink } from '@/api/link'
 
 export default {
   data() {
@@ -53,7 +53,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putLink(id).then(response => {
+          getLink(id).then(response => {
             this.dataForm = response.data
           })
         }

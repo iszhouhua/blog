@@ -2,6 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.content" placeholder="评论内容" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.targetType" placeholder="目标类型" clearable class="filter-item" style="width: 130px">
+        <el-option key="0" label="文章" value="1" />
+        <el-option key="1" label="评论" value="2" />
+      </el-select>
       <el-select v-model="listQuery.status" placeholder="评论状态" clearable class="filter-item" style="width: 130px">
         <el-option key="0" label="待审核" value="0" />
         <el-option key="1" label="已发布" value="1" />
@@ -16,7 +20,7 @@
 
       <el-table-column header-align="center" label="评论的文章" min-width="80">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+scope.row.article.url+'.html'" class="link-type" target="_blank">
+          <a :href="BLOG_URL+scope.row.article.url+'.html'" class="link-type" target="_blank">
             {{ scope.row.article.title }}
           </a>
         </template>
@@ -89,7 +93,7 @@
 </template>
 
 <script>
-import { getComment, postComment } from '@/api/comment'
+import { getCommentList, postComment } from '@/api/comment'
 import Pagination from '@/components/Pagination'
 import { parseTime } from '@/utils'
 import checkComment from './check-comment'
@@ -111,14 +115,15 @@ export default {
         status: undefined,
         ascs: undefined,
         descs: undefined
-      }
+      },
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   methods: {
     // 获得数据集合
     getList() {
       this.listLoading = true
-      getComment(this.listQuery).then(response => {
+      getCommentList(this.listQuery).then(response => {
         this.list = response.data.records
         this.total = response.data.total
         this.listLoading = false

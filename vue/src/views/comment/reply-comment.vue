@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { putComment, postComment } from '@/api/comment'
+import { getComment, postComment } from '@/api/comment'
 
 export default {
   name: 'ReplyComment',
@@ -54,7 +54,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.parentId) {
-          putComment(id).then(response => {
+          getComment(id).then(response => {
             this.dataForm.parentContent = response.data.content
             this.dataForm.parentAuthor = response.data.author
             this.dataForm.parentArticle = response.data.article.title

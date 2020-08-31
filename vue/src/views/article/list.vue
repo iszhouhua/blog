@@ -24,13 +24,13 @@
 
       <el-table-column align="center" label="链接" width="100">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ scope.row.url }}</a>
+          <a :href="BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ scope.row.url }}</a>
         </template>
       </el-table-column>
 
       <el-table-column header-align="center" label="标题" min-width="100">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ scope.row.title }}</a>
+          <a :href="BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ scope.row.title }}</a>
           <el-tag v-if="scope.row.type===0">{{ categoryFilter(scope.row.categoryId) }}</el-tag>
         </template>
       </el-table-column>
@@ -113,7 +113,7 @@
 </template>
 
 <script>
-import { getArticle, modifyArticle, deleteArticle } from '@/api/article'
+import { getArticleList, modifyArticle, deleteArticle } from '@/api/article'
 import { getCategory } from '@/api/category'
 import Pagination from '@/components/Pagination'
 import { parseTime } from '@/utils'
@@ -142,7 +142,8 @@ export default {
         descs: undefined
       },
       categoryOptions: [],
-      multipleSelection: []
+      multipleSelection: [],
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   created() {
@@ -157,7 +158,7 @@ export default {
     // 获得数据集合
     getList() {
       this.listLoading = true
-      getArticle(this.listQuery).then(response => {
+      getArticleList(this.listQuery).then(response => {
         // this.$message.success(response.msg)
         this.list = response.data.records
         this.total = response.data.total
@@ -175,6 +176,7 @@ export default {
     },
     // 获得分类
     categoryFilter(categoryId) {
+      if (!this.categoryOptions) return ''
       for (var category of this.categoryOptions) {
         if (category.id === categoryId) {
           return category.name

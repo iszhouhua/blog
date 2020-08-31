@@ -10,7 +10,7 @@
 
       <el-table-column align="center" label="分类链接" min-width="100">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+'category/'+scope.row.url+'/'" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
+          <a :href="BLOG_URL+'category/'+scope.row.url+'/'" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
         </template>
       </el-table-column>
 
@@ -30,7 +30,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getCategory, deleteCategory } from '@/api/category'
+import { getCategoryList, deleteCategory } from '@/api/category'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'CategoryList',
@@ -38,7 +38,8 @@ export default {
   data() {
     return {
       list: [],
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   created() {
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     getList() {
-      getCategory(this.listQuery).then(response => {
+      getCategoryList(this.listQuery).then(response => {
         this.list = response.data
       })
     },

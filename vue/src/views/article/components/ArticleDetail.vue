@@ -66,7 +66,7 @@
             <el-col :span="10">
               <el-form-item label-width="80px" label="访问链接:" class="postInfo-container-item">
                 <el-input v-model="postForm.url" placeholder="默认使用标题作为链接" class="postInfo-container-input">
-                  <template slot="prepend">{{ this.$store.getters.global.BLOG_URL }}</template>
+                  <template slot="prepend">{{ BLOG_URL }}</template>
                   <template slot="append">.html</template>
                 </el-input>
               </el-form-item>
@@ -120,7 +120,7 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import toolbars from './toolbars'
 import Sticky from '@/components/Sticky' // 粘性header组件
-import { putArticle, postArticle } from '@/api/article'
+import { getArticle, postArticle } from '@/api/article'
 import { getCategory } from '@/api/category'
 import { getTag } from '@/api/tag'
 import { CommentDropdown, TopDropdown, OriginalDropdown } from './Dropdown'
@@ -170,7 +170,8 @@ export default {
       toolbars: toolbars,
       spiderArr: [],
       spiderId: null,
-      openHtmlEdit: false
+      openHtmlEdit: false,
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   computed: {
@@ -219,7 +220,7 @@ export default {
       })
     },
     fetchData(id) {
-      putArticle(id).then(response => {
+      getArticle(id).then(response => {
         this.postForm = response.data
         // Just for test
         // this.postForm.title += `   Article Id:${this.postForm.id}`

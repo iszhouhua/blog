@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { putCategory, postCategory } from '@/api/category'
+import { getCategory, postCategory } from '@/api/category'
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putCategory(id).then(response => {
+          getCategory(id).then(response => {
             this.dataForm = response.data
           })
         }

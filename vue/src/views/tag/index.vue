@@ -10,7 +10,7 @@
 
       <el-table-column align="center" label="链接" min-width="100">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+'tag/'+scope.row.url+'/'" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
+          <a :href="BLOG_URL+'tag/'+scope.row.url+'/'" style="color: #337ab7;" target="_blank">{{ scope.row.url }}</a>
         </template>
       </el-table-column>
 
@@ -30,7 +30,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getTag, deleteTag } from '@/api/tag'
+import { getTagList, deleteTag } from '@/api/tag'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'TagList',
@@ -38,7 +38,8 @@ export default {
   data() {
     return {
       list: [],
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   created() {
@@ -46,7 +47,7 @@ export default {
   },
   methods: {
     getList() {
-      getTag(this.listQuery).then(response => {
+      getTagList(this.listQuery).then(response => {
         this.list = response.data
       })
     },

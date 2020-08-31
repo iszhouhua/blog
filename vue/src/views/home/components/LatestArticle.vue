@@ -12,7 +12,7 @@
         </el-table-column>
         <el-table-column label="访问链接" min-width="100" align="center">
           <template slot-scope="scope">
-            <a :href="$store.getters.global.BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ $store.getters.global.BLOG_URL+scope.row.url }}.html</a>
+            <a :href="BLOG_URL+scope.row.url+'.html'" class="link-type" target="_blank">{{ BLOG_URL+scope.row.url }}.html</a>
           </template>
         </el-table-column>
         <el-table-column label="发表时间" width="95" align="center">
@@ -44,7 +44,8 @@ export default {
     return {
       number: 8,
       headerImg: 'https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png',
-      list: null
+      list: null,
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   created() {

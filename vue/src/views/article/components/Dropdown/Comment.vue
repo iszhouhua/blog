@@ -6,8 +6,8 @@
     <el-dropdown-menu slot="dropdown" class="no-padding">
       <el-dropdown-item>
         <el-radio-group v-model="is_comment" style="padding: 10px;">
-          <el-radio :label="true">关闭评论</el-radio>
-          <el-radio :label="false">打开评论</el-radio>
+          <el-radio :label="false">关闭评论</el-radio>
+          <el-radio :label="true">打开评论</el-radio>
         </el-radio-group>
       </el-dropdown-item>
     </el-dropdown-menu>
