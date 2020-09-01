@@ -24,6 +24,14 @@ export function postComment(data) {
   })
 }
 
+export function putComment(data) {
+  return request({
+    url: '/comment',
+    method: 'put',
+    data
+  })
+}
+
 export function commentCount() {
   return request({
     url: '/comment/commentCount',

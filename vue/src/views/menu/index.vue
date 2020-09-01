@@ -16,7 +16,7 @@
 
       <el-table-column align="center" label="菜单图标" width="100" prop="icon"/>
 
-      <el-table-column align="center" label="新窗口打开" width="80">
+      <el-table-column align="center" label="新窗口打开" width="110">
         <template slot-scope="scope">
           <el-switch v-model="scope.row.isBlank" @change="switchIsBlank(scope.row,$event)"/>
         </template>

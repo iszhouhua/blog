@@ -4,26 +4,48 @@
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form ref="dataForm" :model="dataForm" label-width="100px">
+      <el-form-item label="文章ID" prop="article.id">
+        <el-input v-model="dataForm.article.id"/>
+      </el-form-item>
       <el-form-item label="评论文章" prop="article.title">
         <el-input v-model="dataForm.article.title"/>
       </el-form-item>
-      <el-form-item label="评论人" prop="author">
-        <el-input v-model="dataForm.author"/>
+      <el-form-item label="评论人ID" prop="user.id">
+        <el-input v-model="dataForm.user.id"/>
       </el-form-item>
-      <el-form-item label="邮箱" prop="email">
-        <el-input v-model="dataForm.email"/>
+      <el-form-item label="评论人" prop="user.nickname">
+        <el-input v-model="dataForm.user.nickname"/>
       </el-form-item>
+      <el-form-item label="邮箱" prop="user.email">
+        <el-input v-model="dataForm.user.email"/>
+      </el-form-item>
+      <el-form-item label="评论内容" prop="content">
+        <el-input v-model="dataForm.content"/>
+      </el-form-item>
+      <template v-if="dataForm.replyUser">
+        <el-form-item label="回复的人ID" prop="replyUser.id">
+          <el-input v-model="dataForm.replyUser.id"/>
+        </el-form-item>
+        <el-form-item label="回复的人" prop="replyUser.nickname">
+          <el-input v-model="dataForm.replyUser.nickname"/>
+        </el-form-item>
+        <el-form-item label="回复的人邮箱" prop="replyUser.email">
+          <el-input v-model="dataForm.replyUser.email"/>
+        </el-form-item>
+      </template>
+      <template v-if="dataForm.parentComment">
+        <el-form-item label="引用评论ID" prop="parentComment.id">
+          <el-input v-model="dataForm.parentComment.id"/>
+        </el-form-item>
+        <el-form-item label="引用评论内容" prop="parentComment.content">
+          <el-input v-model="dataForm.parentComment.content"/>
+        </el-form-item>
+      </template>
       <el-form-item label="IP地址" prop="ip">
         <el-input v-model="dataForm.ip"/>
       </el-form-item>
       <el-form-item label="浏览器信息" prop="userAgent">
         <el-input v-model="dataForm.userAgent"/>
-      </el-form-item>
-      <el-form-item label="评论内容" prop="content">
-        <el-input v-model="dataForm.content"/>
-      </el-form-item>
-      <el-form-item label="引用评论ID" prop="parentId">
-        <el-input v-model="dataForm.parentId"/>
       </el-form-item>
       <el-form-item label="评论时间" prop="createTime">
         <el-input v-model="dataForm.createTime"/>
@@ -50,14 +72,22 @@ export default {
       visible: false,
       dataForm: {
         id: 0,
-        author: '',
-        email: '',
+        user: {
+          id: null,
+          nickname: '',
+          email: ''
+        },
+        replyUser: {
+          id: null,
+          nickname: '',
+          email: ''
+        },
         ip: '',
         userAgent: '',
         content: '',
         createTime: '',
-        parentId: 0,
-        article: { title: '' }
+        article: { id: null, title: '' },
+        parentComment: { id: null, content: '' }
       }
     }
   },

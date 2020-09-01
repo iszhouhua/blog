@@ -54,6 +54,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         Set<Long> commentIds = list.stream().map(Comment::getId).collect(toSet());
         List<Comment> subComments = baseMapper.selectList(new QueryWrapper<Comment>()
                 .eq("target_type", CommentTargetTypeEnum.COMMENT.getValue())
+                .eq("status", CommentStatusEnum.PUBLISHED.getValue())
                 .in("target_id", commentIds));
         //子评论分组
         Map<Long, List<Comment>> subCommentsMap = new HashMap<>();

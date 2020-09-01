@@ -60,9 +60,9 @@
 
       <el-table-column label="阅读量" sortable="custom" align="center" prop="visits" width="95"/>
 
-      <el-table-column :formatter="formatTime" width="100" align="center" sortable="custom" label="发布时间" prop="createTime"/>
+      <el-table-column :formatter="formatTime" width="102" align="center" sortable="custom" label="发布时间" prop="createTime"/>
 
-      <el-table-column :formatter="formatTime" width="100" align="center" sortable="custom" label="更新时间" prop="updateTime"/>
+      <el-table-column :formatter="formatTime" width="102" align="center" sortable="custom" label="更新时间" prop="updateTime"/>
 
       <el-table-column v-if="articleStatus===0" align="center" label="状态" width="80">
         <template slot-scope="scope">

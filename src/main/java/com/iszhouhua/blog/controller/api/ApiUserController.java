@@ -1,12 +1,17 @@
 package com.iszhouhua.blog.controller.api;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.PBKDF2Utils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.service.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,26 +30,52 @@ public class ApiUserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public Result save(@RequestBody User user, HttpSession session) {
-        ValidatorUtils.validate(user);
-        boolean res;
+    @GetMapping("list")
+    public Result list(Page<User> page, User user) {
+        String nickname = user.getNickname();
+        user.setNickname(null);
+        String email = user.getEmail();
+        user.setEmail(null);
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>(user);
+        if (StringUtils.isNotBlank(nickname)) {
+            queryWrapper.like("nickname", nickname);
+        }
+        if (StringUtils.isNotBlank(email)) {
+            queryWrapper.like("email", email);
+        }
+        IPage<User> userPage = userService.page(page, queryWrapper);
+        return Result.success("查询成功", userPage);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody User user, HttpSession session) {
         if (Objects.isNull(user.getId())) {
-            res = userService.save(user);
-        } else {
-            res = userService.updateById(user);
+            return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "用户ID不能为空");
         }
-        if (!res) {
-            return Result.fail("保存失败");
+        User currentUser = (User) session.getAttribute(Const.USER_SESSION_KEY);
+        if (currentUser.getId().equals(user.getId())) {
+            if (Objects.nonNull(user.getIsDisable()) && user.getIsDisable()) {
+                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "不可以禁用自己");
+            } else if (Objects.nonNull(user.getIsAdmin()) && !user.getIsAdmin()) {
+                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "不可以将自己降为普通用户");
+            }
         }
-        //更新session中的数据
-        session.setAttribute(Const.USER_SESSION_KEY, user);
-        return Result.success("保存成功", user);
+        boolean res = userService.updateById(user);
+        if (res && currentUser.getId().equals(user.getId())) {
+            currentUser = userService.findUserById(currentUser.getId());
+            session.setAttribute(Const.USER_SESSION_KEY, currentUser);
+        }
+        return res ? Result.success("修改成功", user) : Result.fail("修改失败", user);
     }
 
     @GetMapping
-    public Result info(HttpSession session) {
-        User user = (User) session.getAttribute(Const.USER_SESSION_KEY);
+    public Result info(Long id, HttpSession session) {
+        User user = null;
+        if (Objects.isNull(id)) {
+            user = (User) session.getAttribute(Const.USER_SESSION_KEY);
+        } else {
+            user = userService.findUserById(id);
+        }
         return Result.success("获取成功", user);
     }
 

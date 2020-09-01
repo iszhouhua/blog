@@ -1,9 +1,25 @@
 import request from '@/utils/request'
 
+export function getUserList(query) {
+  return request({
+    url: '/user/list',
+    method: 'get',
+    params: query
+  })
+}
+
 export function getUser() {
   return request({
     url: '/user',
     method: 'get'
+  })
+}
+
+export function putUser(data) {
+  return request({
+    url: '/user',
+    method: 'put',
+    data
   })
 }
 

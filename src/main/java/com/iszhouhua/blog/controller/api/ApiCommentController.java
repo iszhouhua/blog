@@ -3,6 +3,7 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.ConfigConst;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.IPUtils;
@@ -47,6 +48,9 @@ public class ApiCommentController {
         if (StringUtils.isNotBlank(content)) {
             queryWrapper.like("content", content);
         }
+        if (Objects.isNull(comment.getStatus())) {
+            queryWrapper.ne("status", 2);
+        }
         IPage<Comment> commentPage = commentService.findCommentsByPage(page, queryWrapper);
         return Result.success("查询成功", commentPage);
     }
@@ -76,19 +80,25 @@ public class ApiCommentController {
                 comment.setReplyUserId(parentComment.getUserId());
             }
         }
-        if (Objects.isNull(comment.getId())) {
-            Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);
-            comment.setStatus(isCheck ? CommentStatusEnum.CHECKING.getValue() : CommentStatusEnum.PUBLISHED.getValue());
-            User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
-            comment.setUserId(user.getId());
-            comment.setUserAgent(request.getHeader("user-agent"));
-            comment.setIp(IPUtils.getIpAddr(request));
-            commentService.save(comment);
-        } else {
-            commentService.updateById(comment);
-        }
+        Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);
+        comment.setStatus(isCheck ? CommentStatusEnum.CHECKING.getValue() : CommentStatusEnum.PUBLISHED.getValue());
+        User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
+        comment.setUserId(user.getId());
+        comment.setUserAgent(request.getHeader("user-agent"));
+        comment.setIp(IPUtils.getIpAddr(request));
+        commentService.save(comment);
         commentService.clearCache();
-        return Result.success("操作成功", comment);
+        return Result.success("添加成功", comment);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody Comment comment) {
+        if (Objects.isNull(comment.getId())) {
+            return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "评论ID不能为空");
+        }
+        boolean res = commentService.updateById(comment);
+        commentService.clearCache();
+        return res ? Result.success("修改成功") : Result.fail("修改失败");
     }
 
     @GetMapping
