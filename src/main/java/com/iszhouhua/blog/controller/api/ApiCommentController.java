@@ -73,17 +73,20 @@ public class ApiCommentController {
         ValidatorUtils.validate(comment);
         if (comment.getTargetType().equals(CommentTargetTypeEnum.COMMENT.getValue())) {
             if (Objects.isNull(comment.getParentId())) {
-                Comment targetComment = commentService.getById(comment.getTargetId());
-                comment.setReplyUserId(targetComment.getUserId());
-            } else {
-                Comment parentComment = commentService.getById(comment.getParentId());
-                comment.setReplyUserId(parentComment.getUserId());
+                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "父级评论不能为空");
+            }
+            if (Objects.isNull(comment.getReplyUserId())) {
+                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "回复的人不能为空");
             }
         }
-        Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);
-        comment.setStatus(isCheck ? CommentStatusEnum.CHECKING.getValue() : CommentStatusEnum.PUBLISHED.getValue());
         User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
         comment.setUserId(user.getId());
+        if (user.getIsAdmin()) {
+            comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());
+        } else {
+            Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);
+            comment.setStatus(isCheck ? CommentStatusEnum.CHECKING.getValue() : CommentStatusEnum.PUBLISHED.getValue());
+        }
         comment.setUserAgent(request.getHeader("user-agent"));
         comment.setIp(IPUtils.getIpAddr(request));
         commentService.save(comment);

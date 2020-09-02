@@ -43,8 +43,6 @@
 
       <el-table-column align="center" label="回复的人" width="100" prop="replyUser.nickname" />
 
-      <el-table-column label="引用评论" align="center" prop="parentComment.content" width="100" />
-
       <el-table-column :show-overflow-tooltip="true" label="浏览器信息" align="center" prop="userAgent" min-width="100" />
 
       <el-table-column label="IP地址" align="center" prop="ip" min-width="150" />

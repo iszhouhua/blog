@@ -46,7 +46,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     public IPage<Comment> findPageByArticleId(Page<Comment> page, Long articleId) {
         IPage<Comment> commentPage = baseMapper.selectPage(page, new QueryWrapper<Comment>()
                 .eq("target_type", CommentTargetTypeEnum.ARTICLE.getValue())
-                .eq("target_id", articleId)
+                .eq("article_id", articleId)
                 .eq("status", CommentStatusEnum.PUBLISHED.getValue())
                 .orderByDesc("id"));
         //获得评论下的子评论
@@ -55,11 +55,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<Comment> subComments = baseMapper.selectList(new QueryWrapper<Comment>()
                 .eq("target_type", CommentTargetTypeEnum.COMMENT.getValue())
                 .eq("status", CommentStatusEnum.PUBLISHED.getValue())
-                .in("target_id", commentIds));
+                .in("parent_id", commentIds));
         //子评论分组
         Map<Long, List<Comment>> subCommentsMap = new HashMap<>();
         for (Comment subComment : subComments) {
-            subCommentsMap.compute(subComment.getTargetId(), (k, v) -> {
+            subCommentsMap.compute(subComment.getParentId(), (k, v) -> {
                 if (v == null) {
                     v = new ArrayList<>();
                 }
@@ -76,6 +76,13 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         return commentPage;
     }
 
+    @Override
+    public Integer countByArticleId(Long articleId) {
+        QueryWrapper<Comment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("article_id", articleId);
+        return baseMapper.selectCount(queryWrapper);
+    }
+
     /**
      * 封装评论
      *
@@ -90,15 +97,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
             User replyUser = userService.findUserById(replyUserId);
             comment.setReplyUser(replyUser);
         }
-        if (CommentTargetTypeEnum.ARTICLE.getValue() == comment.getTargetType()) {
-            Article article = articleService.findArticleById(comment.getTargetId());
-            comment.setArticle(article);
-        } else if (CommentTargetTypeEnum.COMMENT.getValue() == comment.getTargetType()) {
-            Comment parentComment = baseMapper.selectById(comment.getTargetId());
-            comment.setParentComment(parentComment);
-            Article article = articleService.findArticleById(parentComment.getTargetId());
-            comment.setArticle(article);
-        }
+        Article article = articleService.findArticleById(comment.getArticleId());
+        comment.setArticle(article);
     }
 
     @Override

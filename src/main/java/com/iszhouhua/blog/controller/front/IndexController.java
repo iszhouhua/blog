@@ -90,6 +90,8 @@ public class IndexController extends BaseController {
         if (info.getIsComment()) {
             IPage<Comment> commentPage = commentService.findPageByArticleId(new Page<>(1, Const.COMMENT_SIZE), info.getId());
             model.addAttribute("comments", commentPage);
+            Integer commentCount = commentService.countByArticleId(info.getId());
+            model.addAttribute("commentCount", commentCount);
         }
         //上一篇和下一篇
         Article previousArticle = articleService.findPreviousById(info.getId());

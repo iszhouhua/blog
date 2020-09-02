@@ -20,22 +20,33 @@ public interface CommentService extends IService<Comment> {
 
     /**
      * 分页查询当前文章的所有评论
-     * @param page 分页信息
+     *
+     * @param page      分页信息
      * @param articleId 文章ID
      * @return
      */
     IPage<Comment> findPageByArticleId(Page<Comment> page, Long articleId);
 
     /**
+     * 获取当前文章下的评论数
+     *
+     * @param articleId
+     * @return
+     */
+    Integer countByArticleId(Long articleId);
+
+    /**
      * 查询最新的评论
-     * @param count 需要查询的评论数量
+     *
+     * @param count     需要查询的评论数量
      * @param showCheck 是否查询待审核的评论
      * @return
      */
-    List<Comment> findLatestComments(Integer count,boolean showCheck);
+    List<Comment> findLatestComments(Integer count, boolean showCheck);
 
     /**
      * 分页查询评论
+     *
      * @param page
      * @param wrapper
      * @return
@@ -44,6 +55,7 @@ public interface CommentService extends IService<Comment> {
 
     /**
      * 根据ID查询评论信息
+     *
      * @param id
      * @return
      */

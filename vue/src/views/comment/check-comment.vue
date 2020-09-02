@@ -33,14 +33,6 @@
           <el-input v-model="dataForm.replyUser.email"/>
         </el-form-item>
       </template>
-      <template v-if="dataForm.parentComment">
-        <el-form-item label="引用评论ID" prop="parentComment.id">
-          <el-input v-model="dataForm.parentComment.id"/>
-        </el-form-item>
-        <el-form-item label="引用评论内容" prop="parentComment.content">
-          <el-input v-model="dataForm.parentComment.content"/>
-        </el-form-item>
-      </template>
       <el-form-item label="IP地址" prop="ip">
         <el-input v-model="dataForm.ip"/>
       </el-form-item>
@@ -86,8 +78,7 @@ export default {
         userAgent: '',
         content: '',
         createTime: '',
-        article: { id: null, title: '' },
-        parentComment: { id: null, content: '' }
+        article: { id: null, title: '' }
       }
     }
   },

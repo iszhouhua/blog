@@ -85,7 +85,7 @@ public class Article implements Serializable {
     private Boolean isTop;
 
     /**
-     * 是否关闭评论评论
+     * 是否开启评论
      */
     private Boolean isComment;
 

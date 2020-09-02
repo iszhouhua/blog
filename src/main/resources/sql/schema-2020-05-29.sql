@@ -41,7 +41,7 @@ begin
             `user_id`       bigint(20)   NOT NULL COMMENT '评论人',
             `reply_user_id` bigint(20)   NULL     DEFAULT NULL COMMENT '回复的人',
             `target_type`   int(11)      NOT NULL COMMENT '目标类型 1：文章 2：评论',
-            `target_id`     bigint(20)   NOT NULL COMMENT '评论主体id：文章id、评论id等',
+            `article_id`     bigint(20)   NOT NULL COMMENT '评论的文章',
             `create_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评论时间',
             `status`        tinyint(2)   NOT NULL COMMENT '评论状态 0：待审核 1：已发布 2：已删除',
             PRIMARY KEY (`id`)

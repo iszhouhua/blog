@@ -25,14 +25,14 @@ public class Comment implements Serializable {
     /**
      * 目标类型 1：文章 2：评论
      */
-    @NotNull(message = "评论类型不能为空")
+    @NotNull(message = "评论目标类型不能为空")
     private Integer targetType;
 
     /**
-     * 评论主体id：文章id、评论id等
+     * 评论的文章
      */
-    @NotNull(message = "评论目标ID不能为空")
-    private Long targetId;
+    @NotNull(message = "文章ID不能为空")
+    private Long articleId;
 
     /**
      * 评论用户ID
@@ -88,19 +88,13 @@ public class Comment implements Serializable {
     private List<Comment> subComments;
 
     /**
-     * 父级评论
-     */
-    @TableField(exist = false)
-    private Comment parentComment;
-
-    /**
      * 评论人
      */
     @TableField(exist = false)
     private User user;
 
     /**
-     * 被追评的人
+     * 回复的人
      */
     @TableField(exist = false)
     private User replyUser;

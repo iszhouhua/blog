@@ -4,12 +4,13 @@
         <div>
             <h3 class="comments-header-container alert alert-info">
                 <i class="fa fa-comments"></i>
-                [[${comments.total}]]条评论
+                [[${commentCount}?:0]]条评论
             </h3>
         </div>
         <div>
             <ul class="comments-comments-container comment-list" id="comment-list">
-                <li th:each="item:${comments.getRecords()}" th:id="${item.id}" class="comment-item">
+                <li th:each="item:${comments.getRecords()}" th:id="${item.id}" class="comment-item"
+                    th:data-user-id="${item.user.id}">
                     <article class="comment-body">
                         <footer class="comment-meta">
                             <div class="comment-author vcard">
@@ -30,18 +31,18 @@
                         <div class="reply">
                             <a th:unless="${session.USER}" rel="nofollow" class="comment-reply-login"
                                th:href="'/login?redirect_to='+${#request.getRequestURL()}+'#'+${item.id}">登录以回复</a>
-                            <a th:if="${session.USER}" rel="nofollow" class="comment-reply-link"
-                               th:onclick="'reply('+${item.id}+')'">回复</a>
+                            <a th:if="${session.USER}" rel="nofollow" class="comment-reply-link">回复</a>
                         </div>
                     </article>
                     <ol class="children" style="padding-left: 20px;">
-                        <li th:each="reply,replyStat:${item.subComments}" th:id="${reply.id}">
+                        <li th:each="reply,replyStat:${item.subComments}" th:id="${reply.id}"
+                            th:data-user-id="${reply.user.id}">
                             <article class="comment-body comment-children">
                                 <footer class="comment-meta">
                                     <div class="comment-author vcard">
                                         <img th:src="${reply.user.avatar}?:'/images/default-avatar.jpg'"
-                                             width="54"
-                                             height="54">
+                                             width="66"
+                                             height="66">
                                         <b class="fn" th:text="${reply.user.nickname}"></b>
                                         回复 <b class="fn" th:text="${reply.replyUser.nickname}"></b>
                                         <span class="says">说：</span>
@@ -54,51 +55,20 @@
                                 <div class="comment-content">
                                     <p th:utext="${reply.content}"></p>
                                 </div>
-                                <div class="reply"><a class="comment-reply-link">回复</a></div>
+                                <div class="reply">
+                                    <a th:unless="${session.USER}" rel="nofollow" class="comment-reply-login"
+                                       th:href="'/login?redirect_to='+${#request.getRequestURL()}+'#'+${reply.id}">登录以回复</a>
+                                    <a th:if="${session.USER}" rel="nofollow" class="comment-reply-link">回复</a>
+                                </div>
                             </article>
                         </li>
                     </ol>
                 </li>
             </ul>
-            <th:block th:if="${comments.hasNext()}">
-                <button class="btn btn-danger btn-lg btn-block" id="more-comments">点击加载更多...</button>
-                <script th:inline="javascript">
-                    let current = [[${comments.current}]];
-                    let pages = [[${comments.pages}]];
-                    let size = [[${comments.size}]];
-                    let articleId = [[${info.id}]];
-                    $('#more-comments').click(function () {
-                        $(this).addClass("disabled");
-                        $.get("api/comment/more", {current: ++current, size: size, articleId: articleId},
-                            function (data) {
-                                for (let item of data) {
-                                    let li = "<li><article class='comment-body'><footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.user.avatar + "?s=54'/><b class='fn'>" + item.author + "</b>";
-                                    if (item.comments.length > 0) {
-                                        li += "回复 <b class='fn'>" + item.comments[0].author + "</b>";
-                                    }
-                                    li += "<span class='says'>说：</span></div><div class='comment-metadata'>" + item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4") + "</div></footer><div class='comment-content'><p>" + item.content + "</p></div><div class='reply'><a class='comment-reply-login'>回复</a></div></article>";
-                                    if (item.comments.length > 0) {
-                                        li += "<article class='comment-body comment-children'>";
-                                        for (let i in item.comments) {
-                                            li += "<footer class='comment-meta'><div class='comment-author vcard'><img src='https://secure.gravatar.com/avatar/" + item.comments[i].user.avatar + "' width='54' height='54'><b class='fn'>" + item.comments[i].author + "</b>";
-                                            if (i < item.comments.length) {
-                                                li += "回复 <b class='fn'>" + item.comments[i + 1].author + "</b>";
-                                            }
-                                            li += "<span class='says'>说：</span></div><div class='comment-metadata'>" + item.createTime.replace(/(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}:\d{2}).*/, "$1年$2月$3日 $4") + "</div></footer><div class='comment-content'><p>" + item.comments[i].content + "</p></div><div class='reply'><a class='comment-reply-link'>回复</a></div></article>";
-                                        }
-                                    }
-                                    li += "</li>";
-                                    $('#comment-list').append(li);
-                                }
-                            });
-                        if (pages <= current) {
-                            $(this).hide();
-                        } else {
-                            $(this).removeClass("disabled");
-                        }
-                    })
-                </script>
-            </th:block>
+            <button th:if="${comments.hasNext()}" class="btn btn-danger btn-lg btn-block" id="more-comments"
+                    th:data-size="${comments.size}" th:data-current="${comments.current}"
+                    th:data-pages="${comments.getPages()}" th:data-is-login="${session.USER}!=null">点击加载更多...
+            </button>
         </div>
         <div id="respond">
             <div class="comments-editor-container">
@@ -107,10 +77,10 @@
                 </h3>
                 <form id="commentform" class="comment-form form-inline">
                     <div class="comments-editor-write-field">
-                        <input type="hidden" id="articleId" th:value="${info.id}"/>
-                        <input type="hidden" id="targetId" name="targetId" th:value="${info.id}"/>
+                        <input type="hidden" id="articleId" name="articleId" th:value="${info.id}"/>
                         <input type="hidden" id="targetType" name="targetType" value="1"/>
                         <input type="hidden" id="parentId" name="parentId" value=""/>
+                        <input type="hidden" id="replyUserId" name="replyUserId" value=""/>
                         <textarea class="comments-editor-write-field" id="content" placeholder="赶快发表你的见解吧！"
                                   name="content" cols="45" rows="8"
                                   aria-required="true"></textarea>
