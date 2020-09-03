@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.controller.api;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.common.util.Result;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 爬虫规则管理
@@ -27,15 +29,25 @@ public class ApiSpiderController {
     private SpiderService spiderService;
 
     @GetMapping("list")
-    public Result list() {
-        return Result.success("查询成功", spiderService.list());
+    public Result list(Page<Spider> page) {
+        return Result.success("查询成功", spiderService.page(page));
     }
 
     @PostMapping
     public Result save(@RequestBody Spider spider) {
         ValidatorUtils.validate(spider);
-        spiderService.saveOrUpdate(spider);
+        spiderService.save(spider);
         return Result.success("保存成功", spider);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody Spider spider) {
+        ValidatorUtils.validate(spider);
+        if (Objects.isNull(spider.getId())) {
+            return Result.fail("ID不能为空");
+        }
+        spiderService.updateById(spider);
+        return Result.success("修改成功", spider);
     }
 
     @GetMapping

@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getMenuList() {
+export function getMenuList(query) {
   return request({
     url: '/menu/list',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 
@@ -19,6 +20,14 @@ export function postMenu(data) {
   return request({
     url: '/menu',
     method: 'post',
+    data
+  })
+}
+
+export function putMenu(data) {
+  return request({
+    url: '/menu',
+    method: 'put',
     data
   })
 }

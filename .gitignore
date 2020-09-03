@@ -27,3 +27,4 @@
 # custom
 /logs/
 /data/ip2region.db
+/src/main/resources/static/upload/

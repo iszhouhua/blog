@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -47,6 +48,37 @@ public class ApiUserController {
         return Result.success("查询成功", userPage);
     }
 
+    /**
+     * 添加用户
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
+    @PostMapping
+    public Result save(@RequestBody User user) throws Exception {
+        ValidatorUtils.validate(user);
+        if (null != userService.findUserByUsername(user.getUsername())) {
+            return Result.fail("用户名已被注册");
+        }
+        if (null != userService.findUserByEmail(user.getEmail())) {
+            return Result.fail("邮箱已被注册");
+        }
+        //生成盐
+        String salt = PBKDF2Utils.getSalt();
+        //加密
+        String password = PBKDF2Utils.getPBKDF2(user.getPassword(), salt);
+        user.setSalt(salt);
+        user.setPassword(password);
+        user.setLoginFailNum(0);
+        user.setCreateTime(new Date());
+        boolean flag = userService.save(user);
+        if (!flag) {
+            return Result.fail("注册失败");
+        }
+        return Result.success("注册成功");
+    }
+
     @PutMapping
     public Result update(@RequestBody User user, HttpSession session) {
         if (Objects.isNull(user.getId())) {
@@ -60,12 +92,15 @@ public class ApiUserController {
                 return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "不可以将自己降为普通用户");
             }
         }
-        boolean res = userService.updateById(user);
-        if (res && currentUser.getId().equals(user.getId())) {
+        //密码不可通过此接口更新，将其置空
+        user.setPassword(null);
+        user.setSalt(null);
+        user = userService.modifyUserById(user);
+        if (currentUser.getId().equals(user.getId())) {
             currentUser = userService.findUserById(currentUser.getId());
             session.setAttribute(Const.USER_SESSION_KEY, currentUser);
         }
-        return res ? Result.success("修改成功", user) : Result.fail("修改失败", user);
+        return Result.success("修改成功", user);
     }
 
     @GetMapping
@@ -94,7 +129,7 @@ public class ApiUserController {
         String password = PBKDF2Utils.getPBKDF2(newPass, salt);
         user.setSalt(salt);
         user.setPassword(password);
-        userService.updateById(user);
+        userService.modifyUserById(user);
         //退出登录
         session.removeAttribute(Const.USER_SESSION_KEY);
         return Result.success("修改密码成功");

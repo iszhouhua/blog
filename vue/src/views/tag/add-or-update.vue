@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getTag, postTag } from '@/api/tag'
+import { getTag, postTag, putTag } from '@/api/tag'
 
 export default {
   data() {
@@ -57,11 +57,19 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postTag(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putTag(this.dataForm).then(response => {
+              this.$message.success(response.msg)
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postTag(this.dataForm).then(response => {
+              this.$message.success(response.msg)
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }

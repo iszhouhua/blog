@@ -46,12 +46,8 @@ public class ApiController {
      */
     @PostMapping(value = "login")
     public Result login(@RequestBody User user, HttpSession session) throws Exception {
-        //检查是否重复登录
-        if (null != session.getAttribute(Const.USER_SESSION_KEY)) {
-            return Result.success("已登录", session.getId());
-        }
-        if (StringUtils.isBlank(user.getUsername()) && StringUtils.isBlank(user.getEmail())) {
-            return Result.fail("用户名不能为空");
+        if (StringUtils.isBlank(user.getUsername())) {
+            return Result.fail("用户名或邮箱不能为空");
         }
         if (StringUtils.isBlank(user.getPassword())) {
             return Result.fail("密码不能为空");

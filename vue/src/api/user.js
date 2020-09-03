@@ -8,10 +8,11 @@ export function getUserList(query) {
   })
 }
 
-export function getUser() {
+export function getUser(id) {
   return request({
     url: '/user',
-    method: 'get'
+    method: 'get',
+    params: { id }
   })
 }
 

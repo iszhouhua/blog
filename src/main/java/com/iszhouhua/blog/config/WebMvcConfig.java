@@ -32,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/login",
                         "/api/uploadImage",
                         "/api/comment/more",
-                        "/api/user/register"
+                        "/api/register"
                 );
         //前台登录拦截器
         registry.addInterceptor(new LoginInterceptor())

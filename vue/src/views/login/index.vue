@@ -6,7 +6,7 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="用户名" />
+        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="用户名或邮箱地址" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">

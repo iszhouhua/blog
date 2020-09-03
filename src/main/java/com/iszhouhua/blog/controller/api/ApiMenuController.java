@@ -1,12 +1,15 @@
 package com.iszhouhua.blog.controller.api;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.Menu;
 import com.iszhouhua.blog.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Objects;
 
 /**
  * 目录管理
@@ -21,15 +24,25 @@ public class ApiMenuController {
     private MenuService menuService;
 
     @GetMapping("list")
-    public Result list() {
-        return Result.success("查询成功", menuService.list());
+    public Result list(Page<Menu> page) {
+        return Result.success("查询成功", menuService.page(page));
     }
 
     @PostMapping
     public Result save(@RequestBody Menu menu) {
         ValidatorUtils.validate(menu);
-        menuService.saveOrUpdate(menu);
+        menuService.save(menu);
         return Result.success("保存成功", menu);
+    }
+
+    @PutMapping
+    public Result update(@RequestBody Menu menu) {
+        ValidatorUtils.validate(menu);
+        if (Objects.isNull(menu.getId())) {
+            return Result.fail("ID不能为空");
+        }
+        menuService.updateById(menu);
+        return Result.success("修改成功", menu);
     }
 
     @GetMapping

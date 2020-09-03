@@ -4,7 +4,7 @@
     <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
     <title th:text="'注册 - '+${GLOBAL.BLOG_TITLE}"></title>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" th:href="@{/css/login.css(v=1.0.0)}">
+    <link rel="stylesheet" th:href="@{/css/login.css(v=1.0.1)}">
     <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css(v=2.1.1)}">
 </head>
 <body class="login login-action-register wp-core-ui locale-zh-cn">
@@ -33,6 +33,12 @@
             <label for="nickname">昵称<br/>
                 <input id="nickname" class="input" type="text" size="25" value="" required name="nickname"/>
             </label>
+        </p>
+        <label>头像<br/> </label>
+        <p class="upload_avatar">
+            <input type="hidden" id="avatar" name="avatar">
+            <img id="show_img_file" src="/images/up_icon.png">
+            <input type="file" id="up_img_file" accept="image/*">
         </p>
         <p>
             <label for="password">密码(至少6位)<br/>

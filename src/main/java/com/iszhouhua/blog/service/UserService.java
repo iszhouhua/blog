@@ -18,7 +18,7 @@ public interface UserService extends IService<User> {
     /**
      * 用户登录
      *
-     * @param username 用户名
+     * @param username 用户名或邮箱
      * @param password 密码
      * @return
      * @throws NoSuchAlgorithmException
@@ -34,6 +34,14 @@ public interface UserService extends IService<User> {
      * @return
      */
     User findUserById(Long userId);
+
+    /**
+     * 根据用户ID修改用户信息
+     *
+     * @param user 用户
+     * @return
+     */
+    User modifyUserById(User user);
 
     /**
      * 根据用户名获取用户信息

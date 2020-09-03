@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getConfigList() {
+export function getConfigList(query) {
   return request({
     url: '/config/list',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 
@@ -19,6 +20,14 @@ export function postConfig(data) {
   return request({
     url: '/config',
     method: 'post',
+    data
+  })
+}
+
+export function putConfig(data) {
+  return request({
+    url: '/config',
+    method: 'put',
     data
   })
 }

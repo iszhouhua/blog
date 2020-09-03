@@ -111,9 +111,12 @@ export default {
   // },
   methods: {
     getList() {
+      this.listLoading = true
       getUserList(this.listQuery).then(response => {
-        this.list = response.data.records
-        this.total = response.data.total
+        if (response.data) {
+          this.list = response.data.records
+          this.total = response.data.total
+        }
         this.listLoading = false
       })
     },

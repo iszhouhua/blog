@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getTagList() {
+export function getTagList(query) {
   return request({
     url: '/tag/list',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 
@@ -19,6 +20,14 @@ export function postTag(data) {
   return request({
     url: '/tag',
     method: 'post',
+    data
+  })
+}
+
+export function putTag(data) {
+  return request({
+    url: '/tag',
+    method: 'put',
     data
   })
 }

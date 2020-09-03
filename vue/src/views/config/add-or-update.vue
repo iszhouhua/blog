@@ -58,7 +58,7 @@
 </template>
 
 <script>
-import { getConfig, postConfig } from '@/api/config'
+import { getConfig, postConfig, putConfig } from '@/api/config'
 import UploadImage from '@/components/UploadImage'
 import OssConfig from './oss-config'
 
@@ -160,11 +160,19 @@ export default {
             this.dataForm.value = temp
             this.dataForm.valueArr = []
           }
-          postConfig(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putConfig(this.dataForm).then(response => {
+              this.$message.success('修改配置成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postConfig(this.dataForm).then(response => {
+              this.$message.success('添加配置成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }

@@ -83,6 +83,41 @@
 
     // ------- 处理返回顶端结束 ----------
 
+    // ------- 处理头像 -------
+
+    $('#up_img_file').change(function () {
+        let file = this.files[0]
+        const isImage = /^image\/*/.test(file.type)
+        if (!isImage) {
+            toastr.error('上传文件只能是图片!');
+            return;
+        }
+        var formData = new FormData();
+        formData.append('image', file)
+        $.ajax({
+            url: "/api/uploadImage",
+            type: "POST",
+            data: formData,
+            async: false,//同步请求
+            cache: false,//不缓存页面
+            processData: false,//如果要发送Dom树信息或其他不需要转换的信息，请设置为false
+            contentType: false,//当form以multipart/form-data方式上传文件时，需要设置为false
+            dataType: "json",
+            success: function (response) {
+                if (response.code === 1) {
+                    toastr.success(response.msg);
+                    $('#show_img_file').attr('src', response.data);
+                    $('#avatar').val(response.data);
+                } else {
+                    toastr.error(response.msg);
+                }
+            }
+        })
+        ;
+    })
+
+    // ------- 处理头像结束 -------
+
     // ------- 处理注册 -------------
 
     $('#registerform').submit(function (event) {
@@ -90,7 +125,9 @@
         let formdata = $(this).serializeArray();
         let data = {};
         $(formdata).each(function (index, obj) {
-            data[obj.name] = obj.value;
+            if (obj.value) {
+                data[obj.name] = obj.value;
+            }
         });
         $.post("api/register", JSON.stringify(data), function (response) {
             if (response.code === 1) {

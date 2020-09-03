@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { getSpider, postSpider } from '@/api/spider'
+import { getSpider, postSpider, putSpider } from '@/api/spider'
 
 export default {
   data() {
@@ -70,11 +70,19 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postSpider(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putSpider(this.dataForm).then(response => {
+              this.$message.success('规则更新成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postSpider(this.dataForm).then(response => {
+              this.$message.success('规则添加成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }

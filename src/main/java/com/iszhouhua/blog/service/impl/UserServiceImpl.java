@@ -11,7 +11,6 @@ import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.service.UserService;
 import org.apache.commons.codec.DecoderException;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -71,8 +70,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     @Cacheable(key = "#userId")
     public User findUserById(Long userId) {
-        User user = baseMapper.selectById(userId);
-        return user;
+        return baseMapper.selectById(userId);
+    }
+
+    @Override
+    public User modifyUserById(User user) {
+        updateById(user);
+        return baseMapper.selectById(user.getId());
     }
 
     @Override
@@ -88,11 +92,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean save(User user) {
         return super.save(user);
-    }
-
-    @Override
-    @CachePut(key = "#user.id")
-    public boolean updateById(User user) {
-        return super.updateById(user);
     }
 }

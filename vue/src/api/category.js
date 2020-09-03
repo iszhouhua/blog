@@ -1,9 +1,10 @@
 import request from '@/utils/request'
 
-export function getCategoryList() {
+export function getCategoryList(query) {
   return request({
     url: '/category/list',
-    method: 'get'
+    method: 'get',
+    params: query
   })
 }
 
@@ -19,6 +20,14 @@ export function postCategory(data) {
   return request({
     url: '/category',
     method: 'post',
+    data
+  })
+}
+
+export function putCategory(data) {
+  return request({
+    url: '/category',
+    method: 'put',
     data
   })
 }

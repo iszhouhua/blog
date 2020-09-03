@@ -20,7 +20,7 @@
         </el-tooltip>
       </el-form-item>
       <el-form-item label="菜单排序" prop="sort">
-        <el-input v-model.number="dataForm.sort" type="number" autocomplete="off" style="padding-right: 10px;width:95%"/>
+        <el-input v-model.number="dataForm.sort" type="number" style="padding-right: 10px;width:95%"/>
         <el-tooltip class="item" effect="dark" content="数值越小越靠前" placement="right">
           <i class="el-icon-question"/>
         </el-tooltip>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { getMenu, postMenu } from '@/api/menu'
+import { getMenu, postMenu, putMenu } from '@/api/menu'
 
 export default {
   data() {
@@ -82,11 +82,19 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postMenu(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putMenu(this.dataForm).then(response => {
+              this.$message.success('修改目录成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postMenu(this.dataForm).then(response => {
+              this.$message.success('添加目录成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }
