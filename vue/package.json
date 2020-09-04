@@ -19,7 +19,7 @@
     "element-ui": "2.4.6",
     "js-cookie": "^2.2.0",
     "mavon-editor": "^2.6.17",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "script-ext-html-webpack-plugin": "^2.1.3",
