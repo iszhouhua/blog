@@ -215,6 +215,11 @@
                     setTimeout(function () {
                         location.reload()
                     }, 1000);
+                } else if (response.code === 40001) {
+                    toastr.error(response.msg);
+                    setTimeout(function () {
+                        window.location = '/login?redirect_to=' + location.href
+                    }, 1000);
                 } else {
                     toastr.error(response.msg);
                 }

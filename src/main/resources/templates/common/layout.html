@@ -8,7 +8,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
     <link rel="stylesheet" th:href="@{/vendor/aos/aos.css(v=2.3.4)}">
-    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.5)}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.6)}">
     <link rel="stylesheet" th:href="@{/vendor/highslide/highslide.css(v=5.0.0)}">
     <link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css(v=4.7.0)}">
     <link rel="stylesheet" th:href="@{/vendor/live2d/css/live2d.css}"/>
@@ -111,7 +111,7 @@
     POWERMODE.shake = 'true';       // turn off shake
     document.body.addEventListener('input', POWERMODE);
 </script>
-<script th:src="@{/js/blog.js(v=1.0.1)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
 <script th:src="@{/js/onj.js(v=1.0.0)}"></script>
 <th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_SCRIPT)}">
     [(${GLOBAL.BLOG_SCRIPT})]

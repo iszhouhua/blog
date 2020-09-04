@@ -73,6 +73,8 @@ export default {
           getUser(id).then(response => {
             this.dataForm = response.data
           })
+        } else {
+          this.dataForm = defaultDataForm
         }
       })
     },
@@ -87,14 +89,12 @@ export default {
             putUser(this.dataForm).then(response => {
               this.$message.success('修改用户成功')
               this.visible = false
-              this.dataForm = defaultDataForm
               this.$emit('refreshDataList')
             })
           } else {
             postUser(this.dataForm).then(response => {
               this.$message.success('添加用户成功')
               this.visible = false
-              this.dataForm = defaultDataForm
               this.$emit('refreshDataList')
             })
           }

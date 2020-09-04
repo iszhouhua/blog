@@ -64,6 +64,21 @@ clean package war:war -Dmaven.test.skip=true
 
 ------
 
+其他
+--------
+
+有想联系我的，可以加我QQ或微信，备注GitHub。欢迎大家联系，一起成长，有好的建议和想法可以提供给我。最近准备换工作，大家有不错的工作岗位也欢迎介绍给我。
+
+------
+
+![微信二维码](http://img.iszhouhua.com/printscreen/wechat_qr_code.jpg)
+
+------
+
+![QQ二维码](http://img.iszhouhua.com/printscreen/qq_qr_code.jpg)
+
+------
+
 ## 界面展示
 
 ![1557279251039](http://img.iszhouhua.com/printscreen/20190508093436.png)
@@ -107,3 +122,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2020.5.27
 
 缓存改用caffeine
+
+## 2020.9.4
+
+很久没看，发现网站被脚本搞挂了。这次改了很多东西，把评论、用户模块重做了一遍。
