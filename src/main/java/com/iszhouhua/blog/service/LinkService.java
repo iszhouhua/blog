@@ -17,4 +17,9 @@ public interface LinkService extends IService<Link> {
      * @return
      */
     List<Link> findLinkByType(Integer type);
+
+    /**
+     * 清除缓存
+     */
+    void clearCache();
 }

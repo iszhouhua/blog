@@ -1,17 +1,17 @@
 import request from '@/utils/request'
 
-export function getComment(query) {
+export function getCommentList(query) {
   return request({
-    url: '/comment',
+    url: '/comment/list',
     method: 'get',
     params: query
   })
 }
 
-export function putComment(id) {
+export function getComment(id) {
   return request({
     url: '/comment',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }
@@ -20,6 +20,14 @@ export function postComment(data) {
   return request({
     url: '/comment',
     method: 'post',
+    data
+  })
+}
+
+export function putComment(data) {
+  return request({
+    url: '/comment',
+    method: 'put',
     data
   })
 }

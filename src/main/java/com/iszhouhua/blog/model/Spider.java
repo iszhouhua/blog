@@ -2,17 +2,23 @@ package com.iszhouhua.blog.model;
 
 /**
  * 爬虫规则表
+ *
  * @author ZhouHua
  * @since 2019-04-16
  */
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
 @TableName("blog_spider")
-public class Spider {
+public class Spider implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     /**
      * 爬虫标识名

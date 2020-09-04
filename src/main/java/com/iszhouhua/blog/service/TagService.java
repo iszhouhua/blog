@@ -25,4 +25,9 @@ public interface TagService extends IService<Tag> {
      * @return
      */
     List<Tag> findTagsByArticleId(Long articleId);
+
+    /**
+     * 清除缓存
+     */
+    void clearCache();
 }

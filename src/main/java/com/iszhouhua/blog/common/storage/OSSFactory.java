@@ -32,7 +32,7 @@ public final class OSSFactory {
                 //未指定存储目录，默认存储于项目静态文件夹内
                 String localDirectory=System.getProperty("user.dir")+"/src/main/resources/static";
                 config.setLocalDirectory(localDirectory);
-                config.setLocalDomain(configService.findByName(ConfigConst.DOMIN));
+                config.setLocalDomain(configService.findByName(ConfigConst.DOMAIN));
             }
             return new LocalStorage(config);
         }

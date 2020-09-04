@@ -1,16 +1,17 @@
 import request from '@/utils/request'
 
-export function getConfig() {
+export function getConfigList(query) {
   return request({
-    url: '/config',
-    method: 'get'
+    url: '/config/list',
+    method: 'get',
+    params: query
   })
 }
 
-export function putConfig(id) {
+export function getConfig(id) {
   return request({
     url: '/config',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }
@@ -19,6 +20,14 @@ export function postConfig(data) {
   return request({
     url: '/config',
     method: 'post',
+    data
+  })
+}
+
+export function putConfig(data) {
+  return request({
+    url: '/config',
+    method: 'put',
     data
   })
 }

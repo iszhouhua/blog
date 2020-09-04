@@ -24,7 +24,6 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-
   {
     path: '/',
     component: Layout,
@@ -148,11 +147,17 @@ export const constantRouterMap = [
   {
     path: '/user',
     component: Layout,
-    redirect: '/user/info',
+    redirect: '/user/list',
     children: [{
+      path: 'list',
+      name: 'userList',
+      component: () => import('@/views/user/index'),
+      meta: { title: '用户管理', icon: 'user', noCache: true }
+    }, {
       path: 'info',
       name: 'userInfo',
-      component: () => import('@/views/user/index'),
+      component: () => import('@/views/user/user-info'),
+      hidden: true,
       meta: { title: '用户信息', icon: 'user', noCache: true }
     }]
   },

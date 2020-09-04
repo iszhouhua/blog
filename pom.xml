@@ -16,7 +16,7 @@
             <id>zhouhua</id>
             <name>Andy Zhou</name>
             <email>iszhouhua@163.com</email>
-            <url>https://www.iszhouhua.com</url>
+            <url>http://www.iszhouhua.com</url>
         </developer>
     </developers>
 
@@ -34,6 +34,7 @@
         <user-agent-utils.version>1.21</user-agent-utils.version>
         <ip2region.version>1.7.2</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
+        <commons-collections.version>3.2.1</commons-collections.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <jsoup.version>1.11.3</jsoup.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
@@ -70,8 +71,8 @@
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
         </dependency>
         <!-- mysql -->
         <dependency>
@@ -104,6 +105,11 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>${commons-collections.version}</version>
         </dependency>
         <!-- gson -->
         <dependency>

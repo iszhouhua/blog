@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { putCategory, postCategory } from '@/api/category'
+import { getCategory, postCategory, putCategory } from '@/api/category'
 
 export default {
   data() {
@@ -47,7 +47,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putCategory(id).then(response => {
+          getCategory(id).then(response => {
             this.dataForm = response.data
           })
         }
@@ -57,11 +57,19 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postCategory(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putCategory(this.dataForm).then(response => {
+              this.$message.success('修改分类成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postCategory(this.dataForm).then(response => {
+              this.$message.success('添加分类成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }

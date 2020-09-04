@@ -1,16 +1,17 @@
 import request from '@/utils/request'
 
-export function getSpider() {
+export function getSpiderList(query) {
   return request({
-    url: '/spider',
-    method: 'get'
+    url: '/spider/list',
+    method: 'get',
+    params: query
   })
 }
 
-export function putSpider(id) {
+export function getSpider(id) {
   return request({
     url: '/spider',
-    method: 'put',
+    method: 'get',
     params: { id }
   })
 }
@@ -19,6 +20,14 @@ export function postSpider(data) {
   return request({
     url: '/spider',
     method: 'post',
+    data
+  })
+}
+
+export function putSpider(data) {
+  return request({
+    url: '/spider',
+    method: 'put',
     data
   })
 }

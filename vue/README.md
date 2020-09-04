@@ -31,6 +31,8 @@ npm run dev
 
 ## 发布
 
+> 将`prod.env.js`中的`BLOG_URL`改为自己的博客链接。
+
 ```bash
 npm run build
 ```

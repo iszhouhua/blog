@@ -4,17 +4,26 @@
     :visible.sync="visible"
     title="回复评论">
     <el-form ref="dataForm" :model="dataForm" :rules="dataRule" label-width="100px" @keyup.enter.native="dataFormSubmit()">
-      <el-form-item label="评论文章" prop="parentArticle">
-        <el-input v-model="dataForm.parentArticle" :disabled="true"/>
+      <el-form-item label="文章ID" prop="article.id">
+        <el-input v-model="dataForm.article.id" :disabled="true"/>
       </el-form-item>
-      <el-form-item label="评论人" prop="parentAuthor">
-        <el-input v-model="dataForm.parentAuthor" :disabled="true"/>
+      <el-form-item label="评论文章" prop="article.title">
+        <el-input v-model="dataForm.article.title" :disabled="true"/>
       </el-form-item>
-      <el-form-item label="评论内容" prop="parentContent">
-        <el-input v-model="dataForm.parentContent" :disabled="true"/>
+      <el-form-item label="评论人ID" prop="user.id">
+        <el-input v-model="dataForm.user.id" :disabled="true"/>
       </el-form-item>
-      <el-form-item label="回复内容" prop="content">
-        <el-input v-model="dataForm.content" placeholder="请输入回复内容"/>
+      <el-form-item label="评论人昵称" prop="user.nickname">
+        <el-input v-model="dataForm.user.nickname" :disabled="true"/>
+      </el-form-item>
+      <el-form-item label="邮箱" prop="user.email">
+        <el-input v-model="dataForm.user.email" :disabled="true"/>
+      </el-form-item>
+      <el-form-item label="评论内容" prop="content">
+        <el-input v-model="dataForm.content" :disabled="true"/>
+      </el-form-item>
+      <el-form-item label="回复内容">
+        <el-input v-model="submitData.content" placeholder="请输入回复内容"/>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
@@ -25,7 +34,7 @@
 </template>
 
 <script>
-import { putComment, postComment } from '@/api/comment'
+import { getComment, postComment } from '@/api/comment'
 
 export default {
   name: 'ReplyComment',
@@ -33,11 +42,28 @@ export default {
     return {
       visible: false,
       dataForm: {
+        id: 0,
+        user: {
+          id: null,
+          nickname: '',
+          email: ''
+        },
+        replyUser: {
+          id: null,
+          nickname: '',
+          email: ''
+        },
+        ip: '',
+        userAgent: '',
+        content: '',
+        createTime: '',
+        article: { id: null, title: '' }
+      },
+      submitData: {
         articleId: 0,
         parentId: 0,
-        parentContent: '',
-        parentAuthor: '',
-        parentArticle: '',
+        targetType: 2,
+        replyUserId: 0,
         content: ''
       },
       dataRule: {
@@ -54,11 +80,8 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.parentId) {
-          putComment(id).then(response => {
-            this.dataForm.parentContent = response.data.content
-            this.dataForm.parentAuthor = response.data.author
-            this.dataForm.parentArticle = response.data.article.title
-            this.dataForm.articleId = response.data.article.id
+          getComment(id).then(response => {
+            this.dataForm = response.data
           })
         }
       })
@@ -67,7 +90,10 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postComment(this.dataForm).then(response => {
+          this.submitData.articleId = this.dataForm.article.id
+          this.submitData.parentId = this.dataForm.parentId || this.dataForm.id
+          this.submitData.replyUserId = this.dataForm.user.id
+          postComment(this.submitData).then(response => {
             this.$message.success(response.msg)
             this.visible = false
             this.$emit('refreshDataList')

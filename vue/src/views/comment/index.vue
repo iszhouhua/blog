@@ -2,6 +2,10 @@
   <div class="app-container">
     <div class="filter-container">
       <el-input v-model="listQuery.content" placeholder="评论内容" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.targetType" placeholder="目标类型" clearable class="filter-item" style="width: 130px">
+        <el-option key="0" label="文章" value="1" />
+        <el-option key="1" label="评论" value="2" />
+      </el-select>
       <el-select v-model="listQuery.status" placeholder="评论状态" clearable class="filter-item" style="width: 130px">
         <el-option key="0" label="待审核" value="0" />
         <el-option key="1" label="已发布" value="1" />
@@ -14,39 +18,41 @@
     <el-table v-loading="listLoading" :data="list" :default-sort="{prop: 'id', order: 'descending'}" border fit highlight-current-row style="width: 100%" @sort-change="sortChange">
       <el-table-column align="center" label="ID" sortable="custom" prop="id" width="100" />
 
-      <el-table-column header-align="center" label="评论的文章" min-width="80">
+      <el-table-column header-align="center" label="评论文章" min-width="80">
         <template slot-scope="scope">
-          <a :href="$store.getters.global.BLOG_URL+scope.row.article.url+'.html'" class="link-type" target="_blank">
+          <a :href="BLOG_URL+scope.row.article.url+'.html'" class="link-type" target="_blank">
             {{ scope.row.article.title }}
           </a>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="评论人" width="100" prop="author" />
+      <el-table-column align="center" label="评论人" width="100" prop="user.nickname" />
 
-      <el-table-column align="center" label="邮箱" min-width="80" prop="email" />
+      <el-table-column align="center" label="邮箱" min-width="88" prop="user.email" />
 
-      <el-table-column :show-overflow-tooltip="true" header-align="center" min-width="150" label="评论内容" prop="content" />
-
-      <el-table-column align="center" label="头像" width="80">
+      <el-table-column align="center" label="头像" width="88">
         <template slot-scope="scope">
           <el-popover placement="left" trigger="hover">
-            <img :src="'https://secure.gravatar.com/avatar/'+scope.row.emailMd5+'?s=600'" width="600">
-            <img slot="reference" :src="'https://secure.gravatar.com/avatar/'+scope.row.emailMd5+'?s=60'" width="60">
+            <img :src="scope.row.user.avatar" width="600">
+            <img slot="reference" :src="scope.row.user.avatar" width="60">
           </el-popover>
         </template>
       </el-table-column>
 
+      <el-table-column :show-overflow-tooltip="true" header-align="center" min-width="150" label="评论内容" prop="content" />
+
+      <el-table-column align="center" label="回复的人" width="100" prop="replyUser.nickname" />
+
       <el-table-column :show-overflow-tooltip="true" label="浏览器信息" align="center" prop="userAgent" min-width="100" />
 
-      <el-table-column label="IP地址" align="center" prop="ip" width="100" />
+      <el-table-column label="IP地址" align="center" prop="ip" min-width="150" />
 
-      <el-table-column :formatter="formatTime" width="100" align="center" sortable="custom" label="评论时间" prop="createTime" />
+      <el-table-column :formatter="formatTime" width="102" align="center" sortable="custom" label="评论时间" prop="createTime" />
 
       <el-table-column align="center" label="评论人类型" width="100">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.isAdmin? 'danger' : 'info'">
-            {{ scope.row.isAdmin?'博主':'游客' }}
+          <el-tag :type="scope.row.user.isAdmin? 'danger' : 'info'">
+            {{ scope.row.user.isAdmin?'管理员':'普通用户' }}
           </el-tag>
         </template>
       </el-table-column>
@@ -54,16 +60,14 @@
       <el-table-column align="center" label="状态" width="80">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status===1? 'success' : 'info'">
-            {{ scope.row.status===1?'已发布':'待审核' }}
+            {{ scope.row.status===1?'已发布':scope.row.status===2?'已删除':'待审核' }}
           </el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column label="引用评论" align="center" prop="parentId" width="50" />
-
       <el-table-column width="280" align="center" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" icon="el-icon-edit" @click="replyCommentHandle(scope.row.id)">
+          <el-button v-if="scope.row.status!==2" type="primary" size="mini" icon="el-icon-edit" @click="replyCommentHandle(scope.row.id)">
             回复
           </el-button>
           <el-button v-if="scope.row.status===0" size="mini" icon="el-icon-check" style="margin-left: 10px;" type="success" @click="checkCommentHandle(scope.row.id)">
@@ -72,7 +76,7 @@
           <el-button v-else size="mini" icon="el-icon-zoom-in" style="margin-left: 10px;" type="info" @click="checkCommentHandle(scope.row.id)">
             查看
           </el-button>
-          <el-button size="mini" icon="el-icon-delete" style="margin-left: 10px;" type="danger" @click="handleModifyStatus(scope.row.id,2)">
+          <el-button v-if="scope.row.status!==2" size="mini" icon="el-icon-delete" style="margin-left: 10px;" type="danger" @click="deleteComment(scope.row.id)">
             删除
           </el-button>
         </template>
@@ -89,7 +93,7 @@
 </template>
 
 <script>
-import { getComment, postComment } from '@/api/comment'
+import { getCommentList, putComment } from '@/api/comment'
 import Pagination from '@/components/Pagination'
 import { parseTime } from '@/utils'
 import checkComment from './check-comment'
@@ -111,16 +115,19 @@ export default {
         status: undefined,
         ascs: undefined,
         descs: undefined
-      }
+      },
+      BLOG_URL: process.env.BLOG_URL
     }
   },
   methods: {
     // 获得数据集合
     getList() {
       this.listLoading = true
-      getComment(this.listQuery).then(response => {
-        this.list = response.data.records
-        this.total = response.data.total
+      getCommentList(this.listQuery).then(response => {
+        if (response.data) {
+          this.list = response.data.records
+          this.total = response.data.total
+        }
         this.listLoading = false
       })
     },
@@ -132,10 +139,25 @@ export default {
     // 修改状态
     handleModifyStatus(id, status) {
       this.listLoading = true
-      postComment({ 'id': id, 'status': status }).then(response => {
+      putComment({ 'id': id, 'status': status }).then(response => {
         this.$message.success(response.msg)
         this.listLoading = false
         this.getList()
+      })
+    },
+    deleteComment(id) {
+      this.$confirm('你确定要删除么?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.listLoading = true
+        this.handleModifyStatus(id, 2)
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        })
       })
     },
     // 格式化时间

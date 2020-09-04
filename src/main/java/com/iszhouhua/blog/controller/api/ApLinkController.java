@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.controller.api;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.Link;
@@ -8,8 +9,11 @@ import com.iszhouhua.blog.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 /**
  * 链接管理
+ *
  * @author ZhouHua
  * @since 2018-04-13
  */
@@ -19,25 +23,39 @@ public class ApLinkController {
     @Autowired
     private LinkService linkService;
 
-    @GetMapping
-    public Result list(){
-        return Result.success("查询成功",linkService.list());
+    @GetMapping("list")
+    public Result list(Page<Link> page) {
+        return Result.success("查询成功", linkService.page(page));
     }
 
     @PostMapping
-    public Result save(@RequestBody Link link){
+    public Result save(@RequestBody Link link) {
         ValidatorUtils.validate(link);
-        linkService.saveOrUpdate(link);
-        return Result.success("保存成功",link);
+        boolean res = linkService.save(link);
+        linkService.clearCache();
+        return res ? Result.success("保存成功", link) : Result.fail("保存失败");
     }
 
     @PutMapping
-    public Result info(Long id){
-        return Result.success("查询成功",linkService.getById(id));
+    public Result update(@RequestBody Link link) {
+        ValidatorUtils.validate(link);
+        if (Objects.isNull(link.getId())) {
+            return Result.fail("ID不能为空");
+        }
+        boolean res = linkService.updateById(link);
+        linkService.clearCache();
+        return res ? Result.success("修改成功", link) : Result.fail("修改失败");
+    }
+
+    @GetMapping
+    public Result info(Long id) {
+        return Result.success("查询成功", linkService.getById(id));
     }
 
     @DeleteMapping
-    public Result remove(Long id){
-        return linkService.removeById(id)?Result.success("删除成功"):Result.fail("删除失败");
+    public Result remove(Long id) {
+        boolean res = linkService.removeById(id);
+        linkService.clearCache();
+        return res ? Result.success("删除成功") : Result.fail("删除失败");
     }
 }

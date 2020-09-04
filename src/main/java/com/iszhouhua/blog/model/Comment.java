@@ -3,12 +3,15 @@ package com.iszhouhua.blog.model;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 /**
  * 评论表
+ *
  * @author ZhouHua
  * @since 2018-12-14
  */
@@ -20,32 +23,35 @@ public class Comment implements Serializable {
     private Long id;
 
     /**
-     * 评论的文章，为0表示属于留言内容
+     * 目标类型 1：文章 2：评论
      */
+    @NotNull(message = "评论目标类型不能为空")
+    private Integer targetType;
+
+    /**
+     * 评论的文章
+     */
+    @NotNull(message = "文章ID不能为空")
     private Long articleId;
 
     /**
-     * 评论者
+     * 评论用户ID
      */
-    private String author;
+    private Long userId;
 
     /**
-     * 评论者的邮箱
+     * 回复目标的用户id
      */
-    private String email;
-
-    /**
-     * 邮箱MD5值，用于显示gravatar头像
-     */
-    private String emailMd5;
+    private Long replyUserId;
 
     /**
      * 评论内容
      */
+    @NotBlank(message = "评论内容不能为空")
     private String content;
 
     /**
-     * 评论者的浏览器
+     * 评论者使用的浏览器
      */
     private String userAgent;
 
@@ -55,14 +61,9 @@ public class Comment implements Serializable {
     private String ip;
 
     /**
-     * 引用的回复，0表示没有引用
+     * 父级评论
      */
     private Long parentId;
-
-    /**
-     * 是否为博主评论
-     */
-    private Boolean isAdmin;
 
     /**
      * 评论时间
@@ -81,16 +82,20 @@ public class Comment implements Serializable {
     private Article article;
 
     /**
-     * 引用的评论
+     * 子级评论
      */
     @TableField(exist = false)
-    List<Comment> comments;
+    private List<Comment> subComments;
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
+    /**
+     * 评论人
+     */
+    @TableField(exist = false)
+    private User user;
 
-    public void setAdmin(Boolean admin) {
-        isAdmin = admin;
-    }
+    /**
+     * 回复的人
+     */
+    @TableField(exist = false)
+    private User replyUser;
 }

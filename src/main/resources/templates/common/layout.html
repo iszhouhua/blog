@@ -8,16 +8,16 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css(v=3.3.7)}">
     <link rel="stylesheet" th:href="@{/vendor/aos/aos.css(v=2.3.4)}">
-    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.4)}">
+    <link rel="stylesheet" th:href="@{/css/style.css(v=1.0.6)}">
     <link rel="stylesheet" th:href="@{/vendor/highslide/highslide.css(v=5.0.0)}">
     <link rel="stylesheet" th:href="@{/vendor/font-awesome/css/font-awesome.min.css(v=4.7.0)}">
-    <link rel="stylesheet" th:href="@{/vendor/live2d/css/live2d.css}" />
+    <link rel="stylesheet" th:href="@{/vendor/live2d/css/live2d.css}"/>
     <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
     <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
     <script th:src="@{/vendor/aos/aos.js(v=2.3.4)}"></script>
     <script th:src="@{/vendor/highslide/highslide-full.min.js(v=5.0.0)}"></script>
     <th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_HEAD)}">
-[(${GLOBAL.BLOG_HEAD})]
+        [(${GLOBAL.BLOG_HEAD})]
     </th:block>
 </head>
 <body>
@@ -25,11 +25,11 @@
 <section class="hidden-xs">
     <ul class="cb-slideshow">
         <script th:inline="javascript">
-            var backgroundList=/*[[${GLOBAL.BACKGROUND_LIST}]]*/ "";
-            backgroundList=JSON.parse(backgroundList);
-            var duration=backgroundList.length*6;
+            var backgroundList =/*[[${GLOBAL.BACKGROUND_LIST}]]*/ "";
+            backgroundList = JSON.parse(backgroundList);
+            var duration = backgroundList.length * 6;
             for (var i in backgroundList) {
-                document.write("<li style='list-style-type:none;'><span style='background-image: url("+backgroundList[i]+");animation:imageAnimation "+duration+"s linear infinite "+i*6+"s;-webkit-animation:imageAnimation "+duration+"s linear infinite "+i*6+"s;'></span></li>");
+                document.write("<li style='list-style-type:none;'><span style='background-image: url(" + backgroundList[i] + ");animation:imageAnimation " + duration + "s linear infinite " + i * 6 + "s;-webkit-animation:imageAnimation " + duration + "s linear infinite " + i * 6 + "s;'></span></li>");
             }
         </script>
     </ul>
@@ -43,12 +43,16 @@
             <a href="/about.html" class="menuItem" style="left: 50%; top: 85%;">关于我</a>
             <a href="/tag" class="menuItem" style="left: 19.6891%; top: 67.5%;">标签</a>
             <th:block th:if="${page}">
-                <a th:href="${page.hasPrevious()}?('./'+${page.current - 1}):'#'" class="menuItem" style="left: 19.6891%; top: 32.5%;">上一页</a>
-                <a th:href="${page.hasNext()}?('./'+${page.current + 1}):'#'" class="menuItem" style="left: 80.3109%; top: 32.5%;">下一页</a>
+                <a th:href="${page.hasPrevious()}?('./'+${page.current - 1}):'#'" class="menuItem"
+                   style="left: 19.6891%; top: 32.5%;">上一页</a>
+                <a th:href="${page.hasNext()}?('./'+${page.current + 1}):'#'" class="menuItem"
+                   style="left: 80.3109%; top: 32.5%;">下一页</a>
             </th:block>
             <th:block th:unless="${page}">
-                <a th:href="${nextArticle}?('/'+${nextArticle.url}+'.html'):'#'" class="menuItem" style="left: 80.3109%; top: 32.5%;">下一篇</a>
-                <a th:href="${previousArticle}?('/'+${previousArticle.url}+'.html'):'#'" class="menuItem" style="left: 19.6891%; top: 32.5%;">上一篇</a>
+                <a th:href="${nextArticle}?('/'+${nextArticle.url}+'.html'):'#'" class="menuItem"
+                   style="left: 80.3109%; top: 32.5%;">下一篇</a>
+                <a th:href="${previousArticle}?('/'+${previousArticle.url}+'.html'):'#'" class="menuItem"
+                   style="left: 19.6891%; top: 32.5%;">上一篇</a>
             </th:block>
         </div>
         <audio id="audio" src="/images/onj.mp3"></audio>
@@ -107,10 +111,10 @@
     POWERMODE.shake = 'true';       // turn off shake
     document.body.addEventListener('input', POWERMODE);
 </script>
-<script th:src="@{/js/blog.js(v=1.0.0)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
 <script th:src="@{/js/onj.js(v=1.0.0)}"></script>
-<th:block  th:unless="${#strings.isEmpty(GLOBAL.BLOG_SCRIPT)}">
-[(${GLOBAL.BLOG_SCRIPT})]
+<th:block th:unless="${#strings.isEmpty(GLOBAL.BLOG_SCRIPT)}">
+    [(${GLOBAL.BLOG_SCRIPT})]
 </th:block>
 </body>
 </html>

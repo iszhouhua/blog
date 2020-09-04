@@ -4,13 +4,13 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img :src="'https://secure.gravatar.com/avatar/'+user.emailMd5+'?s=80'" class="user-avatar">
+        <img v-if="user" :src="user.avatar" class="user-avatar">
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
         <router-link class="inlineBlock" to="/user/info">
           <el-dropdown-item>
-            用户信息
+            修改信息
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>

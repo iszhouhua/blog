@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-button class="filter-item" type="primary" icon="el-icon-rank" @click="addOrUpdateHandle()">新增</el-button>
     </div>
-    <el-table :default-sort = "{prop: 'id', order: 'descending'}" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table v-loading="listLoading" :default-sort = "{prop: 'id', order: 'descending'}" :data="list" border fit highlight-current-row style="width: 100%" @sort-change="sortChange">
       <el-table-column align="center" label="ID" prop="id" width="150" sortable/>
 
       <el-table-column align="center" label="链接名" min-width="100" prop="name"/>
@@ -29,6 +29,8 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.current" :limit.sync="listQuery.size" @pagination="getList" />
     <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getList"/>
   </div>
@@ -36,7 +38,7 @@
 
 <script>
 import AddOrUpdate from './add-or-update'
-import { getLink, deleteLink } from '@/api/link'
+import { getLinkList, deleteLink } from '@/api/link'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'LinkList',
@@ -44,17 +46,41 @@ export default {
   data() {
     return {
       list: [],
-      addOrUpdateVisible: false
+      total: 0,
+      listLoading: true,
+      addOrUpdateVisible: false,
+      listQuery: {
+        current: 1,
+        size: 10,
+        ascs: undefined,
+        descs: undefined
+      }
     }
   },
-  created() {
-    this.getList()
-  },
+  // created() {
+  //   this.getList()
+  // },
   methods: {
     getList() {
-      getLink(this.listQuery).then(response => {
-        this.list = response.data
+      this.listLoading = true
+      getLinkList(this.listQuery).then(response => {
+        if (response.data) {
+          this.list = response.data.records
+          this.total = response.data.total
+        }
+        this.listLoading = false
       })
+    },
+    // 排序
+    sortChange(data) {
+      if (data.order === 'ascending') {
+        this.listQuery.descs = undefined
+        this.listQuery.ascs = data.prop.replace(/([A-Z])/g, '_$1').toLowerCase()
+      } else {
+        this.listQuery.ascs = undefined
+        this.listQuery.descs = data.prop.replace(/([A-Z])/g, '_$1').toLowerCase()
+      }
+      this.getList()
     },
     // 删除标签
     removeLink(id) {

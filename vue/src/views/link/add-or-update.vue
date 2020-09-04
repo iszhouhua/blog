@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { putLink, postLink } from '@/api/link'
+import { getLink, postLink, putLink } from '@/api/link'
 
 export default {
   data() {
@@ -34,7 +34,8 @@ export default {
       dataForm: {
         id: 0,
         name: '',
-        url: ''
+        url: '',
+        type: undefined
       },
       dataRule: {
         name: [
@@ -42,6 +43,9 @@ export default {
         ],
         url: [
           { required: true, message: '链接地址不能为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '请选择链接类型', trigger: 'blur' }
         ]
       }
     }
@@ -53,7 +57,7 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
-          putLink(id).then(response => {
+          getLink(id).then(response => {
             this.dataForm = response.data
           })
         }
@@ -63,11 +67,19 @@ export default {
     dataFormSubmit() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          postLink(this.dataForm).then(response => {
-            this.$message.success(response.msg)
-            this.visible = false
-            this.$emit('refreshDataList')
-          })
+          if (this.dataForm.id) {
+            putLink(this.dataForm).then(response => {
+              this.$message.success('修改链接成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          } else {
+            postLink(this.dataForm).then(response => {
+              this.$message.success('添加链接成功')
+              this.visible = false
+              this.$emit('refreshDataList')
+            })
+          }
         }
       })
     }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="author" th:content="${GLOBAL.BLOG_AUTHOR}">
+    <title th:text="'登录 - '+${GLOBAL.BLOG_TITLE}"></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/login.css(v=1.0.0)}">
+    <link rel="stylesheet" th:href="@{/vendor/toastr/toastr.min.css(v=2.1.1)}">
+</head>
+<body class="login login-action-login wp-core-ui locale-zh-cn">
+<div id="login">
+    <h1>
+        <a th:href="@{${GLOBAL.BLOG_URL}}">
+            <!-- 这里使用文字(navbar_text or config.title) -->
+            <div class="navbar-brand" th:text="${GLOBAL.BLOG_TITLE}"></div>
+        </a>
+    </h1>
+    <form name="loginform" id="loginform" action="https://www.hhgal.com/wp-login.php" method="post"><p><label
+            for="username">用户名或电子邮件地址<br/> <input type="text" name="username" id="username" class="input" value=""
+                                                  size="20" required/></label></p>
+        <p><label for="password">密码<br/> <input type="password" name="password" id="password" class="input" value=""
+                                                size="20" required pattern="^[a-zA-Z0-9]\w{5,19}$"
+                                                oninvalid="this.setCustomValidity('6~20字母数字或下划线')"
+                                                oninput="this.setCustomValidity('')"/></label></p>
+        <p class="submit">
+            <a th:href="@{/register}">注册</a>
+            <input type="submit" name="wp-submit" id="wp-submit"
+                   class="button button-primary button-large" value="登录"/>
+    </form>
+</div>
+<script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
+<script th:src="@{/vendor/toastr/toastr.min.js(v=2.1.1)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
+</body>
+</html>

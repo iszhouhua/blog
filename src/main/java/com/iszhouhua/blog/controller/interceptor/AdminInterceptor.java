@@ -12,23 +12,28 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Objects;
 
 /**
- * 前台登录拦截器
+ * 后台登录拦截器
  *
  * @author ZhouHua
- * @date 2020/6/5
+ * @date 2018/12/21
  */
-public class LoginInterceptor implements HandlerInterceptor {
+public class AdminInterceptor implements HandlerInterceptor {
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
-        //如果已登录则放行
+        //如果是管理员则放行
         User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
         if (Objects.nonNull(user)) {
-            return true;
+            if (user.getIsAdmin()) {
+                return true;
+            } else {
+                //非管理员禁止登陆
+                throw new BlogException(CodeEnum.FORBIDDEN.getValue(), "权限不足！");
+            }
         }
         //否则进行拦截
         throw new BlogException(CodeEnum.NOT_LOGIN.getValue(), "未登录！");
