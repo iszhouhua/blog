@@ -34,7 +34,7 @@
         <user-agent-utils.version>1.21</user-agent-utils.version>
         <ip2region.version>1.7.2</ip2region.version>
         <commons-io.version>2.6</commons-io.version>
-        <commons-collections.version>3.2.1</commons-collections.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>
         <jsoup.version>1.11.3</jsoup.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
