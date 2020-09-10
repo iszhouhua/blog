@@ -4,6 +4,7 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.annotation.CurrentUser;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.PBKDF2Utils;
@@ -32,7 +33,7 @@ public class ApiUserController {
     private UserService userService;
 
     @GetMapping("list")
-    public Result list(Page<User> page, User user) {
+    public Result list(Page<User> page, User user, @CurrentUser User currentUser) {
         String nickname = user.getNickname();
         user.setNickname(null);
         String email = user.getEmail();
@@ -80,11 +81,11 @@ public class ApiUserController {
     }
 
     @PutMapping
-    public Result update(@RequestBody User user, HttpSession session) {
+    public Result update(@RequestBody User user, HttpSession session, @CurrentUser User currentUser) {
         if (Objects.isNull(user.getId())) {
             return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "用户ID不能为空");
         }
-        User currentUser = (User) session.getAttribute(Const.USER_SESSION_KEY);
+//        User currentUser = (User) session.getAttribute(Const.USER_SESSION_KEY);
         if (currentUser.getId().equals(user.getId())) {
             if (Objects.nonNull(user.getIsDisable()) && user.getIsDisable()) {
                 return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "不可以禁用自己");
@@ -104,10 +105,10 @@ public class ApiUserController {
     }
 
     @GetMapping
-    public Result info(Long id, HttpSession session) {
+    public Result info(Long id, @CurrentUser User currentUser) {
         User user = null;
         if (Objects.isNull(id)) {
-            user = (User) session.getAttribute(Const.USER_SESSION_KEY);
+            user = currentUser;
         } else {
             user = userService.findUserById(id);
         }
@@ -115,11 +116,11 @@ public class ApiUserController {
     }
 
     @PostMapping("changePass")
-    public Result changePass(String oldPass, String newPass, HttpSession session) throws Exception {
+    public Result changePass(String oldPass, String newPass, HttpSession session, @CurrentUser User currentUser) throws Exception {
         ValidatorUtils.isBlank(oldPass, "原密码不能为空");
         ValidatorUtils.isBlank(newPass, "新密码不能为空");
-        User user = (User) session.getAttribute(Const.USER_SESSION_KEY);
-        boolean checkPass = PBKDF2Utils.verify(oldPass, user.getSalt(), user.getPassword());
+//        User user = (User) session.getAttribute(Const.USER_SESSION_KEY);
+        boolean checkPass = PBKDF2Utils.verify(oldPass, currentUser.getSalt(), currentUser.getPassword());
         if (!checkPass) {
             return Result.fail("原密码输入错误");
         }
@@ -127,9 +128,9 @@ public class ApiUserController {
         String salt = PBKDF2Utils.getSalt();
         //加密
         String password = PBKDF2Utils.getPBKDF2(newPass, salt);
-        user.setSalt(salt);
-        user.setPassword(password);
-        userService.modifyUserById(user);
+        currentUser.setSalt(salt);
+        currentUser.setPassword(password);
+        userService.modifyUserById(currentUser);
         //退出登录
         session.removeAttribute(Const.USER_SESSION_KEY);
         return Result.success("修改密码成功");

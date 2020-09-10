@@ -121,12 +121,12 @@ import 'mavon-editor/dist/css/index.css'
 import toolbars from './toolbars'
 import Sticky from '@/components/Sticky' // 粘性header组件
 import { getArticle, postArticle } from '@/api/article'
-import { getCategory } from '@/api/category'
-import { getTag } from '@/api/tag'
+import { getCategoryList } from '@/api/category'
+import { getTagList } from '@/api/tag'
 import { CommentDropdown, TopDropdown, OriginalDropdown } from './Dropdown'
 import { uploadImage } from '@/api/upload'
 import UploadImage from '@/components/UploadImage'
-import { getSpider, spiderArticle } from '@/api/spider'
+import { getSpiderList, spiderArticle } from '@/api/spider'
 import { isUrl } from '@/utils'
 import TurndownService from 'turndown'
 const turndownService = new TurndownService()
@@ -195,18 +195,18 @@ export default {
     // https://github.com/PanJiaChen/vue-element-admin/issues/1221
     this.tempRoute = Object.assign({}, this.$route)
 
-    getCategory().then(response => {
-      this.categoryOptions = response.data
+    getCategoryList().then(response => {
+      this.categoryOptions = response.data.records
     }).catch()
-    getTag().then(response => {
-      this.tagOptions = response.data
+    getTagList().then(response => {
+      this.tagOptions = response.data.records
     }).catch()
   },
   methods: {
     switchIsOriginal(isOriginal) {
       if (!isOriginal && this.spiderArr.length === 0) {
-        getSpider().then(response => {
-          this.spiderArr = response.data
+        getSpiderList().then(response => {
+          this.spiderArr = response.data.records
         })
       }
     },

@@ -3,7 +3,7 @@
     <div class="filter-container">
       <el-button class="filter-item" type="primary" icon="el-icon-rank" @click="addOrUpdateHandle()">新增</el-button>
     </div>
-    <el-table :default-sort = "{prop: 'id', order: 'descending'}" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table :default-sort = "{prop: 'id', order: 'descending'}" :data="list" border fit highlight-current-row style="width: 100%" @sort-change="sortChange">
       <el-table-column align="center" label="ID" prop="id" width="150" sortable/>
 
       <el-table-column align="center" label="参数名" min-width="100" prop="name"/>
@@ -46,7 +46,13 @@ export default {
       list: [],
       total: 0,
       listLoading: true,
-      addOrUpdateVisible: false
+      addOrUpdateVisible: false,
+      listQuery: {
+        current: 1,
+        size: 10,
+        ascs: undefined,
+        descs: undefined
+      }
     }
   },
   // created() {

@@ -1,12 +1,16 @@
 package com.iszhouhua.blog.config;
 
-import com.iszhouhua.blog.controller.interceptor.AdminInterceptor;
-import com.iszhouhua.blog.controller.interceptor.LoginInterceptor;
+import com.iszhouhua.blog.common.interceptor.AdminInterceptor;
+import com.iszhouhua.blog.common.interceptor.LoginInterceptor;
+import com.iszhouhua.blog.common.resolver.CustomAugmentResolver;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * 拦截器
@@ -57,5 +61,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowedOrigins("*")
                 .allowedMethods("*");
+    }
+
+    /**
+     * 参数解析
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new CustomAugmentResolver());
     }
 }

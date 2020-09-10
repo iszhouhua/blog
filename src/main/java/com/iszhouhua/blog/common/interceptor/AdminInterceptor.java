@@ -1,4 +1,4 @@
-package com.iszhouhua.blog.controller.interceptor;
+package com.iszhouhua.blog.common.interceptor;
 
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;

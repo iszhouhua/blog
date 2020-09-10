@@ -3,9 +3,9 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.annotation.CurrentUser;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.ConfigConst;
-import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.IPUtils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
@@ -69,7 +69,7 @@ public class ApiCommentController {
     }
 
     @PostMapping(value = {"", "save"})
-    public Result save(@RequestBody Comment comment, HttpServletRequest request) {
+    public Result save(@RequestBody Comment comment, HttpServletRequest request, @CurrentUser User currentUser) {
         ValidatorUtils.validate(comment);
         if (comment.getTargetType().equals(CommentTargetTypeEnum.COMMENT.getValue())) {
             if (Objects.isNull(comment.getParentId())) {
@@ -79,9 +79,9 @@ public class ApiCommentController {
                 return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "回复的人不能为空");
             }
         }
-        User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
-        comment.setUserId(user.getId());
-        if (user.getIsAdmin()) {
+//        User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
+        comment.setUserId(currentUser.getId());
+        if (currentUser.getIsAdmin()) {
             comment.setStatus(CommentStatusEnum.PUBLISHED.getValue());
         } else {
             Boolean isCheck = configService.getConfigObject(ConfigConst.COMMENT_CHECK, Boolean.class);

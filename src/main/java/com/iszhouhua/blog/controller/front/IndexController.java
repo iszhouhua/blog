@@ -2,11 +2,13 @@ package com.iszhouhua.blog.controller.front;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.iszhouhua.blog.common.annotation.CurrentUser;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.exception.BlogException;
 import com.iszhouhua.blog.model.Article;
 import com.iszhouhua.blog.model.Comment;
+import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.model.enums.ArticleTypeEnum;
 import com.iszhouhua.blog.model.enums.LinkTypeEnum;
 import com.iszhouhua.blog.service.LinkService;
@@ -17,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -111,11 +112,8 @@ public class IndexController extends BaseController {
      * @return
      */
     @GetMapping("/login")
-    public String login(HttpSession session) {
-        if (null != session.getAttribute(Const.USER_SESSION_KEY)) {
-            return "/";
-        }
-        return "login";
+    public String login(@CurrentUser User currentUser) {
+        return null == currentUser ? "login" : "/";
     }
 
     /**

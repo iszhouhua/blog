@@ -114,7 +114,7 @@
 
 <script>
 import { getArticleList, modifyArticle, deleteArticle } from '@/api/article'
-import { getCategory } from '@/api/category'
+import { getCategoryList } from '@/api/category'
 import Pagination from '@/components/Pagination'
 import { parseTime } from '@/utils'
 const tagTypes = ['', 'success', 'info', 'warning', 'danger']
@@ -150,8 +150,8 @@ export default {
     if (this.articleStatus > 0) {
       this.listQuery.status = this.articleStatus
     }
-    getCategory().then(response => {
-      this.categoryOptions = response.data
+    getCategoryList().then(response => {
+      this.categoryOptions = response.data.records
     })
   },
   methods: {
