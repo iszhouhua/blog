@@ -8,6 +8,13 @@ export function getSpiderList(query) {
   })
 }
 
+export function getAllSpider() {
+  return request({
+    url: '/spider/all',
+    method: 'get'
+  })
+}
+
 export function getSpider(id) {
   return request({
     url: '/spider',

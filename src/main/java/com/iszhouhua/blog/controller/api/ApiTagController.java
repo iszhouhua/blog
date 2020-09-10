@@ -28,6 +28,11 @@ public class ApiTagController {
         return Result.success("查询成功", tagService.page(page));
     }
 
+    @GetMapping("all")
+    public Result all() {
+        return Result.success("查询成功", tagService.list());
+    }
+
     @PostMapping
     public Result save(@RequestBody Tag tag) {
         ValidatorUtils.validate(tag);

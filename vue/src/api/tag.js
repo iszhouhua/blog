@@ -8,6 +8,13 @@ export function getTagList(query) {
   })
 }
 
+export function getAllTag() {
+  return request({
+    url: '/tag/all',
+    method: 'get'
+  })
+}
+
 export function getTag(id) {
   return request({
     url: '/tag',

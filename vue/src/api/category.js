@@ -8,6 +8,13 @@ export function getCategoryList(query) {
   })
 }
 
+export function getAllCategory() {
+  return request({
+    url: '/category/all',
+    method: 'get'
+  })
+}
+
 export function getCategory(id) {
   return request({
     url: '/category',

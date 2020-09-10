@@ -5,7 +5,7 @@ import com.iszhouhua.blog.common.constant.Const;
 import java.lang.annotation.*;
 
 /**
- * 绑定当前登录的用户<
+ * 绑定当前登录的用户
  */
 @Target({ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)

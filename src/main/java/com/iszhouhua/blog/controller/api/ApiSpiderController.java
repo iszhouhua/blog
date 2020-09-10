@@ -33,6 +33,11 @@ public class ApiSpiderController {
         return Result.success("查询成功", spiderService.page(page));
     }
 
+    @GetMapping("all")
+    public Result all() {
+        return Result.success("查询成功", spiderService.list());
+    }
+
     @PostMapping
     public Result save(@RequestBody Spider spider) {
         ValidatorUtils.validate(spider);

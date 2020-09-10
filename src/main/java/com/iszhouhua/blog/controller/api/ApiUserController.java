@@ -33,7 +33,7 @@ public class ApiUserController {
     private UserService userService;
 
     @GetMapping("list")
-    public Result list(Page<User> page, User user, @CurrentUser User currentUser) {
+    public Result list(Page<User> page, User user) {
         String nickname = user.getNickname();
         user.setNickname(null);
         String email = user.getEmail();

@@ -28,6 +28,11 @@ public class ApiCategoryController {
         return Result.success("查询成功", categoryService.page(page));
     }
 
+    @GetMapping("all")
+    public Result all() {
+        return Result.success("查询成功", categoryService.list());
+    }
+
     @PostMapping
     public Result save(@RequestBody Category category) {
         ValidatorUtils.validate(category);
