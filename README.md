@@ -30,7 +30,7 @@
 mvn clean package -Dmaven.test.skip=true
 ```
 
-将打包好的`blog.jar`和data文件夹下的`blog.sh`放到同一文件夹下，执行命令：
+将打包好的`blog.jar`和`blog.sh`放到同一文件夹下，执行命令：
 
 ```bash
 # 使脚本具有执行权限
@@ -67,7 +67,7 @@ clean package war:war -Dmaven.test.skip=true
 其他
 --------
 
-有想联系我的，可以加我QQ或微信，备注GitHub。欢迎大家联系，一起成长，有好的建议和想法可以提供给我。最近准备换工作，大家有不错的工作岗位也欢迎介绍给我。
+有想联系我的，可以加我QQ或微信，备注GitHub。欢迎大家联系，一起成长，有好的建议和想法可以提供给我。最近在找工作，大家有不错的工作岗位也欢迎介绍给我。
 
 ------
 
