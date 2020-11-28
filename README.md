@@ -130,3 +130,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2020.9.10
 
 增加当前登录用户参数注入，修复一些上次改动引起的bug
+
+## 2020.11.28
+
+修复文件流未关闭引起的Too many open files问题
