@@ -1,6 +1,8 @@
 #!/bin/bash
 # jar文件名
 FILE_NAME=blog.jar
+# log文件夹
+LOG_DIR=$(pwd)/logs
 
 # 获得进程id
 get_pid(){
@@ -33,7 +35,13 @@ shut_down(){
 
 # 查看日志
 show_log(){
-    tail -f ./logs/blog.log
+    # 判断是否有logs文件夹，没有则创建，用于存储日志
+    if [ ! -d "${LOG_DIR}" ]; then
+        mkdir $LOG_DIR
+        # 同时创建日志文件
+        touch $LOG_DIR/blog.log
+    fi
+    tail -f $LOG_DIR/blog.log
 }
 
 # 显示帮助

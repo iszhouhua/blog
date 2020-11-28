@@ -6,8 +6,10 @@ import org.lionsoul.ip2region.DataBlock;
 import org.lionsoul.ip2region.DbConfig;
 import org.lionsoul.ip2region.DbSearcher;
 import org.lionsoul.ip2region.Util;
+
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -20,53 +22,54 @@ public class IPUtils {
     /**
      * ip2region.db文件的存储位置
      */
-    private static final String DB_PATH="data/ip2region.db";
+    private static final String DB_PATH = "data/ip2region.db";
 
     /**
      * 将resources中的data/ip2region.db文件复制到真实目录
      */
     static {
-        File dbFile = new File(DB_PATH) ;
-        if(!dbFile.exists()){
+        File dbFile = new File(DB_PATH);
+        if (!dbFile.exists()) {
             try {
-                FileUtils.copyInputStreamToFile(IPUtils.class.getClassLoader().getResourceAsStream("ip2region.db"),dbFile);
+                FileUtils.copyInputStreamToFile(IPUtils.class.getClassLoader().getResourceAsStream("ip2region.db"), dbFile);
             } catch (IOException e) {
-                log.error("复制文件失败",e);
+                log.error("复制文件失败", e);
             }
         }
     }
 
     /**
      * 获取当前网络ip
+     *
      * @param request
      * @return
      */
-    public static String getIpAddr(HttpServletRequest request){
+    public static String getIpAddr(HttpServletRequest request) {
         String ipAddress = request.getHeader("x-forwarded-for");
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("Proxy-Client-IP");
         }
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getHeader("WL-Proxy-Client-IP");
         }
-        if(ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
             ipAddress = request.getRemoteAddr();
-            if(ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")){
+            if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
                 //根据网卡取本机配置的IP
-                InetAddress inet=null;
+                InetAddress inet = null;
                 try {
                     inet = InetAddress.getLocalHost();
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
-                ipAddress= inet.getHostAddress();
+                ipAddress = inet.getHostAddress();
             }
         }
         //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
         //"***.***.***.***".length() = 15
-        if(ipAddress!=null && ipAddress.length()>15){
-            if(ipAddress.indexOf(",")>0){
-                ipAddress = ipAddress.substring(0,ipAddress.indexOf(","));
+        if (ipAddress != null && ipAddress.length() > 15) {
+            if (ipAddress.indexOf(",") > 0) {
+                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
             }
         }
         return ipAddress;
@@ -74,20 +77,22 @@ public class IPUtils {
 
     /**
      * 根据IP获取城市数据
+     *
      * @param ip IP地址
      * @return
      */
-    public static String getCity(String ip){
-        return getCity(ip,DbSearcher.BTREE_ALGORITHM);
+    public static String getCity(String ip) {
+        return getCity(ip, DbSearcher.BTREE_ALGORITHM);
     }
 
     /**
      * 根据IP获得城市数据
-     * @param ip IP地址
+     *
+     * @param ip        IP地址
      * @param algorithm 查询算法
      * @return
      */
-    public static String getCity(String ip,int algorithm){
+    public static String getCity(String ip, int algorithm) {
         if (!Util.isIpAddress(ip)) {
             log.error("无效参数：ip");
             return null;
@@ -97,13 +102,13 @@ public class IPUtils {
             log.error("ip2region.db文件不存在");
             return null;
         }
+        DbSearcher searcher = null;
         try {
             DbConfig config = new DbConfig();
-            DbSearcher searcher = new DbSearcher(config, DB_PATH);
+            searcher = new DbSearcher(config, DB_PATH);
             //define the method
             Method method;
-            switch ( algorithm )
-            {
+            switch (algorithm) {
                 case DbSearcher.BTREE_ALGORITHM:
                     method = searcher.getClass().getMethod("btreeSearch", String.class);
                     break;
@@ -117,11 +122,19 @@ public class IPUtils {
                     log.error("无效参数：algorithm");
                     return null;
             }
-            DataBlock dataBlock  = (DataBlock) method.invoke(searcher, ip);
+            DataBlock dataBlock = (DataBlock) method.invoke(searcher, ip);
             String[] region = dataBlock.getRegion().split("\\|");
-            return region[region.length-2];
+            return region[region.length - 2];
         } catch (Exception e) {
-            log.error("根据IP获取城市信息失败",e);
+            log.error("根据IP获取城市信息失败", e);
+        } finally {
+            if (searcher != null) {
+                try {
+                    searcher.close();
+                } catch (IOException e) {
+                    log.error("DbSearcher关闭失败", e);
+                }
+            }
         }
         return null;
     }
