@@ -77,7 +77,7 @@ export default {
         type: 'error'
       }).then(() => {
         deleteConfig(id).then(response => {
-          this.$message.success(response.msg)
+          this.$message.success('删除成功')
           this.getList()
         })
       }).catch(() => {

@@ -215,7 +215,7 @@ export default {
       var formdata = new FormData()
       formdata.append('image', file)
       uploadImage(formdata).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('上传成功')
         this.$refs.md.$img2Url(filename, response.data)
       })
     },
@@ -289,7 +289,7 @@ export default {
         return
       }
       spiderArticle({ id: this.spiderId, url: this.postForm.sourceUrl }).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('抓取成功')
         Object.assign(this.postForm, response.data)
       })
     },

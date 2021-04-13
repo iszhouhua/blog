@@ -25,12 +25,12 @@ public class ApiTagController {
 
     @GetMapping("list")
     public Result list(Page<Tag> page) {
-        return Result.success("查询成功", tagService.page(page));
+        return Result.success(tagService.page(page));
     }
 
     @GetMapping("all")
     public Result all() {
-        return Result.success("查询成功", tagService.list());
+        return Result.success(tagService.list());
     }
 
     @PostMapping
@@ -38,7 +38,7 @@ public class ApiTagController {
         ValidatorUtils.validate(tag);
         boolean res = tagService.save(tag);
         tagService.clearCache();
-        return res ? Result.success("保存成功", tag) : Result.fail("保存失败");
+        return res ? Result.success(tag) : Result.fail("保存失败");
     }
 
     @PutMapping
@@ -49,18 +49,18 @@ public class ApiTagController {
         }
         boolean res = tagService.updateById(tag);
         tagService.clearCache();
-        return res ? Result.success("修改成功", tag) : Result.fail("修改失败");
+        return res ? Result.success() : Result.fail("修改失败");
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", tagService.getById(id));
+        return Result.success(tagService.getById(id));
     }
 
     @DeleteMapping
     public Result remove(Long id) {
         boolean res = tagService.removeById(id);
         tagService.clearCache();
-        return res ? Result.success("删除成功") : Result.fail("删除失败");
+        return res ? Result.success() : Result.fail("删除失败");
     }
 }

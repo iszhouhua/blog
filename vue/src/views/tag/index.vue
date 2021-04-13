@@ -84,7 +84,7 @@ export default {
         type: 'warning'
       }).then(() => {
         deleteTag(id).then(response => {
-          this.$message.success(response.msg)
+          this.$message.success('删除成功')
           this.getList()
         })
       }).catch(() => {

@@ -16,7 +16,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 public class BlogApplication extends SpringBootServletInitializer {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         SpringApplication.run(BlogApplication.class, args);
     }
 

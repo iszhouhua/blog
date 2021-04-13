@@ -25,19 +25,19 @@ public class ApiCategoryController {
 
     @GetMapping("list")
     public Result list(Page<Category> page) {
-        return Result.success("查询成功", categoryService.page(page));
+        return Result.success(categoryService.page(page));
     }
 
     @GetMapping("all")
     public Result all() {
-        return Result.success("查询成功", categoryService.list());
+        return Result.success(categoryService.list());
     }
 
     @PostMapping
     public Result save(@RequestBody Category category) {
         ValidatorUtils.validate(category);
         categoryService.save(category);
-        return Result.success("保存成功", category);
+        return Result.success(category);
     }
 
     @PutMapping
@@ -47,16 +47,16 @@ public class ApiCategoryController {
             return Result.fail("ID不能为空");
         }
         categoryService.updateById(category);
-        return Result.success("修改成功", category);
+        return Result.success(category);
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", categoryService.getById(id));
+        return Result.success(categoryService.getById(id));
     }
 
     @DeleteMapping
     public Result remove(Long id) {
-        return categoryService.removeById(id) ? Result.success("删除成功") : Result.fail("删除失败");
+        return categoryService.removeById(id) ? Result.success() : Result.fail("删除失败");
     }
 }

@@ -105,7 +105,7 @@
             dataType: "json",
             success: function (response) {
                 if (response.code === 1) {
-                    toastr.success(response.msg);
+                    toastr.success('上传成功');
                     $('#show_img_file').attr('src', response.data);
                     $('#avatar').val(response.data);
                 } else {
@@ -131,7 +131,7 @@
         });
         $.post("api/register", JSON.stringify(data), function (response) {
             if (response.code === 1) {
-                toastr.success(response.msg);
+                toastr.success('注册成功');
                 setTimeout(function () {
                     let redirect_to = location.search + location.hash;
                     if (redirect_to) window.location = redirect_to.substring(13);
@@ -156,7 +156,7 @@
         });
         $.post("api/login", JSON.stringify(data), function (response) {
             if (response.code === 1) {
-                toastr.success(response.msg);
+                toastr.success('登录成功');
                 setTimeout(function () {
                     let redirect_to = location.search + location.hash;
                     if (redirect_to) window.location = redirect_to.substring(13);
@@ -203,7 +203,7 @@
             }
         });
         var content = data.content;
-        if (content === null || content === '') {
+        if (content === null || content.trim() === '') {
             $('#content').focus();
             $('#content').attr('placeholder', '评论内容不能为空');
         } else {
@@ -211,7 +211,7 @@
             $('#loading').show();
             $.post("api/comment/save", JSON.stringify(data), function (response) {
                 if (response.code === 1) {
-                    toastr.success(response.msg);
+                    toastr.success('评论成功');
                     setTimeout(function () {
                         location.reload()
                     }, 1000);

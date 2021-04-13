@@ -12,17 +12,19 @@
     </el-table-column>
     <el-table-column label="访问时间" min-width="100" align="center">
       <template slot-scope="scope">
-        {{ scope.row.updateTime | formatTime }}
-      </template>
-    </el-table-column>
-    <el-table-column label="创建时间" min-width="100" align="center">
-      <template slot-scope="scope">
         {{ scope.row.createTime | formatTime }}
       </template>
     </el-table-column>
-    <el-table-column label="访问次数" width="100" align="center">
+    <el-table-column align="center" label="响应结果" width="100">
       <template slot-scope="scope">
-        {{ scope.row.visits }}
+        <el-tag :type="scope.row.isNormal? 'success' : 'danger'">
+          {{ scope.row.isNormal?'正常':'异常' }}
+        </el-tag>
+      </template>
+    </el-table-column>
+    <el-table-column label="响应时长" min-width="100" align="center">
+      <template slot-scope="scope">
+        {{ scope.row.duration }}
       </template>
     </el-table-column>
   </el-table>

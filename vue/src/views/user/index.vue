@@ -148,7 +148,7 @@ export default {
         type: 'warning'
       }).then(() => {
         putUser({ id, isDisable }).then(response => {
-          this.$message.success(response.msg)
+          this.$message.success('操作成功')
           this.getList()
         })
       })
@@ -156,7 +156,7 @@ export default {
     // 设置/取消管理员
     updateUserType(id, isAdmin) {
       putUser({ id, isAdmin }).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('操作成功')
         this.getList()
       })
     },

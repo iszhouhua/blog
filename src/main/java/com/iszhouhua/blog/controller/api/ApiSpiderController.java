@@ -30,19 +30,19 @@ public class ApiSpiderController {
 
     @GetMapping("list")
     public Result list(Page<Spider> page) {
-        return Result.success("查询成功", spiderService.page(page));
+        return Result.success(spiderService.page(page));
     }
 
     @GetMapping("all")
     public Result all() {
-        return Result.success("查询成功", spiderService.list());
+        return Result.success(spiderService.list());
     }
 
     @PostMapping
     public Result save(@RequestBody Spider spider) {
         ValidatorUtils.validate(spider);
         spiderService.save(spider);
-        return Result.success("保存成功", spider);
+        return Result.success(spider);
     }
 
     @PutMapping
@@ -52,17 +52,17 @@ public class ApiSpiderController {
             return Result.fail("ID不能为空");
         }
         spiderService.updateById(spider);
-        return Result.success("修改成功", spider);
+        return Result.success();
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", spiderService.getById(id));
+        return Result.success(spiderService.getById(id));
     }
 
     @DeleteMapping
     public Result remove(Long id) {
-        return spiderService.removeById(id) ? Result.success("删除成功") : Result.fail("删除失败");
+        return spiderService.removeById(id) ? Result.success() : Result.fail("删除失败");
     }
 
     @PostMapping("spiderArticle")
@@ -80,7 +80,7 @@ public class ApiSpiderController {
         } catch (IOException e) {
             throw new BlogException(CodeEnum.SPIDER_ERROR.getValue(), "文章抓取失败", e);
         }
-        return article != null ? Result.success("抓取成功", article) : Result.fail("抓取失败");
+        return article != null ? Result.success(article) : Result.fail("抓取失败");
     }
 }
 

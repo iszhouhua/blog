@@ -94,7 +94,7 @@ export default {
           this.submitData.parentId = this.dataForm.parentId || this.dataForm.id
           this.submitData.replyUserId = this.dataForm.user.id
           postComment(this.submitData).then(response => {
-            this.$message.success(response.msg)
+            this.$message.success('回复成功')
             this.visible = false
             this.$emit('refreshDataList')
           })

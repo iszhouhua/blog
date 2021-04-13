@@ -40,7 +40,7 @@ export default {
       var formdata = new FormData()
       formdata.append('image', data.file)
       uploadImage(formdata).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('上传成功')
         this.image = response.data
       })
     }

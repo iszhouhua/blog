@@ -59,13 +59,13 @@ export default {
         if (valid) {
           if (this.dataForm.id) {
             putTag(this.dataForm).then(response => {
-              this.$message.success(response.msg)
+              this.$message.success('修改成功')
               this.visible = false
               this.$emit('refreshDataList')
             })
           } else {
             postTag(this.dataForm).then(response => {
-              this.$message.success(response.msg)
+              this.$message.success('添加成功')
               this.visible = false
               this.$emit('refreshDataList')
             })

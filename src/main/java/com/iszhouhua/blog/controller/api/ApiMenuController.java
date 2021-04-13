@@ -25,14 +25,14 @@ public class ApiMenuController {
 
     @GetMapping("list")
     public Result list(Page<Menu> page) {
-        return Result.success("查询成功", menuService.page(page));
+        return Result.success(menuService.page(page));
     }
 
     @PostMapping
     public Result save(@RequestBody Menu menu) {
         ValidatorUtils.validate(menu);
         menuService.save(menu);
-        return Result.success("保存成功", menu);
+        return Result.success(menu);
     }
 
     @PutMapping
@@ -42,16 +42,16 @@ public class ApiMenuController {
             return Result.fail("ID不能为空");
         }
         menuService.updateById(menu);
-        return Result.success("修改成功", menu);
+        return Result.success();
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", menuService.getById(id));
+        return Result.success(menuService.getById(id));
     }
 
     @DeleteMapping
     public Result remove(Long id) {
-        return menuService.removeById(id) ? Result.success("删除成功") : Result.fail("删除失败");
+        return menuService.removeById(id) ? Result.success() : Result.fail("删除失败");
     }
 }

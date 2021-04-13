@@ -55,7 +55,7 @@ public class ApiArticleController {
         }
         IPage<Article> articlePage = articleService.page(page, queryWrapper);
         articlePage.getRecords().forEach(post -> post.setTags(tagService.findTagsByArticleId(post.getId())));
-        return Result.success("查询成功", articlePage);
+        return Result.success(articlePage);
     }
 
     @PostMapping
@@ -78,7 +78,7 @@ public class ApiArticleController {
             }
         }
         articleService.clearCache();
-        return Result.success("保存成功", article);
+        return Result.success(article);
     }
 
     /**
@@ -98,21 +98,21 @@ public class ApiArticleController {
             return Result.fail("保存失败");
         }
         articleService.clearCache();
-        return Result.success("保存成功", article);
+        return Result.success(article);
     }
 
     @GetMapping
     public Result info(Long id) {
         Article article = articleService.getById(id);
         article.setTags(tagService.findTagsByArticleId(article.getId()));
-        return Result.success("查询成功", article);
+        return Result.success(article);
     }
 
     @DeleteMapping
     public Result remove(Long[] ids) {
         boolean res = articleService.removeByIds(Arrays.asList(ids));
         articleService.clearCache();
-        return res ? Result.success("删除成功") : Result.fail("删除失败");
+        return res ? Result.success() : Result.fail("删除失败");
     }
 
     /**
@@ -124,7 +124,7 @@ public class ApiArticleController {
     @GetMapping("latest")
     public Result latest(int number) {
         List<Article> articleList = articleService.findLatestArticle(number);
-        return Result.success("查询成功", articleList);
+        return Result.success(articleList);
     }
 
 }

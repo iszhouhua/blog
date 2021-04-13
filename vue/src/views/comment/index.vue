@@ -140,7 +140,7 @@ export default {
     handleModifyStatus(id, status) {
       this.listLoading = true
       putComment({ 'id': id, 'status': status }).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('修改成功')
         this.listLoading = false
         this.getList()
       })

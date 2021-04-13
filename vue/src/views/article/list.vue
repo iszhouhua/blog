@@ -107,7 +107,7 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.current" :limit.sync="listQuery.size" @pagination="getList" />
+    <pagination :total="total" :page.sync="listQuery.current" :limit.sync="listQuery.size" @pagination="getList" />
 
   </div>
 </template>
@@ -159,7 +159,6 @@ export default {
     getList() {
       this.listLoading = true
       getArticleList(this.listQuery).then(response => {
-        // this.$message.success(response.msg)
         this.list = response.data.records
         this.total = response.data.total
         this.listLoading = false
@@ -187,7 +186,7 @@ export default {
     handleModifyStatus(id, status) {
       this.listLoading = true
       modifyArticle({ 'id': id, 'status': status }).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('修改成功')
         this.listLoading = false
         this.getList()
       })
@@ -208,7 +207,7 @@ export default {
       }).then(() => {
         this.listLoading = true
         deleteArticle(ids).then(response => {
-          this.$message.success(response.msg)
+          this.$message.success('删除成功')
           this.listLoading = false
           this.getList()
         })

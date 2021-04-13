@@ -2,11 +2,15 @@ package com.iszhouhua.blog.common.util;
 
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 返回结果
+ *
+ * @author ZhouHua
  */
 @Data
+@Accessors(chain = true)
 public class Result {
 
     /**
@@ -24,45 +28,19 @@ public class Result {
      */
     private Object data;
 
-    public Result(){
-    }
-
-    public Result(int code){
-        this.code = code;
-    }
-
-    public Result(int code,String msg){
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public Result(int code,String msg,Object data){
-        this.code = code;
-        this.msg = msg;
-        this.data = data;
-    }
-
     public static Result success() {
-        return success(null);
+        return success(true);
     }
 
-    public static Result success(String message) {
-        return success(message,null);
-    }
-
-    public static Result success(String message, Object data) {
-        return new Result(CodeEnum.SUCCESS.getValue(),message,data);
-    }
-
-    public static Result fail() {
-        return  fail(null);
+    public static Result success(Object data) {
+        return new Result().setCode(CodeEnum.SUCCESS.getValue()).setData(data);
     }
 
     public static Result fail(String message) {
-        return fail(message,null);
+        return fail(CodeEnum.FAIL.getValue(), message);
     }
 
-    public static Result fail(String message, Object data) {
-        return new Result(CodeEnum.FAIL.getValue(),message,data);
+    public static Result fail(int code, String message) {
+        return new Result().setCode(code).setMsg(message);
     }
 }

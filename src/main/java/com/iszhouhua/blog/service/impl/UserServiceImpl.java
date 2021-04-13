@@ -29,7 +29,7 @@ import java.util.Date;
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
     @Override
     public Result login(String username, String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException {
-        Result result = Result.fail();
+        Result result = new Result();
         //判断账号是否可用
         User user = getOne(new QueryWrapper<User>().eq("username", username).or().eq("email", username));
         if (null == user) {

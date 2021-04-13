@@ -56,9 +56,9 @@ public class ApiController {
         if (result.getCode() == CodeEnum.SUCCESS.getValue()) {
             //登录成功，将用户信息保存至session
             session.setAttribute(Const.USER_SESSION_KEY, result.getData());
-            result.setData(session.getId());
+            Result.success(session.getId());
         }
-        return result;
+        return Result.fail(result.getCode(), result.getMsg());
     }
 
     /**
@@ -93,7 +93,7 @@ public class ApiController {
             return Result.fail("注册失败");
         }
         session.setAttribute(Const.USER_SESSION_KEY, user);
-        return Result.success("注册成功");
+        return Result.success();
     }
 
     /**
@@ -143,7 +143,7 @@ public class ApiController {
             result.setMsg("图片上传成功");
             result.setCode(CodeEnum.SUCCESS.getValue());
         } catch (IOException e) {
-            log.error("图片上传失败", e.getMessage());
+            log.error("图片上传失败", e);
             result.setMsg("图片上传失败");
             result.setCode(CodeEnum.FAIL.getValue());
         }

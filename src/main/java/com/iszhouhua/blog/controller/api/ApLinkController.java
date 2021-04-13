@@ -25,7 +25,7 @@ public class ApLinkController {
 
     @GetMapping("list")
     public Result list(Page<Link> page) {
-        return Result.success("查询成功", linkService.page(page));
+        return Result.success(linkService.page(page));
     }
 
     @PostMapping
@@ -33,7 +33,7 @@ public class ApLinkController {
         ValidatorUtils.validate(link);
         boolean res = linkService.save(link);
         linkService.clearCache();
-        return res ? Result.success("保存成功", link) : Result.fail("保存失败");
+        return res ? Result.success(link) : Result.fail("保存失败");
     }
 
     @PutMapping
@@ -44,18 +44,18 @@ public class ApLinkController {
         }
         boolean res = linkService.updateById(link);
         linkService.clearCache();
-        return res ? Result.success("修改成功", link) : Result.fail("修改失败");
+        return res ? Result.success() : Result.fail("修改失败");
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", linkService.getById(id));
+        return Result.success(linkService.getById(id));
     }
 
     @DeleteMapping
     public Result remove(Long id) {
         boolean res = linkService.removeById(id);
         linkService.clearCache();
-        return res ? Result.success("删除成功") : Result.fail("删除失败");
+        return res ? Result.success() : Result.fail("删除失败");
     }
 }

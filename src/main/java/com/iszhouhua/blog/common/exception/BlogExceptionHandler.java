@@ -26,16 +26,16 @@ public class BlogExceptionHandler {
      * 处理自定义异常
      */
     @ExceptionHandler(BlogException.class)
-    public Result handlerRRException(BlogException e) {
+    public Result handlerBlogException(BlogException e) {
         log.error(e.getMessage(), e);
-        return new Result(e.getCode(), e.getMsg());
+        return Result.fail(e.getCode(), e.getMsg());
     }
 
 
     @ExceptionHandler(DuplicateKeyException.class)
     public Result handleDuplicateKeyException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return new Result(CodeEnum.DUPLICATE_KEY.getValue(), "数据库中已存在该记录");
+        return Result.fail(CodeEnum.DUPLICATE_KEY.getValue(), "数据库中已存在该记录");
     }
 
     /**
@@ -58,7 +58,7 @@ public class BlogExceptionHandler {
             msg.append(e.getMessage());
         }
         log.error(msg.toString(), e);
-        return new Result(CodeEnum.VALIDATION_ERROR.getValue(), msg.toString());
+        return Result.fail(CodeEnum.VALIDATION_ERROR.getValue(), msg.toString());
     }
 
     /**
@@ -70,6 +70,6 @@ public class BlogExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result handlerException(Exception e) {
         log.error(e.getMessage(), e);
-        return new Result(CodeEnum.UNKNOWN_ERROR.getValue(), "未知错误！");
+        return Result.fail(CodeEnum.UNKNOWN_ERROR.getValue(), "未知错误！");
     }
 }

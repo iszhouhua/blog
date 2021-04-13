@@ -96,7 +96,7 @@ export default {
     // 修改状态
     handleModifyStatus(status) {
       postComment({ 'id': this.dataForm.id, 'status': status }).then(response => {
-        this.$message.success(response.msg)
+        this.$message.success('修改成功')
         this.visible = false
         this.$emit('refreshDataList')
       })

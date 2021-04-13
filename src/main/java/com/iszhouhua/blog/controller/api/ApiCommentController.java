@@ -52,7 +52,7 @@ public class ApiCommentController {
             queryWrapper.ne("status", 2);
         }
         IPage<Comment> commentPage = commentService.findCommentsByPage(page, queryWrapper);
-        return Result.success("查询成功", commentPage);
+        return Result.success(commentPage);
     }
 
     /**
@@ -73,10 +73,10 @@ public class ApiCommentController {
         ValidatorUtils.validate(comment);
         if (comment.getTargetType().equals(CommentTargetTypeEnum.COMMENT.getValue())) {
             if (Objects.isNull(comment.getParentId())) {
-                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "父级评论不能为空");
+                return Result.fail(CodeEnum.VALIDATION_ERROR.getValue(), "父级评论不能为空");
             }
             if (Objects.isNull(comment.getReplyUserId())) {
-                return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "回复的人不能为空");
+                return Result.fail(CodeEnum.VALIDATION_ERROR.getValue(), "回复的人不能为空");
             }
         }
 //        User user = (User) request.getSession().getAttribute(Const.USER_SESSION_KEY);
@@ -91,22 +91,22 @@ public class ApiCommentController {
         comment.setIp(IPUtils.getIpAddr(request));
         commentService.save(comment);
         commentService.clearCache();
-        return Result.success("添加成功", comment);
+        return Result.success(comment);
     }
 
     @PutMapping
     public Result update(@RequestBody Comment comment) {
         if (Objects.isNull(comment.getId())) {
-            return new Result(CodeEnum.VALIDATION_ERROR.getValue(), "评论ID不能为空");
+            return Result.fail(CodeEnum.VALIDATION_ERROR.getValue(), "评论ID不能为空");
         }
         boolean res = commentService.updateById(comment);
         commentService.clearCache();
-        return res ? Result.success("修改成功") : Result.fail("修改失败");
+        return res ? Result.success() : Result.fail("修改失败");
     }
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", commentService.findCommentById(id));
+        return Result.success(commentService.findCommentById(id));
     }
 
     /**
@@ -121,7 +121,7 @@ public class ApiCommentController {
         data.put("totalComment", totalComment);
         int latestComment = commentService.count(new QueryWrapper<Comment>().apply("create_time > DATE_SUB(CURDATE(), INTERVAL 1 WEEK)"));
         data.put("latestComment", latestComment);
-        return Result.success("获取成功", data);
+        return Result.success(data);
     }
 
     /**
@@ -133,6 +133,6 @@ public class ApiCommentController {
     @GetMapping("latest")
     public Result latest(int number) {
         List<Comment> commentList = commentService.findLatestComments(number, true);
-        return Result.success("查询成功", commentList);
+        return Result.success(commentList);
     }
 }

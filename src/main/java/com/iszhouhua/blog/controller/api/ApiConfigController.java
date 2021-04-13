@@ -25,7 +25,7 @@ public class ApiConfigController {
 
     @GetMapping("list")
     public Result list(Page<Config> page) {
-        return Result.success("查询成功", configService.page(page));
+        return Result.success(configService.page(page));
     }
 
     @PostMapping
@@ -37,7 +37,7 @@ public class ApiConfigController {
         boolean result = configService.save(config);
         if (result) {
             configService.clearCache();
-            return Result.success("保存成功");
+            return Result.success();
         } else {
             return Result.fail("保存失败");
         }
@@ -56,7 +56,7 @@ public class ApiConfigController {
         boolean result = configService.updateById(config);
         if (result) {
             configService.clearCache();
-            return Result.success("修改成功");
+            return Result.success();
         } else {
             return Result.fail("修改失败");
         }
@@ -64,7 +64,7 @@ public class ApiConfigController {
 
     @GetMapping
     public Result info(Long id) {
-        return Result.success("查询成功", configService.getById(id));
+        return Result.success(configService.getById(id));
     }
 
     @DeleteMapping
@@ -72,14 +72,14 @@ public class ApiConfigController {
         boolean result = configService.removeById(id);
         if (result) {
             configService.clearCache();
-            return Result.success("删除成功");
+            return Result.success();
         } else {
-            return Result.success("删除失败");
+            return Result.fail("删除失败");
         }
     }
 
     @GetMapping("global")
     public Result global() {
-        return Result.success("查询成功", configService.findAllGlobal());
+        return Result.success(configService.findAllGlobal());
     }
 }
