@@ -76,16 +76,16 @@ location /admin {
 
 ## 界面展示
 
-![20190508101138](http://img.iszhouhua.com/printscreen/20190508101138.png)
+![20190508101138](../data/printscreen/20190508101138.png)
 
-![20190508101254](http://img.iszhouhua.com/printscreen/20190508101254.png)
+![20190508101254](../data/printscreen/20190508101254.png)
 
-![20190508101400](http://img.iszhouhua.com/printscreen/20190508101400.png)
+![20190508101400](../data/printscreen/20190508101400.png)
 
-![20190508101440](http://img.iszhouhua.com/printscreen/20190508101440.png)
+![20190508101440](../data/printscreen/20190508101440.png)
 
-![20190508101544](http://img.iszhouhua.com/printscreen/20190508101544.png)
+![20190508101544](../data/printscreen/20190508101544.png)
 
-![20190508101622](http://img.iszhouhua.com/printscreen/20190508101622.png)
+![20190508101622](../data/printscreen/20190508101622.png)
 
 ------

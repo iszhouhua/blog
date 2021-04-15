@@ -18,12 +18,6 @@ spring:
     caffeine:
       spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1h
   datasource:
-    schema: # schema.sql中一般存放的是DDL脚本，即通常为创建或更新库表的脚本
-      - classpath:sql/schema.sql
-      - classpath:sql/schema-2020-03-18.sql
-      - classpath:sql/schema-2020-09-04.sql
-    data: classpath:sql/data.sql # data.sql中一般是DML脚本，即通常为数据插入脚本
-    initialization-mode: always # spring某个版本之后需要加上这句，否则不会自动执行sql文件
     separator: $$
     # hikari配置
     hikari:
@@ -33,6 +27,20 @@ spring:
       max-lifetime: 600000
       minimum-idle: 5
       maximum-pool-size: 20
+  # flyway配置
+  flyway:
+    # 启用或禁用 flyway
+    enabled: true
+    # SQL 脚本的目录,多个路径使用逗号分隔 默认值 classpath:db/migration
+    locations: classpath:db/migration
+    #是否允许不按顺序迁移
+    out-of-order: false
+    # 执行迁移时是否自动调用验证
+    validate-on-migrate: true
+    # 迁移脚本的文件分隔名 默认__
+    sql-migration-separator: __
+    # 当迁移时发现目标schema非空，而且带有没有元数据的表时，是否自动执行基准迁移，默认false.
+    baseline-on-migrate: true
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath:mapper/*Mapper.xml

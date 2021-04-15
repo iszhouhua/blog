@@ -134,3 +134,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2020.11.28
 
 修复文件流未关闭引起的Too many open files问题
+
+## 2021.4.15
+
+使用flyway进行数据库版本管理，抛弃掉之前的初始化方法
