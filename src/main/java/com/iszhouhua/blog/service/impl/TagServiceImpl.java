@@ -2,7 +2,7 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.TagMapper;
-import com.iszhouhua.blog.model.Tag;
+import com.iszhouhua.blog.model.pojo.Tag;
 import com.iszhouhua.blog.service.TagService;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;

@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.Tag;
+import com.iszhouhua.blog.model.pojo.Tag;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.iszhouhua.blog.model;
+package com.iszhouhua.blog.model.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;

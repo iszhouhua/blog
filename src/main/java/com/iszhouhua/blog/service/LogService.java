@@ -1,9 +1,8 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Log;
+import com.iszhouhua.blog.model.pojo.Log;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 

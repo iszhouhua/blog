@@ -1,4 +1,4 @@
-package com.iszhouhua.blog.model;
+package com.iszhouhua.blog.model.pojo;
 
 /**
  * 爬虫规则表

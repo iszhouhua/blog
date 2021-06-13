@@ -4,7 +4,7 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
-import com.iszhouhua.blog.model.Link;
+import com.iszhouhua.blog.model.pojo.Link;
 import com.iszhouhua.blog.service.LinkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

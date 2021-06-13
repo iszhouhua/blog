@@ -3,7 +3,7 @@ package com.iszhouhua.blog.common.interceptor;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.exception.BlogException;
-import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.model.pojo.User;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 

@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.model.pojo.User;
 
 /**
  * 用户 Mapper 接口

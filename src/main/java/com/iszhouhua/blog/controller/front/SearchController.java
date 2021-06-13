@@ -3,7 +3,7 @@ package com.iszhouhua.blog.controller.front;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.model.Article;
+import com.iszhouhua.blog.model.pojo.Article;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

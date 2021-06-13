@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Tag;
+import com.iszhouhua.blog.model.pojo.Tag;
 
 import java.util.List;
 

@@ -7,6 +7,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=true&autoReconnect=true
     username: root
     password: 123456
+  mail:
+    host: smtp.iszhouhua.com
+    username: test@iszhouhua.com
+    password: Zh123456
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

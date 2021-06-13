@@ -1,4 +1,4 @@
-package com.iszhouhua.blog.model;
+package com.iszhouhua.blog.model.pojo;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

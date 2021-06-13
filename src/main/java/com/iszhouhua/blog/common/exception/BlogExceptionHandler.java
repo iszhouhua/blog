@@ -4,12 +4,15 @@ import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.util.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,8 +47,8 @@ public class BlogExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(ValidationException.class)
-    public Result handle(ValidationException e) {
+    @ExceptionHandler({ValidationException.class, MethodArgumentNotValidException.class})
+    public Result handle(Exception e) {
         StringBuilder msg = new StringBuilder();
         if (e instanceof ConstraintViolationException) {
             ConstraintViolationException exs = (ConstraintViolationException) e;
@@ -53,6 +56,12 @@ public class BlogExceptionHandler {
             for (ConstraintViolation<?> item : violations) {
                 //获得验证不通过的信息
                 msg.append(item.getMessage());
+            }
+        }else if(e instanceof MethodArgumentNotValidException){
+            MethodArgumentNotValidException exs = (MethodArgumentNotValidException)e;
+            List<ObjectError> errors = exs.getBindingResult().getAllErrors();
+            for (ObjectError error : errors) {
+                msg.append(error.getDefaultMessage());
             }
         } else {
             msg.append(e.getMessage());

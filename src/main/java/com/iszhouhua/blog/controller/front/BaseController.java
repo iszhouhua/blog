@@ -1,9 +1,9 @@
 package com.iszhouhua.blog.controller.front;
 
 import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.model.Article;
-import com.iszhouhua.blog.model.Comment;
-import com.iszhouhua.blog.model.Menu;
+import com.iszhouhua.blog.model.pojo.Article;
+import com.iszhouhua.blog.model.pojo.Comment;
+import com.iszhouhua.blog.model.pojo.Menu;
 import com.iszhouhua.blog.service.ArticleService;
 import com.iszhouhua.blog.service.CommentService;
 import com.iszhouhua.blog.service.ConfigService;

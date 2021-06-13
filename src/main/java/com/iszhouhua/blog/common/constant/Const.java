@@ -54,4 +54,8 @@ public class Const {
      * 爬虫抓取链接超时时间，单位：毫秒
      */
     public static final int SPIDER_TIMEOUT = 10000;
+    /**
+     * 验证码有效时间，单位：分钟
+     */
+    public static final int CODE_TIMEOUT = 5;
 }

@@ -3,7 +3,7 @@ package com.iszhouhua.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.ArticleTagMapper;
-import com.iszhouhua.blog.model.ArticleTag;
+import com.iszhouhua.blog.model.pojo.ArticleTag;
 import com.iszhouhua.blog.service.ArticleTagService;
 import org.springframework.stereotype.Service;
 

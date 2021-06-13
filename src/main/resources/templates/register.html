@@ -30,6 +30,12 @@
             </label>
         </p>
         <p>
+            <label>验证码<br/>
+                <input type="text" name="code" style="width: 55%" id="code" required class="input" value="" size="25" minlength="6" maxlength="6"/>
+                <input type="button" style="float: none;vertical-align: text-bottom;margin-left: 8px;" name="send-code" id="send-code" data-operation="账号注册" class="button button-primary button-large" value="点击获取验证码">
+            </label>
+        </p>
+        <p>
             <label for="nickname">昵称<br/>
                 <input id="nickname" class="input" type="text" size="25" value="" required name="nickname"/>
             </label>
@@ -66,9 +72,12 @@
         </script>
         <p id="reg_passmail">
             <b style="color:red">请正确填写邮箱，修改密码时需要用到。</b>
-        </p> <br class="clear"/>
+        </p>
+        <br class="clear"/>
         <p class="submit">
-            <a th:href="@{/login}">登录</a>
+            <a style="text-decoration: none;" th:href="@{/login(redirect_to=${param.redirect_to})}">登录</a>
+            |
+            <a style="text-decoration: none;" th:href="@{/lost-password(redirect_to=${param.redirect_to})}">忘记密码？</a>
             <input type="submit" name="wp-submit" id="wp-submit"
                    class="button button-primary button-large" value="注册"/></p>
     </form>
@@ -76,6 +85,6 @@
 <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
 <script th:src="@{/vendor/toastr/toastr.min.js(v=2.1.1)}"></script>
-<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.4)}"></script>
 </body>
 </html>

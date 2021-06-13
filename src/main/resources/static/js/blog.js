@@ -133,8 +133,8 @@
             if (response.code === 1) {
                 toastr.success('注册成功');
                 setTimeout(function () {
-                    let redirect_to = location.search + location.hash;
-                    if (redirect_to) window.location = redirect_to.substring(13);
+                    let redirect_to = getQueryVariable("redirect_to");
+                    if (redirect_to) window.location = redirect_to+location.hash;
                     else window.location = '/';
                 }, 1000);
             } else {
@@ -158,8 +158,8 @@
             if (response.code === 1) {
                 toastr.success('登录成功');
                 setTimeout(function () {
-                    let redirect_to = location.search + location.hash;
-                    if (redirect_to) window.location = redirect_to.substring(13);
+                    let redirect_to = getQueryVariable('redirect_to');
+                    if (redirect_to) window.location = redirect_to+location.hash;
                     else window.location = '/';
                 }, 1000);
             } else {
@@ -313,6 +313,67 @@
     });
 
     // ------- 加载更多评论结束 -------------
+
+    // ------- 开始发送验证码 ----------
+    $("#send-code").click(function (event) {
+        var email = $("#email").val();
+        if(!/^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/.test(email)){
+            $("#email").focus();
+            toastr.error('请输入正确的邮箱地址');
+            return
+        }
+        var operation = this.dataset.operation
+        $.get("api/sendCode", {email,operation}, function (response) {
+            if (response.code === 1) {
+                toastr.success('验证码发送成功');
+                setTime($("#send-code"));//开始倒计时
+            } else {
+                toastr.error(response.msg);
+            }
+        });
+    })
+
+    //60s倒计时实现逻辑
+    var countdown = 6;
+    function setTime(obj) {
+        if (countdown == 0) {
+            obj.prop('disabled', false);
+            obj.val("点击获取验证码");
+            countdown = 60;//60秒过后button上的文字初始化,计时器初始化;
+            return;
+        } else {
+            obj.prop('disabled', true);
+            obj.val(countdown+"秒后重新发送");
+            countdown--;
+        }
+        setTimeout(function() { setTime(obj) },1000) //每1000毫秒执行一次
+    }
+    // ------- 发送验证码结束 ----------
+
+
+    // ------- 处理找回密码 -------------
+
+    $('#lostpasswordform').submit(function (event) {
+        event.preventDefault();
+        let formdata = $(this).serializeArray();
+        let data = {};
+        $(formdata).each(function (index, obj) {
+            data[obj.name] = obj.value;
+        });
+        $.post("api/resetPassword", JSON.stringify(data), function (response) {
+            if (response.code === 1) {
+                toastr.success('密码重置成功');
+                setTimeout(function () {
+                    let redirect_to = location.search + location.hash;
+                    window.location = '/login'+redirect_to;
+                }, 1000);
+            } else {
+                toastr.error(response.msg);
+            }
+        });
+    })
+
+    // ------- 找回密码结束 ----------
 })($)
 
 function parseTime(time, cFormat) {
@@ -348,4 +409,15 @@ function parseTime(time, cFormat) {
         return value || 0
     })
     return time_str
+}
+
+function getQueryVariable(variable)
+{
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+    }
+    return(false);
 }

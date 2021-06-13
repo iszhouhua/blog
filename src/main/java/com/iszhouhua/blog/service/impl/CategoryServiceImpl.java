@@ -2,7 +2,7 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.CategoryMapper;
-import com.iszhouhua.blog.model.Category;
+import com.iszhouhua.blog.model.pojo.Category;
 import com.iszhouhua.blog.service.CategoryService;
 import org.springframework.stereotype.Service;
 

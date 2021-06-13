@@ -2,13 +2,14 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.LogMapper;
-import com.iszhouhua.blog.model.Log;
+import com.iszhouhua.blog.model.pojo.Log;
 import com.iszhouhua.blog.service.LogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

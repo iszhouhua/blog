@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.Config;
+import com.iszhouhua.blog.model.pojo.Config;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;

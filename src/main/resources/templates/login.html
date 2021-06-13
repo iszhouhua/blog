@@ -15,22 +15,51 @@
             <div class="navbar-brand" th:text="${GLOBAL.BLOG_TITLE}"></div>
         </a>
     </h1>
-    <form name="loginform" id="loginform" action="https://www.hhgal.com/wp-login.php" method="post"><p><label
-            for="username">用户名或电子邮件地址<br/> <input type="text" name="username" id="username" class="input" value=""
+    <form name="loginform" id="loginform" method="post">
+        <p><label for="username">用户名或电子邮件地址<br/>
+            <input type="text" name="username" id="username" class="input" value=""
                                                   size="20" required/></label></p>
         <p><label for="password">密码<br/> <input type="password" name="password" id="password" class="input" value=""
                                                 size="20" required pattern="^[a-zA-Z0-9]\w{5,19}$"
                                                 oninvalid="this.setCustomValidity('6~20字母数字或下划线')"
                                                 oninput="this.setCustomValidity('')"/></label></p>
         <p class="submit">
-            <a th:href="@{/register}">注册</a>
+            <a style="text-decoration: none;" th:href="@{/register(redirect_to=${param.redirect_to})}">注册</a>
+            |
+            <a style="text-decoration: none;" th:href="@{/lost-password(redirect_to=${param.redirect_to})}">忘记密码？</a>
             <input type="submit" name="wp-submit" id="wp-submit"
                    class="button button-primary button-large" value="登录"/>
+        </p>
+        <p style="margin-top: 30px;text-align: center;">
+            <a th:href="@{/oauth/render/gitee(redirect_to=${param.redirect_to})}" title="使用 Gitee 帐号登录" style="text-decoration: none;">
+                <svg width="24" height="24" viewBox="0 0 83 83" class="gitee-login-icon" style="vertical-align: bottom;">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-logo-gitee">
+                        <svg width="83" height="83" xmlns="http://www.w3.org/2000/svg" id="icon-logo-gitee">
+                            <g fill="none" fill-rule="evenodd"><circle fill="#C71D23" cx="41.5" cy="41.5" r="41.5"></circle>
+                                <path d="M63.867 36.782H39.33c-1.179 0-2.134.935-2.134 2.088v6.26c0 1.153.955 2.087 2.134 2.087H53.2c1.6 0 2.132.522 2.133 2.088.001 4.173-2.448 6.26-6.4 6.26H30.806c-1.183 0-2.142-.935-2.142-2.087V34.697c0-3.459 2.866-6.263 6.399-6.263H63.86c1.178 0 2.133-.934 2.133-2.086v-6.26c0-1.154-.954-2.088-2.133-2.088H35.064C25.642 18 18 25.474 18 34.695v29.219c0 1.15.955 2.086 2.133 2.086h28.8c9.439 0 16.956-7.984 17.06-17.218C66 48.26 66 39.39 66 38.87c.001-1.15-.953-2.084-2.133-2.087v-.001z" fill="#FFF"></path>
+                            </g>
+                        </svg>
+                    </use>
+                </svg><span class="gitee-login-title" style="margin-left: 8px;font-size: 16px;color: #111111;letter-spacing: 0;">使用 Gitee 帐号登录</span>
+            </a>
+        </p>
+        <p style="margin-top: 24px;text-align: center;">
+            <a th:href="@{/oauth/render/github(redirect_to=${param.redirect_to})}" title="使用 GitHub 帐号登录" style="text-decoration: none;">
+                <svg width="24" height="24" viewBox="0 0 83 83" style="vertical-align: bottom;" class="svg-icon-logo-github-dims">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-logo-github">
+                        <svg width="83" height="83" viewBox="0 0 83 83" id="icon-logo-github">
+                            <path d="M0 42.556c0 18.805 11.894 34.738 28.383 40.37.26.055.482.074.704.074 1.538 0 2.13-1.13 2.13-2.112 0-1.019-.036-3.687-.055-7.244-1.556.352-2.946.5-4.187.5-7.985 0-9.8-6.206-9.8-6.206-1.89-4.91-4.614-6.225-4.614-6.225-3.612-2.539-.018-2.613.26-2.613 4.186.371 6.373 4.41 6.373 4.41 2.075 3.631 4.854 4.65 7.336 4.65 1.946 0 3.706-.63 4.743-1.112.37-2.742 1.445-4.613 2.631-5.687-9.208-1.075-18.897-4.725-18.897-21.028 0-4.65 1.612-8.449 4.26-11.412-.425-1.075-1.852-5.41.409-11.265 0 0 .296-.093.926-.093 1.5 0 4.89.575 10.486 4.465 3.316-.945 6.855-1.408 10.393-1.426 3.52.018 7.078.481 10.394 1.426 5.595-3.89 8.986-4.465 10.486-4.465.63 0 .926.093.926.093 2.26 5.854.834 10.19.408 11.265 2.65 2.982 4.261 6.78 4.261 11.412 0 16.34-9.708 19.935-18.953 20.99 1.482 1.316 2.816 3.91 2.816 7.875 0 5.687-.055 10.282-.055 11.671 0 1 .574 2.131 2.112 2.131.222 0 .482-.019.74-.074C71.125 77.294 83 61.342 83 42.556 83 19.064 64.418 0 41.5 0S0 19.064 0 42.556z" fill="#0A0203" fill-rule="evenodd"></path>
+                        </svg>
+                    </use>
+                </svg>
+                <span class="github-login-title" style="margin-left: 5px;font-size: 16px;color: #111111;letter-spacing: 0;">使用 GitHub 帐号登录</span>
+            </a>
+        </p>
     </form>
 </div>
 <script th:src="@{/vendor/jquery/jquery.min.js(v=3.2.1)}"></script>
 <script th:src="@{/vendor/bootstrap/js/bootstrap.min.js(v=3.3.7)}"></script>
 <script th:src="@{/vendor/toastr/toastr.min.js(v=2.1.1)}"></script>
-<script th:src="@{/js/blog.js(v=1.0.2)}"></script>
+<script th:src="@{/js/blog.js(v=1.0.4)}"></script>
 </body>
 </html>

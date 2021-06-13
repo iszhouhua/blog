@@ -53,26 +53,33 @@ public class PBKDF2Utils {
      * @throws NoSuchAlgorithmException
      * @throws InvalidKeySpecException
      */
-    public static String getPBKDF2(String password, String salt) throws NoSuchAlgorithmException,
-            InvalidKeySpecException, DecoderException {
-        //将16进制字符串形式的salt转换成byte数组
-        byte[] bytes = Hex.decodeHex(salt);
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), bytes, PBKDF2_ITERATIONS, HASH_SIZE * 4);
-        SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        byte[] hash = secretKeyFactory.generateSecret(spec).getEncoded();
-        //将byte数组转换为16进制的字符串
-        return Hex.encodeHexString(hash);
+    public static String getPBKDF2(String password, String salt) {
+        try {
+            //将16进制字符串形式的salt转换成byte数组
+            byte[] bytes = Hex.decodeHex(salt);
+            KeySpec spec = new PBEKeySpec(password.toCharArray(), bytes, PBKDF2_ITERATIONS, HASH_SIZE * 4);
+            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            byte[] hash = secretKeyFactory.generateSecret(spec).getEncoded();
+            //将byte数组转换为16进制的字符串
+            return Hex.encodeHexString(hash);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     /**
      * 生成随机盐
      */
-    public static String getSalt() throws NoSuchAlgorithmException{
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] bytes = new byte[SALT_SIZE / 2];
-        sr.nextBytes(bytes);
-        //将byte数组转换为16进制的字符串
-        return Hex.encodeHexString(bytes);
+    public static String getSalt(){
+        try {
+            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+            byte[] bytes = new byte[SALT_SIZE / 2];
+            sr.nextBytes(bytes);
+            //将byte数组转换为16进制的字符串
+            return Hex.encodeHexString(bytes);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException, DecoderException {

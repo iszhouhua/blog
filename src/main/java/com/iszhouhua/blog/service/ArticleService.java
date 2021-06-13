@@ -3,7 +3,7 @@ package com.iszhouhua.blog.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Article;
+import com.iszhouhua.blog.model.pojo.Article;
 
 import java.util.List;
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.ArticleMapper;
-import com.iszhouhua.blog.model.Article;
+import com.iszhouhua.blog.model.pojo.Article;
 import com.iszhouhua.blog.service.ArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheConfig;

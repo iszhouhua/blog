@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Menu;
+import com.iszhouhua.blog.model.pojo.Menu;
 
 import java.util.List;
 

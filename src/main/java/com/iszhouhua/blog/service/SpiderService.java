@@ -2,8 +2,8 @@ package com.iszhouhua.blog.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Article;
-import com.iszhouhua.blog.model.Spider;
+import com.iszhouhua.blog.model.pojo.Article;
+import com.iszhouhua.blog.model.pojo.Spider;
 
 import java.io.IOException;
 

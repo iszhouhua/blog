@@ -2,20 +2,18 @@ package com.iszhouhua.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.iszhouhua.blog.common.constant.CodeEnum;
-import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.common.util.PBKDF2Utils;
-import com.iszhouhua.blog.common.util.Result;
+import com.iszhouhua.blog.mapper.ThirdUserMapper;
 import com.iszhouhua.blog.mapper.UserMapper;
-import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.model.pojo.ThirdUser;
+import com.iszhouhua.blog.model.pojo.User;
 import com.iszhouhua.blog.service.UserService;
-import org.apache.commons.codec.DecoderException;
+import me.zhyd.oauth.model.AuthUser;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 
 /**
@@ -27,45 +25,9 @@ import java.util.Date;
 @Service
 @CacheConfig(cacheNames = "user")
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Override
-    public Result login(String username, String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException {
-        Result result = new Result();
-        //判断账号是否可用
-        User user = getOne(new QueryWrapper<User>().eq("username", username).or().eq("email", username));
-        if (null == user) {
-            result.setMsg("账号不存在");
-            return result;
-        }
-        if (user.getIsDisable()) {
-            result.setMsg("账号已被禁用");
-            return result;
-        }
-        //验证密码是否正确
-        boolean res = PBKDF2Utils.verify(password, user.getSalt(), user.getPassword());
-        //验证密码是否正确
-        if (res) {
-            result.setCode(CodeEnum.SUCCESS.getValue());
-            result.setMsg("登录成功");
-            result.setData(user);
-            //重置登录失败次数
-            user.setLoginFailNum(0);
-            //更新最后登录时间
-            user.setLastLoginTime(new Date());
-        } else {
-            //密码每错误一次，失败次数+1
-            Integer loginFail = user.getLoginFailNum() + 1;
-            user.setLoginFailNum(loginFail);
-            //超过阈值，禁用账号
-            if (loginFail >= Const.LOGIN_FAIL_COUNT) {
-                user.setIsDisable(true);
-                result.setMsg("密码错误，可尝试登陆次数已达上限，账号已禁用！");
-            } else {
-                result.setMsg(String.format("密码错误，连续输错密码%d次后将禁用账号，您已经输错了%d次。", Const.LOGIN_FAIL_COUNT, loginFail));
-            }
-        }
-        updateById(user);
-        return result;
-    }
+
+    @Autowired
+    private ThirdUserMapper thirdUserMapper;
 
     @Override
     @Cacheable(key = "#userId")
@@ -87,6 +49,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User findUserByEmail(String email) {
         return baseMapper.selectOne(new QueryWrapper<User>().eq("email", email));
+    }
+
+    @Override
+    public User getThirdBindUser(AuthUser authUser) {
+        ThirdUser thirdUser = thirdUserMapper.selectOne(new QueryWrapper<ThirdUser>().eq("username", authUser.getUsername()).eq("source", authUser.getSource()));
+        User user;
+        if (thirdUser == null) {
+            thirdUser = new ThirdUser();
+            BeanUtils.copyProperties(authUser, thirdUser);
+            thirdUser.setGender(authUser.getGender().getDesc());
+            thirdUser.setRawUserInfo(authUser.getRawUserInfo().toJSONString());
+            //同一邮箱视为同一用户
+            user = findUserByEmail(thirdUser.getEmail());
+            if (user == null) {
+                user = new User();
+                BeanUtils.copyProperties(thirdUser, user);
+                if (findUserByUsername(user.getUsername()) != null) {
+                    //用户名重复，添加来源平台作为后缀
+                    user.setUsername(thirdUser.getUsername() + "_" + thirdUser.getSource());
+                }
+                user.setIsAdmin(false);
+                user.setIsDisable(false);
+                user.setLoginFailNum(0);
+                user.setCreateTime(new Date());
+                save(user);
+            }
+            thirdUser.setUserId(user.getId());
+            thirdUserMapper.insert(thirdUser);
+        } else {
+            user = findUserById(thirdUser.getUserId());
+        }
+        return user;
     }
 
     @Override

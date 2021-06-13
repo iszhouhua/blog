@@ -6,11 +6,11 @@ import com.iszhouhua.blog.common.annotation.CurrentUser;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.exception.BlogException;
-import com.iszhouhua.blog.model.Article;
-import com.iszhouhua.blog.model.Comment;
-import com.iszhouhua.blog.model.User;
 import com.iszhouhua.blog.model.enums.ArticleTypeEnum;
 import com.iszhouhua.blog.model.enums.LinkTypeEnum;
+import com.iszhouhua.blog.model.pojo.Article;
+import com.iszhouhua.blog.model.pojo.Comment;
+import com.iszhouhua.blog.model.pojo.User;
 import com.iszhouhua.blog.service.LinkService;
 import com.iszhouhua.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -112,8 +115,11 @@ public class IndexController extends BaseController {
      * @return
      */
     @GetMapping("/login")
-    public String login(@CurrentUser User currentUser) {
-        return null == currentUser ? "login" : "/";
+    public String login(@CurrentUser User currentUser, @RequestParam(value = "redirect_to",defaultValue = "/") String redirectTo, HttpServletResponse response) throws IOException {
+        if(null!=currentUser){
+            response.sendRedirect(redirectTo);
+        }
+        return "login";
     }
 
     /**
@@ -124,5 +130,15 @@ public class IndexController extends BaseController {
     @GetMapping(value = "/register")
     public String register() {
         return "register";
+    }
+
+    /**
+     * 忘记密码
+     *
+     * @return
+     */
+    @GetMapping(value = "/lost-password")
+    public String lostPassword() {
+        return "lost-password";
     }
 }

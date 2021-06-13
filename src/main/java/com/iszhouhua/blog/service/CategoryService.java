@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.model.Category;
+import com.iszhouhua.blog.model.pojo.Category;
 
 /**
  * 分类服务类

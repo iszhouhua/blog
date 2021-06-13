@@ -11,11 +11,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CurrentUser {
-    /**
-     * 当前用户在session中的名字
-     *
-     * @return
-     */
     String value() default Const.USER_SESSION_KEY;
 
 }

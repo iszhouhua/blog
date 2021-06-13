@@ -1,11 +1,3 @@
-/**
- * Copyright (c) 2016-2019 人人开源 All rights reserved.
- *
- * https://www.renren.io
- *
- * 版权所有，侵权必究！
- */
-
 package com.iszhouhua.blog.common.constant;
 
 /**
@@ -25,5 +17,9 @@ public class ConfigConst {
     /**
      * 网站域名
      */
-    public final static String DOMAIN = "BLOG_URL";
+    public final static String BLOG_URL = "BLOG_URL";
+    /**
+     * 网站域名
+     */
+    public final static String BLOG_TITLE = "BLOG_TITLE";
 }

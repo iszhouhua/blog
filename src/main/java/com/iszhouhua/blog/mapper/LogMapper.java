@@ -1,9 +1,8 @@
 package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.Log;
+import com.iszhouhua.blog.model.pojo.Log;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;

@@ -4,7 +4,7 @@ package com.iszhouhua.blog.controller.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
-import com.iszhouhua.blog.model.Menu;
+import com.iszhouhua.blog.model.pojo.Menu;
 import com.iszhouhua.blog.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

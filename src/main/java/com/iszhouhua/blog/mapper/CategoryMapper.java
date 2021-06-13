@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.Category;
+import com.iszhouhua.blog.model.pojo.Category;
 
 /**
  * 分类 Mapper 接口

@@ -2,7 +2,7 @@ package com.iszhouhua.blog.common.resolver;
 
 import com.iszhouhua.blog.common.annotation.CurrentUser;
 import com.iszhouhua.blog.common.constant.Const;
-import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.model.pojo.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;

@@ -1,12 +1,8 @@
 package com.iszhouhua.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.iszhouhua.blog.common.util.Result;
-import com.iszhouhua.blog.model.User;
-import org.apache.commons.codec.DecoderException;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import com.iszhouhua.blog.model.pojo.User;
+import me.zhyd.oauth.model.AuthUser;
 
 /**
  * 用户服务类
@@ -15,17 +11,6 @@ import java.security.spec.InvalidKeySpecException;
  * @since 2018-12-17
  */
 public interface UserService extends IService<User> {
-    /**
-     * 用户登录
-     *
-     * @param username 用户名或邮箱
-     * @param password 密码
-     * @return
-     * @throws NoSuchAlgorithmException
-     * @throws DecoderException
-     * @throws InvalidKeySpecException
-     */
-    Result login(String username, String password) throws NoSuchAlgorithmException, DecoderException, InvalidKeySpecException;
 
     /**
      * 根据用户ID获取用户信息
@@ -58,4 +43,11 @@ public interface UserService extends IService<User> {
      * @return
      */
     User findUserByEmail(String email);
+
+    /**
+     * 获取第三方授权内容绑定的用户信息
+     * @param authUser
+     * @return
+     */
+    User getThirdBindUser(AuthUser authUser);
 }

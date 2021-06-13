@@ -2,7 +2,7 @@ package com.iszhouhua.blog.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.iszhouhua.blog.model.Spider;
+import com.iszhouhua.blog.model.pojo.Spider;
 
 /**
  * 爬虫规则 Mapper 接口

@@ -1,7 +1,7 @@
 package com.iszhouhua.blog.mapper;
 
-import com.iszhouhua.blog.model.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.iszhouhua.blog.model.pojo.Menu;
 
 /**
  * <p>

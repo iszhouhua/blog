@@ -2,7 +2,7 @@ package com.iszhouhua.blog.controller.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.iszhouhua.blog.common.util.Result;
-import com.iszhouhua.blog.model.Log;
+import com.iszhouhua.blog.model.pojo.Log;
 import com.iszhouhua.blog.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

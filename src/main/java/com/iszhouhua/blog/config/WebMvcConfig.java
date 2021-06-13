@@ -36,7 +36,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/login",
                         "/api/uploadImage",
                         "/api/comment/more",
-                        "/api/register"
+                        "/api/register",
+                        "/api/sendCode",
+                        "/oauth/**",
+                        "/api/resetPassword"
                 );
         //前台登录拦截器
         registry.addInterceptor(new LoginInterceptor())

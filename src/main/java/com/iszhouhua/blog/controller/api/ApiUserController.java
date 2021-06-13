@@ -10,7 +10,7 @@ import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.util.PBKDF2Utils;
 import com.iszhouhua.blog.common.util.Result;
 import com.iszhouhua.blog.common.util.ValidatorUtils;
-import com.iszhouhua.blog.model.User;
+import com.iszhouhua.blog.model.pojo.User;
 import com.iszhouhua.blog.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.iszhouhua.blog.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.iszhouhua.blog.mapper.MenuMapper;
-import com.iszhouhua.blog.model.Menu;
+import com.iszhouhua.blog.model.pojo.Menu;
 import com.iszhouhua.blog.service.MenuService;
 import org.springframework.stereotype.Service;
 

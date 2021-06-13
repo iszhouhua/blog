@@ -27,6 +27,24 @@ spring:
       max-lifetime: 600000
       minimum-idle: 5
       maximum-pool-size: 20
+  mail:
+    host: smtp.iszhouhua.com
+    username: test@iszhouhua.com
+    password: Zh123456
+    default-encoding: UTF-8
+    protocol: smtp
+    port: 465
+    properties:
+      mail:
+        smtp:
+          auth: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+          starttls:
+            enable: true
+            required: true
   # flyway配置
   flyway:
     # 启用或禁用 flyway
@@ -57,3 +75,14 @@ mybatis-plus:
       #数据库类型
       db-type: mysql
     banner: false
+oauth:
+  gitee:
+    client-id: bebf8702314be6568f83db3fa1c1c9d14228425f78869b5b33be8194fa50dfdf
+    client-secret: 3c76337f3362686f992b13fe4988be82fa580fdafa15a87358589b1388f61d5e
+    redirect-uri: http://127.0.0.1:8080/oauth/callback/gitee
+    scopes: user_info,emails
+  github:
+    client-id: ed4b57b1ca2bc1cce6de
+    client-secret: 95265494e0bb51389e9db438c85053d1f8c2e918
+    redirect-uri: http://127.0.0.1:8080/oauth/callback/github
+    scopes: user

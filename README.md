@@ -138,3 +138,7 @@ clean package war:war -Dmaven.test.skip=true
 ## 2021.4.15
 
 使用flyway进行数据库版本管理，抛弃掉之前的初始化方法
+
+## 2021.6.13
+
+加入获取邮箱验证码功能，支持Gitee和GitHub登录
