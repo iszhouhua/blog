@@ -20,9 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -107,21 +105,6 @@ public class ApiCommentController {
     @GetMapping
     public Result info(Long id) {
         return Result.success(commentService.findCommentById(id));
-    }
-
-    /**
-     * 获得最近一周评论数和总评论数
-     *
-     * @return
-     */
-    @GetMapping("commentCount")
-    public Result commentCount() {
-        Map<String, Integer> data = new HashMap<>();
-        int totalComment = commentService.count();
-        data.put("totalComment", totalComment);
-        int latestComment = commentService.count(new QueryWrapper<Comment>().apply("create_time > DATE_SUB(CURDATE(), INTERVAL 1 WEEK)"));
-        data.put("latestComment", latestComment);
-        return Result.success(data);
     }
 
     /**

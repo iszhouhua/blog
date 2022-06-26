@@ -1,11 +1,14 @@
 import axios from 'axios'
-import { Message, MessageBox } from 'element-ui'
+import {
+  Message,
+  MessageBox
+} from 'element-ui'
 import store from '../store'
 
 // 创建axios实例
 const service = axios.create({
   baseURL: process.env.BASE_API, // api 的 base_url
-  timeout: 5000 // 请求超时时间
+  timeout: 15000 // 请求超时时间
 })
 
 // request拦截器
@@ -40,8 +43,7 @@ service.interceptors.response.use(
         // 40001:未登录
         MessageBox.confirm(
           '你已被登出，可以取消继续留在该页面，或者重新登录',
-          '确定登出',
-          {
+          '确定登出', {
             confirmButtonText: '重新登录',
             cancelButtonText: '取消',
             type: 'warning'
@@ -55,8 +57,7 @@ service.interceptors.response.use(
         // 403:权限不足
         MessageBox.confirm(
           '当前登录账号权限不足，是否重新登录',
-          '确定登出',
-          {
+          '确定登出', {
             confirmButtonText: '重新登录',
             cancelButtonText: '取消',
             type: 'warning'

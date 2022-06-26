@@ -33,7 +33,7 @@
         <skipTests>true</skipTests>
         <mybatis-plus.version>3.0.7</mybatis-plus.version>
         <user-agent-utils.version>1.21</user-agent-utils.version>
-        <ip2region.version>1.7.2</ip2region.version>
+        <ip2region.version>2.6.1</ip2region.version>
         <commons-io.version>2.7</commons-io.version>
         <commons-collections.version>3.2.2</commons-collections.version>
         <thumbnailator.version>0.4.8</thumbnailator.version>

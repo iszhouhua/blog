@@ -1,30 +1,30 @@
 <template>
-  <el-table :data="list" style="width: 100%;padding-top: 15px;padding-left: 12px;">
-    <el-table-column label="IP地址" width="130" align="center">
+  <el-table :data="list" style="width: 100%;">
+    <el-table-column :show-overflow-tooltip="true" label="请求地址" min-width="100" align="center">
       <template slot-scope="scope">
-        {{ scope.row.ip }}
+        <a :href="scope.row.url" class="link-type" target="_blank">{{ scope.row.url }}</a>
       </template>
     </el-table-column>
-    <el-table-column label="所在城市" width="80" align="center">
+    <el-table-column :show-overflow-tooltip="true" label="IP归属地" width="80" align="center">
       <template slot-scope="scope">
-        {{ scope.row.city }}
+        {{ scope.row.region }}
       </template>
     </el-table-column>
-    <el-table-column label="访问时间" min-width="100" align="center">
+    <el-table-column label="访问时间" width="140" align="center">
       <template slot-scope="scope">
-        {{ scope.row.createTime | formatTime }}
+        {{ scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}') }}
       </template>
     </el-table-column>
-    <el-table-column align="center" label="响应结果" width="100">
-      <template slot-scope="scope">
-        <el-tag :type="scope.row.isNormal? 'success' : 'danger'">
-          {{ scope.row.isNormal?'正常':'异常' }}
-        </el-tag>
-      </template>
-    </el-table-column>
-    <el-table-column label="响应时长" min-width="100" align="center">
+    <el-table-column :show-overflow-tooltip="true" label="响应时长" width="80" align="center">
       <template slot-scope="scope">
         {{ scope.row.duration }}
+      </template>
+    </el-table-column>
+    <el-table-column align="center" label="响应结果" width="80">
+      <template slot-scope="scope">
+        <el-tag :type="scope.row.isNormal? 'success' : 'danger'" size="mini">
+          {{ scope.row.isNormal?'正常':'异常' }}
+        </el-tag>
       </template>
     </el-table-column>
   </el-table>
@@ -36,13 +36,11 @@ import { parseTime } from '@/utils'
 
 export default {
   filters: {
-    formatTime(time) {
-      return parseTime(time)
-    }
+    parseTime
   },
   data() {
     return {
-      number: 8,
+      number: 12,
       list: null
     }
   },

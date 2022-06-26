@@ -3,24 +3,6 @@
 
     <panel-group/>
 
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <browser-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <operating-system-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <city-chart/>
-        </div>
-      </el-col>
-    </el-row>
-
     <el-row :gutter="8">
       <el-col :span="8" style="margin-bottom:30px;">
         <latest-comment/>
@@ -37,9 +19,6 @@
 
 <script>
 import PanelGroup from './components/PanelGroup'
-import BrowserChart from './components/BrowserChart'
-import OperatingSystemChart from './components/OperatingSystemChart'
-import CityChart from './components/CityChart'
 import LatestComment from './components/LatestComment'
 import LatestLog from './components/LatestLog'
 import LatestArticle from './components/LatestArticle'
@@ -48,9 +27,6 @@ export default {
   name: 'Home',
   components: {
     PanelGroup,
-    BrowserChart,
-    OperatingSystemChart,
-    CityChart,
     LatestComment,
     LatestLog,
     LatestArticle

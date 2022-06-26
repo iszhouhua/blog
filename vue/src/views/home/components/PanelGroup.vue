@@ -2,12 +2,12 @@
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+        <div class="card-panel-icon-wrapper icon-article">
+          <svg-icon icon-class="article" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">总访客</div>
-          <count-to :start-val="0" :end-val="totalVisits" :duration="3600" class="card-panel-num"/>
+          <div class="card-panel-text">文章</div>
+          <count-to :start-val="0" :end-val="totalArticle" :duration="2600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -17,8 +17,19 @@
           <svg-icon icon-class="message" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">总评论</div>
+          <div class="card-panel-text">评论</div>
           <count-to :start-val="0" :end-val="totalComment" :duration="3200" class="card-panel-num"/>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel">
+        <div class="card-panel-icon-wrapper icon-people">
+          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">访客</div>
+          <count-to :start-val="0" :end-val="totalVisits" :duration="3600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -28,19 +39,8 @@
           <svg-icon icon-class="new-peoples" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">最近访客</div>
+          <div class="card-panel-text">近一周访客</div>
           <count-to :start-val="0" :end-val="latestVisits" :duration="3000" class="card-panel-num"/>
-        </div>
-      </div>
-    </el-col>
-    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-new-message">
-          <svg-icon icon-class="new-message" class-name="card-panel-icon" />
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">最新评论</div>
-          <count-to :start-val="0" :end-val="latestComment" :duration="2600" class="card-panel-num"/>
         </div>
       </div>
     </el-col>
@@ -49,8 +49,7 @@
 
 <script>
 import CountTo from 'vue-count-to'
-import { commentCount } from '@/api/comment'
-import { visitsCount } from '@/api/log'
+import { getStatistics } from '@/api/statistics'
 
 export default {
   components: {
@@ -61,17 +60,16 @@ export default {
       totalVisits: 0,
       latestVisits: 0,
       totalComment: 0,
-      latestComment: 0
+      totalArticle: 0
     }
   },
   created() {
-    commentCount().then(response => {
-      this.totalComment = response.data.totalComment
-      this.latestComment = response.data.latestComment
-    })
-    visitsCount().then(response => {
-      this.totalVisits = response.data.totalVisits
-      this.latestVisits = response.data.latestVisits
+    getStatistics().then(response => {
+      const data = response.data
+      this.totalComment = data.totalComment
+      this.totalVisits = data.totalVisits
+      this.totalArticle = data.totalArticle
+      this.latestVisits = data.latestVisits
     })
   }
 }
@@ -106,8 +104,8 @@ export default {
       .icon-new-people {
         background: #f4516c;
       }
-      .icon-new-message {
-        background: #ccc12a
+      .icon-article {
+        background: #ccc12a;
       }
     }
     .icon-people {
@@ -119,8 +117,8 @@ export default {
     .icon-new-people {
       color: #f4516c;
     }
-    .icon-new-message {
-      color: #ccc12a
+    .icon-article {
+      color: #ccc12a;
     }
     .card-panel-icon-wrapper {
       float: left;
@@ -146,6 +144,7 @@ export default {
       }
       .card-panel-num {
         font-size: 20px;
+        text-align: center;
       }
     }
   }

@@ -12,7 +12,9 @@ export function getComment(id) {
   return request({
     url: '/comment',
     method: 'get',
-    params: { id }
+    params: {
+      id
+    }
   })
 }
 
@@ -32,17 +34,12 @@ export function putComment(data) {
   })
 }
 
-export function commentCount() {
-  return request({
-    url: '/comment/commentCount',
-    method: 'get'
-  })
-}
-
 export function latestComment(number) {
   return request({
     url: '/comment/latest',
     method: 'get',
-    params: { number }
+    params: {
+      number
+    }
   })
 }

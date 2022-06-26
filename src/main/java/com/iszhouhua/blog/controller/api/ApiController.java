@@ -1,6 +1,7 @@
 package com.iszhouhua.blog.controller.api;
 
 import cn.hutool.core.lang.Validator;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.iszhouhua.blog.common.constant.CodeEnum;
 import com.iszhouhua.blog.common.constant.Const;
 import com.iszhouhua.blog.common.exception.BlogException;
@@ -11,9 +12,9 @@ import com.iszhouhua.blog.common.util.ValidatorUtils;
 import com.iszhouhua.blog.model.param.LoginParam;
 import com.iszhouhua.blog.model.param.RegisterParam;
 import com.iszhouhua.blog.model.param.ResetPasswordParam;
+import com.iszhouhua.blog.model.pojo.Log;
 import com.iszhouhua.blog.model.pojo.User;
-import com.iszhouhua.blog.service.AuthService;
-import com.iszhouhua.blog.service.UserService;
+import com.iszhouhua.blog.service.*;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.codec.DecoderException;
@@ -33,6 +34,8 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 控制登录和上传等
@@ -49,6 +52,12 @@ public class ApiController {
     private UserService userService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private LogService logService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private ArticleService articleService;
 
     /**
      * 登录
@@ -236,5 +245,22 @@ public class ApiController {
             result.setCode(CodeEnum.FAIL.getValue());
         }
         return result;
+    }
+
+    /**
+     * 获取统计数据
+     *
+     * @return
+     */
+    @GetMapping("statistics")
+    public Result statistics() {
+        Map<String, Integer> data = new HashMap<>();
+        int totalVisits = logService.count();
+        data.put("totalVisits", totalVisits);
+        int latestVisits = logService.count(new QueryWrapper<Log>().apply("create_time > DATE_SUB(CURDATE(), INTERVAL 1 WEEK)"));
+        data.put("latestVisits", latestVisits);
+        data.put("totalComment",commentService.count());
+        data.put("totalArticle",articleService.count());
+        return Result.success(data);
     }
 }

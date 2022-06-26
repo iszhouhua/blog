@@ -23,9 +23,9 @@ public class Log implements Serializable {
     private String ip;
 
     /**
-     * 所在城市
+     * 所属区域
      */
-    private String city;
+    private String region;
 
     /**
      * 访问链接
@@ -38,7 +38,7 @@ public class Log implements Serializable {
     private String referer;
 
     /**
-     * 浏览器类型
+     * 浏览器信息
      */
     private String userAgent;
 
@@ -53,21 +53,6 @@ public class Log implements Serializable {
     private Integer duration;
 
     /**
-     * 访问类型
-     */
-    private String type;
-
-    /**
-     * 访问参数
-     */
-    private String params;
-
-    /**
-     * 返回结果
-     */
-    private String result;
-
-    /**
      * 执行的方法
      */
     private String method;
@@ -76,14 +61,4 @@ public class Log implements Serializable {
      * 请求是否正常 1：正常 0：异常
      */
     private Boolean isNormal;
-
-    /**
-     * 浏览器
-     */
-    private String browser;
-
-    /**
-     * 操作系统
-     */
-    private String operatingSystem;
 }

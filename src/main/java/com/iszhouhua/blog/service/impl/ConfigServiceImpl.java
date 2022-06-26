@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * 全局参数
+ *
  * @author ZhouHua
  * @since 2018-12-01
  */
@@ -31,8 +32,8 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     @Cacheable(key = "targetClass + methodName")
     public Map<String, String> findAllGlobal() {
         Map<String, String> result = new HashMap<>();
-        List<Config> configs = list(new QueryWrapper<Config>().eq("type",ConfigTypeEnum.GLOBAL_OPTION.getValue()));
-        configs.forEach(variable -> result.put(variable.getName(),variable.getValue()));
+        List<Config> configs = list(new QueryWrapper<Config>().eq("type", ConfigTypeEnum.GLOBAL_OPTION.getValue()));
+        configs.forEach(variable -> result.put(variable.getName(), variable.getValue()));
         return result;
     }
 
@@ -50,14 +51,14 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
     @Override
     @Cacheable(key = "#name + #clazz")
     public <T> T getConfigObject(String name, Class<T> clazz) {
-        String value = findByName(name);
-        if(StringUtils.isNotBlank(value)){
-            return JsonUtils.fromJson(value, clazz);
-        }
         try {
+            String value = findByName(name);
+            if (StringUtils.isNotBlank(value)) {
+                return JsonUtils.fromJson(value, clazz);
+            }
             return clazz.newInstance();
         } catch (Exception e) {
-            throw new BlogException("获取参数失败");
+            throw new BlogException("获取参数失败",e);
         }
     }
 }

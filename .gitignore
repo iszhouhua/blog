@@ -26,6 +26,8 @@
 
 # custom
 /logs/
-/data/ip2region.db
+/data/ip2region.xdb
 /src/main/resources/static/upload/
+/src/main/resources/static/admin/
 /src/test/
+/backups/
