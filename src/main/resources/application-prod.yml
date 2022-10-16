@@ -5,8 +5,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://host.docker.internal:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&autoReconnect=true
-    username: root
-    password: 123456
+    username: your username
+    password: your password
   mail:
     host: smtp.iszhouhua.com
     username: test@iszhouhua.com
