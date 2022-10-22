@@ -2,9 +2,6 @@ package com.iszhouhua.blog.common.constant;
 
 /**
  * 常量
- *
- * @author ZhouHua
- * @date 2018/12/17
  */
 public class Const {
     /**

@@ -2,8 +2,6 @@ package com.iszhouhua.blog.common.constant;
 
 /**
  * 系统参数相关Key
- * @author ZhouHua
- * @date 2019/05/07
  */
 public class ConfigConst {
     /**

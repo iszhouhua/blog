@@ -20,9 +20,6 @@ import java.util.Objects;
 
 /**
  * 访客日志，切面处理类
- *
- * @author ZhouHua
- * @date 2018/12/30
  */
 @Slf4j
 @Aspect

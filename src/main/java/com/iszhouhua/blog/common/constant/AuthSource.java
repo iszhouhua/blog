@@ -1,8 +1,7 @@
 package com.iszhouhua.blog.common.constant;
 
 /**
- * @author zhouhua
- * @since 2021-06-06
+ * 仓库常量
  */
 public class AuthSource {
     public static final String GITEE = "gitee";

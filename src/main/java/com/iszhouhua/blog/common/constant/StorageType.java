@@ -2,9 +2,6 @@ package com.iszhouhua.blog.common.constant;
 
 /**
  * 数据存储类型
- *
- * @author ZhouHua
- * @date 2019/5/7
  */
 public class StorageType {
     /**

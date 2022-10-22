@@ -4,8 +4,6 @@ import com.iszhouhua.blog.common.constant.CodeEnum;
 
 /**
  * 自定义异常
- * @author ZhouHua
- * @date 2018/12/22
  */
 public class BlogException extends RuntimeException {
 

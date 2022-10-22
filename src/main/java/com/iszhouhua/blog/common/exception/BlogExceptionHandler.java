@@ -17,9 +17,6 @@ import java.util.Set;
 
 /**
  * 后台controller异常处理器
- *
- * @author ZhouHua
- * @date 2018/12/22
  */
 @Slf4j
 @RestControllerAdvice(basePackages = "com.iszhouhua.blog.controller.api")

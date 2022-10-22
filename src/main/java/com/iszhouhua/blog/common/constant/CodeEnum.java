@@ -2,9 +2,6 @@ package com.iszhouhua.blog.common.constant;
 
 /**
  * 全局状态码
- *
- * @author ZhouHua
- * @date 2018/10/30
  */
 public enum CodeEnum {
     /**

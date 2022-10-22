@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * 前台controller异常处理器
- * @author ZhouHua
- * @date 2018/12/22
  */
 @Slf4j
 @ControllerAdvice(basePackages = "com.iszhouhua.blog.controller.front")
