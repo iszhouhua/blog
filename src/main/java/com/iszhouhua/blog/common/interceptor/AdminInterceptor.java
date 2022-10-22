@@ -13,9 +13,6 @@ import java.util.Objects;
 
 /**
  * 后台登录拦截器
- *
- * @author ZhouHua
- * @date 2018/12/21
  */
 public class AdminInterceptor implements HandlerInterceptor {
 

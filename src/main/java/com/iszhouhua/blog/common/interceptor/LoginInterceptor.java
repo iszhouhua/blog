@@ -13,9 +13,6 @@ import java.util.Objects;
 
 /**
  * 前台登录拦截器
- *
- * @author ZhouHua
- * @date 2020/6/5
  */
 public class LoginInterceptor implements HandlerInterceptor {
 
