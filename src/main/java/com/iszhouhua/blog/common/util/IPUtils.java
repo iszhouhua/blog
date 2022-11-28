@@ -88,7 +88,7 @@ public class IPUtils {
             // 使用全局的 vIndex 创建带 VectorIndex 缓存的查询对象。
             Searcher searcher = Searcher.newWithVectorIndex(DB_PATH, vIndex);
             // 查询
-           return searcher.searchByStr(ip);
+           return searcher.searchByStr(ip).replaceAll("\\|0", "");
         } catch (Exception e) {
             log.error("getCity is error,ip:{}",ip,e);
         }
