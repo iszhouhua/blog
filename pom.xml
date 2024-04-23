@@ -41,7 +41,7 @@
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <aliyun.oss.version>2.8.3</aliyun.oss.version>
         <qcloud.cos.version>4.4</qcloud.cos.version>
-        <hutool.version>5.7.19</hutool.version>
+        <hutool.version>5.8.19</hutool.version>
         <justAuth.version>1.15.9</justAuth.version>
     </properties>
 
