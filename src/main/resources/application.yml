@@ -18,6 +18,10 @@ spring:
     caffeine:
       spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1h
   datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&autoReconnect=true
+    username: root
+    password: 123456
     separator: $$
     # hikari配置
     hikari:
@@ -47,6 +51,8 @@ spring:
             required: true
   # flyway配置
   flyway:
+    # 禁止清理数据表
+    clean-disabled: true
     # 启用或禁用 flyway
     enabled: true
     # SQL 脚本的目录,多个路径使用逗号分隔 默认值 classpath:db/migration
@@ -61,6 +67,9 @@ spring:
     baseline-on-migrate: true
 # mybatis-plus 配置
 mybatis-plus:
+  configuration:
+    # 打印SQL日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   mapper-locations: classpath:mapper/*Mapper.xml
   #实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.iszhouhua.blog.model

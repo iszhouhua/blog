@@ -106,19 +106,19 @@
 
     <!-- 开发环境，控制台打印-->
     <springProfile name="!prod">
-        <logger name="com.iszhouhua" level="DEBUG" />
+        <logger name="com.iszhouhua" level="DEBUG"/>
         <root level="INFO">
-            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="CONSOLE"/>
         </root>
     </springProfile>
 
-    <!-- 生产环境，输出到文档 -->
+    <!-- 生产环境，输出到文件 -->
     <springProfile name="prod">
         <root level="info">
-            <appender-ref ref="CONSOLE" />
-            <appender-ref ref="INFO_FILE" />
-            <appender-ref ref="WARN_FILE" />
-            <appender-ref ref="ERROR_FILE" />
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="INFO_FILE"/>
+            <appender-ref ref="WARN_FILE"/>
+            <appender-ref ref="ERROR_FILE"/>
         </root>
     </springProfile>
 
