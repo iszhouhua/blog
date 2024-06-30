@@ -17,9 +17,10 @@ spring:
     type: caffeine
     caffeine:
       spec: initialCapacity=10,maximumSize=1000,expireAfterAccess=1h
+  # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&autoReconnect=true
+    url: jdbc:mysql://127.0.0.1:3306/blog_test?useUnicode=true&characterEncoding=utf-8&serverTimezone=GMT%2B8&useSSL=false&autoReconnect=true
     username: root
     password: 123456
     separator: $$
@@ -31,6 +32,7 @@ spring:
       max-lifetime: 600000
       minimum-idle: 5
       maximum-pool-size: 20
+  # 邮箱配置
   mail:
     host: smtp.iszhouhua.com
     username: test@iszhouhua.com
@@ -85,11 +87,13 @@ mybatis-plus:
       db-type: mysql
     banner: false
 oauth:
+  # gitee登录鉴权
   gitee:
     client-id: bebf8702314be6568f83db3fa1c1c9d14228425f78869b5b33be8194fa50dfdf
     client-secret: 3c76337f3362686f992b13fe4988be82fa580fdafa15a87358589b1388f61d5e
     redirect-uri: http://127.0.0.1:8080/oauth/callback/gitee
     scopes: user_info,emails
+  # github登录鉴权
   github:
     client-id: ed4b57b1ca2bc1cce6de
     client-secret: 95265494e0bb51389e9db438c85053d1f8c2e918

@@ -52,8 +52,8 @@
           <el-popover
             placement="left"
             trigger="hover">
-            <img :src="scope.row.image" width="600">
-            <img slot="reference" :src="scope.row.image" :alt="scope.row.image" width="60">
+            <img :src="scope.row.image|spliceUrl" width="600">
+            <img slot="reference" :src="scope.row.image|spliceUrl" :alt="scope.row.image|spliceUrl" width="60">
           </el-popover>
         </template>
       </el-table-column>
@@ -116,11 +116,12 @@
 import { getArticleList, modifyArticle, deleteArticle } from '@/api/article'
 import { getCategoryList } from '@/api/category'
 import Pagination from '@/components/Pagination'
-import { parseTime } from '@/utils'
+import { parseTime, spliceUrl } from '@/utils'
 const tagTypes = ['', 'success', 'info', 'warning', 'danger']
 export default {
   name: 'ArticleList',
   components: { Pagination },
+  filters: { spliceUrl },
   props: {
     articleStatus: {
       type: Number,

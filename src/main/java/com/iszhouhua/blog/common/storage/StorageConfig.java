@@ -1,12 +1,12 @@
 package com.iszhouhua.blog.common.storage;
 
 import com.iszhouhua.blog.common.storage.group.AliyunGroup;
-import com.iszhouhua.blog.common.storage.group.LocalGroup;
 import com.iszhouhua.blog.common.storage.group.QcloudGroup;
 import com.iszhouhua.blog.common.storage.group.QiniuGroup;
 import lombok.Data;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -115,20 +115,4 @@ public class StorageConfig {
      */
     @NotBlank(message="所属地区不能为空", groups = QcloudGroup.class)
     private String qcloudRegion;
-
-    /**
-     * 本地存储目录
-     */
-    @NotBlank(message="本地存储路径不能为空", groups = LocalGroup.class)
-    private String localDirectory;
-    /**
-     * 本地路径前缀
-     */
-    private String localPrefix;
-    /**
-     * 本地目录映射的域名
-     */
-    @NotBlank(message="本地目录映射的域名不能为空", groups = LocalGroup.class)
-    @URL(message = "本地目录映射的域名格式不正确", groups = LocalGroup.class)
-    private String localDomain;
 }

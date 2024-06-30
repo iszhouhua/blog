@@ -4,7 +4,7 @@
     <breadcrumb />
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img v-if="user" :src="user.avatar" class="user-avatar">
+        <img v-if="user" :src="user.avatar|spliceUrl" class="user-avatar">
         <i class="el-icon-caret-bottom"/>
       </div>
       <el-dropdown-menu slot="dropdown" class="user-dropdown">
@@ -25,12 +25,14 @@
 import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
+import { spliceUrl } from '@/utils'
 
 export default {
   components: {
     Breadcrumb,
     Hamburger
   },
+  filters: { spliceUrl },
   computed: {
     ...mapGetters([
       'sidebar',

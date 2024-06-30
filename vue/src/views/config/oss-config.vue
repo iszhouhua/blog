@@ -68,17 +68,6 @@
         <el-input v-model="dataForm.qcloudRegion" placeholder="如：sh（可选值 ，华南：gz 华北：tj 华东：sh）"/>
       </el-form-item>
     </template>
-    <template v-else-if="dataForm.type === 4">
-      <el-form-item label="域名">
-        <el-input v-model="dataForm.localDomain" placeholder="本地目录映射的域名"/>
-      </el-form-item>
-      <el-form-item label="存储路径">
-        <el-input v-model="dataForm.localDirectory" placeholder="本地存储路径"/>
-      </el-form-item>
-      <el-form-item label="路径前缀">
-        <el-input v-model="dataForm.localPrefix" placeholder="不设置默认为空"/>
-      </el-form-item>
-    </template>
   </el-form>
 </template>
 

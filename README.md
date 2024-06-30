@@ -7,7 +7,26 @@
 
 技术栈：SpringBoot、Thymeleaf、MySQL、MyBatis-Plus、Lombok、Gson、caffeine、validation、Bootstrap、jQuery、FontAwesome、Jsoup……
 
-博客运行示例：[https://www.iszhouhua.com](https://www.iszhouhua.com)
+博客运行效果示例：[https://www.iszhouhua.com](https://www.iszhouhua.com)
+
+## Docker
+
+对于不想自己配置代码运行环境（Java和Node）的同学，可以使用此方式一键运行，部署属于自己的博客。
+
+请先参照 [⚙️配置文件](src/main/resources/application.yml) 相关说明，配置好你自己的 `application.yml` 文件，然后使用以下命令启动 docker：
+
+```shell
+# 拉取镜像
+docker pull iszhouhua/blog:latest
+# 运行镜像
+docker run -d --name blog -p 8080:8080 -v $(pwd)/logs:/app/logs -v $(pwd)/upload:/app/upload -v $(pwd)/application.yml:/config/application.yml iszhouhua/blog:latest
+```
+
+如果镜像拉取不下来，可以从阿里云镜像仓库中进行拉取，将`iszhouhua/blog`改为`registry.cn-shenzhen.aliyuncs.com/iszhouhua/blog`即可
+
+注意：在 Windows 终端下需要将配置文件路径 `$(pwd)` 替换为绝对路径。
+
+挂载目录的解释见[docker部署](#docker部署)
 
 ## 快速开始
 
@@ -18,6 +37,11 @@
 4. 运行`BlogApplication.java`，启动项目
 5. 浏览器访问`http://127.0.0.1:8080/`
    > 使用 Idea，Eclipse 等IDE运行需要安装Lombok插件，JDK版本要求1.8+
+
+
+### 管理管理
+
+管理后台采用前后端分离的方式实现，源码位于[vue](vue)文件夹下，如何运行方式见[vue/README.md](vue/README.md)
 
 部署
 ----
@@ -63,55 +87,43 @@ sh build-docker.sh
 # 新建挂载目录
 mkdir logs upload
 # 运行项目
-docker run -d --name blog -p 8080:8080 -v $(pwd)/logs:/app/logs -v $(pwd)/upload:/app/src/main/resources/static/upload -v $(pwd)/application.yml:/config/application.yml blog
+docker run -d --name blog -p 8080:8080 -v $(pwd)/logs:/app/logs -v $(pwd)/upload:/app/upload -v $(pwd)/application.yml:/config/application.yml blog
 ```
 
 - -v $(pwd)/application.yml:/config/application.yml: 挂载配置文件，`$(pwd)/application.yml`为你的配置文件所在目录
 - -v $(pwd)/logs:/app/logs: 挂载日志文件，不关心日志可不进行挂载
-- -v $(pwd)/upload:/app/src/main/resources/static/upload 上传图片挂载，非本地存储无需挂载
+- -v $(pwd)/upload:/app/upload 上传图片挂载，非本地存储无需挂载
 
 > 注：build-docker.sh脚本会自动将vue代码也编译进docker镜像中，无需单独处理vue的内容
-
-后台管理
---------
-
-后台采用前后端分离的方式实现，源码位于[vue](vue)文件夹下
-
 ------
 
 ## 交流群
 
 ### QQ群
 
-![QQ群二维码](data/printscreen/qq_group_chat.jpg)
-
-### 微信群
-
-> 7天有效期，不定期更新, 如果失效了可以加作者微信：andy_zh14，记得备注来意。
-
-![微信群二维码](data/printscreen/wechat_group_chat.jpg)
+![QQ群二维码](images/qq_group_chat.jpg)
 
 ------
 
 ## 界面展示
 
-![1557279251039](data/printscreen/20190508093436.png)
+![1557279251039](images/20190508093436.png)
 
-![20190508095012](data/printscreen/20190508095012.png)
+![20190508095012](images/20190508095012.png)
 
-![20190508095714](data/printscreen/20190508095714.png)
+![20190508095714](images/20190508095714.png)
 
-![20190508101138](data/printscreen/20190508101138.png)
+![20190508101138](images/20190508101138.png)
 
-![20190508101254](data/printscreen/20190508101254.png)
+![20190508101254](images/20190508101254.png)
 
-![20190508101400](data/printscreen/20190508101400.png)
+![20190508101400](images/20190508101400.png)
 
-![20190508101440](data/printscreen/20190508101440.png)
+![20190508101440](images/20190508101440.png)
 
-![20190508101544](data/printscreen/20190508101544.png)
+![20190508101544](images/20190508101544.png)
 
-![20190508101622](data/printscreen/20190508101622.png)
+![20190508101622](images/20190508101622.png)
 
 ## 2019.5.1
 
@@ -164,6 +176,6 @@ docker run -d --name blog -p 8080:8080 -v $(pwd)/logs:/app/logs -v $(pwd)/upload
 - 修复首次运行出错问题
 - docker部署方式修改
 
-## 2024.6.27
+## 2024.6.30
 
-修改vue依赖版本
+简化本地上传，完善docker部署

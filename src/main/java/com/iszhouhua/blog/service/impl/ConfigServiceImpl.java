@@ -58,7 +58,7 @@ public class ConfigServiceImpl extends ServiceImpl<ConfigMapper, Config> impleme
             }
             return clazz.newInstance();
         } catch (Exception e) {
-            throw new BlogException("获取参数失败",e);
+            throw new BlogException("获取参数失败", e);
         }
     }
 }

@@ -178,8 +178,8 @@ VALUES ('BLOG_TITLE', '我的个人博客', '1', '网站标题'),
         '<script>/*百度统计*/     var _hmt = _hmt || [];    (function() {        var hm = document.createElement(\"script\");        hm.src = \"https://hm.baidu.com/hm.js?77737a53e73e57c6c44b4640d1c108a1\";        var s = document.getElementsByTagName(\"script\")[0];        s.parentNode.insertBefore(hm, s);    })();</script>\n<script>/*百度自动推送*/  (function(){     var bp = document.createElement(\'script\');     var curProtocol = window.location.protocol.split(\':\')[0];     if (curProtocol === \'https\') {         bp.src = \'https://zz.bdstatic.com/linksubmit/push.js\';     }     else {         bp.src = \'http://push.zhanzhang.baidu.com/push.js\';     }     var s = document.getElementsByTagName(\"script\")[0];     s.parentNode.insertBefore(bp, s); })(); </script>\n<script>/*360自动收录*/ (function(){ var src = (document.location.protocol == \"http:\") ? \"http://js.passport.qihucdn.com/11.0.1.js?6396cb521d4daf069727dc8d995a3878\":\"https://jspassport.ssl.qhimg.com/11.0.1.js?6396cb521d4daf069727dc8d995a3878\"; document.write(\'<script src=\"\' + src + \'\" id=\"sozz\"><\\/script>\'); })(); </script>\n',
         '1', '博客尾部插入的脚本，如统计代码、推送代码等'),
        ('FILE_STORAGE',
-        '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"\",\"qiniuBucketName\":\"\",\"qiniuDomain\":\"\",\"qiniuPrefix\":\"\",\"qiniuSecretKey\":\"\",\"localDirectory\":\"src/main/resources/static\",\"localDomain\":\"http://127.0.0.1:8080/\",\"type\":4,\"localPrefix\":\"upload\"}',
-        '2', '云/本地存储配置信息');
+        '{\"aliyunAccessKeyId\":\"\",\"aliyunAccessKeySecret\":\"\",\"aliyunBucketName\":\"\",\"aliyunDomain\":\"\",\"aliyunEndPoint\":\"\",\"aliyunPrefix\":\"\",\"qcloudBucketName\":\"\",\"qcloudDomain\":\"\",\"qcloudPrefix\":\"\",\"qcloudSecretId\":\"\",\"qcloudSecretKey\":\"\",\"qiniuAccessKey\":\"\",\"qiniuBucketName\":\"\",\"qiniuDomain\":\"\",\"qiniuPrefix\":\"\",\"qiniuSecretKey\":\"\",\"type\":4}',
+        '2', '存储配置信息');
 
 INSERT INTO `blog_category` (`id`, `name`, `url`) VALUES ('1', '未分类', 'default');
 
@@ -197,8 +197,9 @@ VALUES ('1', 'hello-world', 'hello world!', '你好，世界', null,
         null, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, '0', '1', '1', null, '0', '1', '1');
 
 INSERT INTO `blog_link`(`id`, `name`, `url`, `type`)
-VALUES ('1', '周华个人博客', 'https://www.iszhouhua.com', '1'),
-       ('2', 'GitHub', 'https://iszhouhua.github,io', '2');
+VALUES ('1', 'Andy Zhou''s Blog', 'https://www.iszhouhua.com', '1'),
+       ('2', 'GitHub', 'https://github.com/iszhouhua', '2'),
+       ('3', 'Gitee', 'https://gitee.com/iszhouhua', '2');
 
 INSERT INTO `blog_menu`(`id`, `name`, `url`, `is_blank`, `icon`, `sort`)
 VALUES ('1', '首页', '/', '0', 'fa-home', '1'),

@@ -26,7 +26,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
     let value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     if (result.length > 0 && value < 10) {
       value = '0' + value
     }
@@ -110,15 +110,20 @@ export function debounce(func, wait, immediate) {
 
 export function isUrl(url) {
   var strRegex = '^((https|http|ftp|rtsp|mms)?://)' +
-  "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" + // ftp的user@
-  '(([0-9]{1,3}\.){3}[0-9]{1,3}' + // IP形式的URL- 199.194.52.184
-  '|' + // 允许IP和DOMAIN（域名）
-  "([0-9a-z_!~*'()-]+\.)*" + // 域名- www.
-  '([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\.' + // 二级域名
-  '[a-z]{2,6})' + // first level domain- .com or .museum
-  '(:[0-9]{1,4})?' + // 端口- :80
-  '((/?)|' + // a slash isn't required if there is no file name
-  "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$"
+    "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" + // ftp的user@
+    '(([0-9]{1,3}\.){3}[0-9]{1,3}' + // IP形式的URL- 199.194.52.184
+    '|' + // 允许IP和DOMAIN（域名）
+    "([0-9a-z_!~*'()-]+\.)*" + // 域名- www.
+    '([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\.' + // 二级域名
+    '[a-z]{2,6})' + // first level domain- .com or .museum
+    '(:[0-9]{1,4})?' + // 端口- :80
+    '((/?)|' + // a slash isn't required if there is no file name
+    "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$"
   var re = new RegExp(strRegex)
   return re.test(url)
+}
+
+export function spliceUrl(url) {
+  if (!url || url.startsWith('http')) return url
+  return process.env.BLOG_URL + url
 }

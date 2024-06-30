@@ -29,8 +29,8 @@
       <el-table-column align="center" label="头像" width="88">
         <template slot-scope="scope">
           <el-popover placement="left" trigger="hover">
-            <img :src="scope.row.avatar" width="600">
-            <img slot="reference" :src="scope.row.avatar" width="60">
+            <img :src="scope.row.avatar|spliceUrl" width="600">
+            <img slot="reference" :src="scope.row.avatar|spliceUrl" width="60">
           </el-popover>
         </template>
       </el-table-column>
@@ -88,10 +88,14 @@
 import AddOrUpdate from './add-or-update'
 import { getUserList, putUser } from '@/api/user'
 import Pagination from '@/components/Pagination'
-import { parseTime } from '@/utils'
+import { parseTime, spliceUrl } from '@/utils'
 export default {
   name: 'UserList',
   components: { AddOrUpdate, Pagination },
+  // created() {
+  //   this.getList()
+  // },
+  filters: { spliceUrl },
   data() {
     return {
       list: [],
@@ -106,9 +110,6 @@ export default {
       }
     }
   },
-  // created() {
-  //   this.getList()
-  // },
   methods: {
     getList() {
       this.listLoading = true

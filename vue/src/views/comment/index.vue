@@ -33,8 +33,8 @@
       <el-table-column align="center" label="头像" width="88">
         <template slot-scope="scope">
           <el-popover placement="left" trigger="hover">
-            <img :src="scope.row.user.avatar" width="600">
-            <img slot="reference" :src="scope.row.user.avatar" width="60">
+            <img :src="scope.row.user.avatar|spliceUrl" width="600">
+            <img slot="reference" :src="scope.row.user.avatar|spliceUrl" width="60">
           </el-popover>
         </template>
       </el-table-column>
@@ -95,12 +95,13 @@
 <script>
 import { getCommentList, putComment } from '@/api/comment'
 import Pagination from '@/components/Pagination'
-import { parseTime } from '@/utils'
+import { parseTime, spliceUrl } from '@/utils'
 import checkComment from './check-comment'
 import replyComment from './reply-comment'
 export default {
   name: 'CommentList',
   components: { Pagination, checkComment, replyComment },
+  filters: { spliceUrl },
   data() {
     return {
       list: [],

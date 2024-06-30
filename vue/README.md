@@ -55,37 +55,26 @@ npm install --global --production windows-build-tools
 
 ## 发布
 
-> 将`prod.env.js`中的`BLOG_URL`改为自己的博客链接。
-
 ```bash
 npm run build
 ```
 
 将`dist`文件夹中的`admin`文件夹复制到后端项目中的`src/main/resources/static`文件夹中即可。
 
-或者配置好`nginx`映射，则无需将构建好的文件放在Java项目中。
-
-```bash
-location /admin {
-	root   /blog-vue/dist;
-	index  index.html index.htm;
-}
-```
-
 ------
 
 ## 界面展示
 
-![20190508101138](../data/printscreen/20190508101138.png)
+![20190508101138](../images/20190508101138.png)
 
-![20190508101254](../data/printscreen/20190508101254.png)
+![20190508101254](../images/20190508101254.png)
 
-![20190508101400](../data/printscreen/20190508101400.png)
+![20190508101400](../images/20190508101400.png)
 
-![20190508101440](../data/printscreen/20190508101440.png)
+![20190508101440](../images/20190508101440.png)
 
-![20190508101544](../data/printscreen/20190508101544.png)
+![20190508101544](../images/20190508101544.png)
 
-![20190508101622](../data/printscreen/20190508101622.png)
+![20190508101622](../images/20190508101622.png)
 
 ------

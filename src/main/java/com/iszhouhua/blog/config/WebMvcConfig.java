@@ -1,14 +1,9 @@
 package com.iszhouhua.blog.config;
 
-import com.iszhouhua.blog.common.constant.ConfigConst;
-import com.iszhouhua.blog.common.constant.StorageType;
 import com.iszhouhua.blog.common.interceptor.AdminInterceptor;
 import com.iszhouhua.blog.common.interceptor.LoginInterceptor;
 import com.iszhouhua.blog.common.resolver.CustomAugmentResolver;
-import com.iszhouhua.blog.common.storage.StorageConfig;
-import com.iszhouhua.blog.service.ConfigService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -77,21 +72,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         argumentResolvers.add(new CustomAugmentResolver());
     }
 
-    @Autowired
-    private ConfigService configService;
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        try {
-            StorageConfig config = configService.getConfigObject(ConfigConst.FILE_STORAGE, StorageConfig.class);
-            if (config.getType() == StorageType.LOCAL) {
-                String resourceHandler = "/" + config.getLocalPrefix() + "/**";
-                String resourceLocations = "file:" + config.getLocalDirectory() + "/" + config.getLocalPrefix() + "/";
-                registry.addResourceHandler(resourceHandler.replace("//", "/")).addResourceLocations(resourceLocations.replace("//", "/"));
-            }
-        }catch (Exception e){
-            //WebMvcConfig会先于Flyway配置执行，第一次运行时，这里会出现Table 'blog.blog_config' doesn't exist的异常，后续就不会了
-            log.warn("getFileStorage fail.",e);
-        }
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:upload/");
     }
 }
