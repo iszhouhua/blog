@@ -69,6 +69,10 @@ public class AuthController {
                     throw new BlogException("未获取到邮箱信息");
                 }
                 User user = userService.getThirdBindUser(data);
+                if (user == null || user.getIsDisable()) {
+                    session.removeAttribute(Const.USER_SESSION_KEY);
+                    throw new BlogException(CodeEnum.FORBIDDEN.getValue(), "账号已被禁用或不存在");
+                }
                 //更新最后登录时间
                 user.setLastLoginTime(new Date());
                 user.setLoginFailNum(0);
@@ -85,7 +89,8 @@ public class AuthController {
             if (writer == null) {
                 writer = response.getWriter();
             }
-            writer.println(JsonUtils.toJson(Result.fail(CodeEnum.UNKNOWN_ERROR.getValue(), e.getMessage())));
+            int code = e instanceof BlogException ? ((BlogException) e).getCode() : CodeEnum.UNKNOWN_ERROR.getValue();
+            writer.println(JsonUtils.toJson(Result.fail(code, e.getMessage())));
             writer.flush();
         } finally {
             if (writer != null) {

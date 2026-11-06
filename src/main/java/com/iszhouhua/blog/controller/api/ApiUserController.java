@@ -97,8 +97,7 @@ public class ApiUserController {
         user.setSalt(null);
         user = userService.modifyUserById(user);
         if (currentUser.getId().equals(user.getId())) {
-            currentUser = userService.findUserById(currentUser.getId());
-            session.setAttribute(Const.USER_SESSION_KEY, currentUser);
+            session.setAttribute(Const.USER_SESSION_KEY, user);
         }
         return Result.success();
     }

@@ -46,6 +46,8 @@ public class Const {
      * 压缩阈值，超过此大小的图片将被压缩，此处是512kb
      */
     public static final long COMPRESSION_SIZE = 524288L;
+
+    public static final long MAX_IMAGE_PIXELS = 10_000_000L;
     /**
      * 爬虫默认的userAgent
      */
@@ -58,4 +60,9 @@ public class Const {
      * 验证码有效时间，单位：分钟
      */
     public static final int CODE_TIMEOUT = 5;
+
+    public static final int CODE_MAX_ATTEMPTS = 5;
+
+    /** 验证码重发间隔，单位：秒 */
+    public static final int CODE_RESEND_INTERVAL = 60;
 }

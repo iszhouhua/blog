@@ -45,7 +45,7 @@
 
                         <strong style="display:block;margin-bottom:15px;">
                             您正在[[${operation}]]，请在验证码输入框中输入：
-                            <span style="color:#f60;font-size: 24px" th:text="${code}"></span>([[${timeout}]]分钟内有效)，以完成操作。
+                            <span style="color:#f60;font-size: 24px" th:text="${code}"></span>(剩余[[${timeoutSeconds}]]秒有效)，以完成操作。
                         </strong>
                     </div>
 

@@ -13,6 +13,7 @@ import com.iszhouhua.blog.model.enums.CommentStatusEnum;
 import com.iszhouhua.blog.model.enums.CommentTargetTypeEnum;
 import com.iszhouhua.blog.model.pojo.Comment;
 import com.iszhouhua.blog.model.pojo.User;
+import com.iszhouhua.blog.model.vo.CommentVo;
 import com.iszhouhua.blog.service.CommentService;
 import com.iszhouhua.blog.service.ConfigService;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 评论管理
@@ -62,8 +64,9 @@ public class ApiCommentController {
      * @return
      */
     @GetMapping("more")
-    public List<Comment> commentPage(int current, int size, long articleId) {
-        return commentService.findPageByArticleId(new Page<>(current, size, false), articleId).getRecords();
+    public List<CommentVo> commentPage(int current, int size, long articleId) {
+        return commentService.findPageByArticleId(new Page<>(current, size, false), articleId).getRecords()
+                .stream().map(CommentVo::from).collect(Collectors.toList());
     }
 
     @PostMapping(value = {"", "save"})

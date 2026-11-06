@@ -1,5 +1,6 @@
 package com.iszhouhua.blog.model.vo;
 
+import com.iszhouhua.blog.model.pojo.User;
 import lombok.Data;
 
 /**
@@ -8,10 +9,7 @@ import lombok.Data;
  */
 @Data
 public class UserVo {
-    /**
-     * 用户名
-     */
-    private String username;
+    private Long id;
     /**
      * 用户昵称
      */
@@ -20,8 +18,14 @@ public class UserVo {
      * 用户头像
      */
     private String avatar;
-    /**
-     * 用户来源
-     */
-    private String source;
+    public static UserVo from(User user) {
+        if (user == null) {
+            return null;
+        }
+        UserVo result = new UserVo();
+        result.setId(user.getId());
+        result.setNickname(user.getNickname());
+        result.setAvatar(user.getAvatar());
+        return result;
+    }
 }

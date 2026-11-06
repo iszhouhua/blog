@@ -247,8 +247,8 @@
                     li += '<article class="comment-body">\n' +
                         '<footer class="comment-meta">\n' +
                         '<div class="comment-author vcard">\n' +
-                        '<img width="66" height="66" src="' + (item.user.avatar || '/images/default-avatar.jpg') + '">\n' +
-                        '<b class="fn">' + item.user.nickname + '</b>\n' +
+                        '<img width="66" height="66" src="' + escapeHtml(item.user.avatar || '/images/default-avatar.jpg') + '">\n' +
+                        '<b class="fn">' + escapeHtml(item.user.nickname) + '</b>\n' +
                         '<span class="says">说：</span>\n' +
                         '</div>\n' +
                         '<div class="comment-metadata">\n' +
@@ -258,13 +258,13 @@
                         '</div>\n' +
                         '</footer>\n' +
                         '<div class="comment-content">\n' +
-                        '<p>' + item.content + '</p>\n' +
+                        '<p>' + escapeHtml(item.content) + '</p>\n' +
                         '</div>\n' +
                         '<div class="reply">\n';
                     if (isLogin) {
                         li += '<a rel="nofollow" class="comment-reply-link">回复</a>';
                     } else {
-                        li += '<a rel="nofollow" class="comment-reply-login" href="/login?redirect_to=' + location.href + '#' + item.id + '">登录以回复</a>';
+                        li += '<a rel="nofollow" class="comment-reply-login" href="/login?redirect_to=' + encodeURIComponent(location.href) + '#' + item.id + '">登录以回复</a>';
                     }
                     li += '</div>\n' +
                         '</article>\n';
@@ -276,9 +276,9 @@
                                 '<article class="comment-body comment-children">\n' +
                                 '<footer class="comment-meta">\n' +
                                 '<div class="comment-author vcard">\n' +
-                                '<img width="66" height="66" src="' + (reply.user.avatar || '/images/default-avatar.jpg') + '">\n' +
-                                '<b class="fn">' + reply.user.nickname + '</b>\n' +
-                                ' 回复 <b class="fn">' + reply.replyUser.nickname + '</b>\n' +
+                                '<img width="66" height="66" src="' + escapeHtml(reply.user.avatar || '/images/default-avatar.jpg') + '">\n' +
+                                '<b class="fn">' + escapeHtml(reply.user.nickname) + '</b>\n' +
+                                ' 回复 <b class="fn">' + escapeHtml(reply.replyUser.nickname) + '</b>\n' +
                                 '<span class="says">说：</span>\n' +
                                 '</div>\n' +
                                 '<div class="comment-metadata">\n' +
@@ -286,13 +286,13 @@
                                 '</div>\n' +
                                 '</footer>\n' +
                                 '<div class="comment-content">\n' +
-                                '<p>' + reply.content + '</p>\n' +
+                                '<p>' + escapeHtml(reply.content) + '</p>\n' +
                                 '</div>\n' +
                                 '<div class="reply">\n';
                             if (isLogin) {
                                 li += '<a rel="nofollow" class="comment-reply-link">回复</a>';
                             } else {
-                                li += '<a rel="nofollow" class="comment-reply-login" href="/login?redirect_to=' + location.href + '#' + reply.id + '">登录以回复</a>';
+                                li += '<a rel="nofollow" class="comment-reply-login" href="/login?redirect_to=' + encodeURIComponent(location.href) + '#' + reply.id + '">登录以回复</a>';
                             }
                             li += '</div>\n' +
                                 '</article>\n' +
@@ -376,6 +376,11 @@
     // ------- 找回密码结束 ----------
 })($)
 
+function escapeHtml(value) {
+    const entities = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'};
+    return String(value).replace(/[&<>"']/g, character => entities[character]);
+}
+
 function parseTime(time, cFormat) {
     if (arguments.length === 0) {
         return null
@@ -417,7 +422,7 @@ function getQueryVariable(variable)
     var vars = query.split("&");
     for (var i=0;i<vars.length;i++) {
         var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
+        if(pair[0] == variable){return decodeURIComponent(pair.slice(1).join('='));}
     }
     return(false);
 }

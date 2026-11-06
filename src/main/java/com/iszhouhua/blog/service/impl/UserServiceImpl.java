@@ -11,6 +11,7 @@ import me.zhyd.oauth.model.AuthUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
+    @CacheEvict(key = "#user.id")
     public User modifyUserById(User user) {
         updateById(user);
         return baseMapper.selectById(user.getId());
@@ -78,7 +80,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             thirdUser.setUserId(user.getId());
             thirdUserMapper.insert(thirdUser);
         } else {
-            user = findUserById(thirdUser.getUserId());
+            user = getById(thirdUser.getUserId());
         }
         return user;
     }

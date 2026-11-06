@@ -3,7 +3,9 @@ package com.iszhouhua.blog.config;
 import com.iszhouhua.blog.common.interceptor.AdminInterceptor;
 import com.iszhouhua.blog.common.interceptor.LoginInterceptor;
 import com.iszhouhua.blog.common.resolver.CustomAugmentResolver;
+import com.iszhouhua.blog.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.*;
@@ -17,6 +19,8 @@ import java.util.List;
 @Slf4j
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+    @Autowired
+    private UserService userService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -27,7 +31,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 "/api/user/changePass"
         };
         //后台登录拦截器
-        registry.addInterceptor(new AdminInterceptor()).addPathPatterns("/api/**").
+        registry.addInterceptor(new AdminInterceptor(userService)).addPathPatterns("/api/**").
                 excludePathPatterns(frontLoginPaths)
                 .excludePathPatterns(
                         "/api/login",
@@ -39,7 +43,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                         "/api/resetPassword"
                 );
         //前台登录拦截器
-        registry.addInterceptor(new LoginInterceptor())
+        registry.addInterceptor(new LoginInterceptor(userService))
                 .addPathPatterns(frontLoginPaths);
     }
 

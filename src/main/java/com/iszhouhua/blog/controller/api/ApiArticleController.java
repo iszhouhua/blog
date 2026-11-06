@@ -16,7 +16,6 @@ import com.iszhouhua.blog.service.ArticleTagService;
 import com.iszhouhua.blog.service.TagService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -69,7 +68,7 @@ public class ApiArticleController {
         if (!res) {
             return Result.fail("保存失败");
         }
-        if (!CollectionUtils.isEmpty(article.getTags())) {
+        if (article.getTags() != null) {
             Long articleId = article.getId() != null ? article.getId() : articleService.findArticleByUrl(article.getUrl()).getId();
             List<Long> tagIds = article.getTags().stream().map(Tag::getId).collect(Collectors.toList());
             res = articleTagService.saveBatch(articleId, tagIds);

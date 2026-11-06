@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { getComment, postComment } from '@/api/comment'
+import { getComment, putComment } from '@/api/comment'
 import { parseTime } from '@/utils'
 
 export default {
@@ -95,7 +95,7 @@ export default {
     },
     // 修改状态
     handleModifyStatus(status) {
-      postComment({ 'id': this.dataForm.id, 'status': status }).then(response => {
+      putComment({ 'id': this.dataForm.id, 'status': status }).then(response => {
         this.$message.success('修改成功')
         this.visible = false
         this.$emit('refreshDataList')

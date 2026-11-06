@@ -26,15 +26,22 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 import javax.servlet.http.HttpSession;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -211,40 +218,55 @@ public class ApiController {
      */
     @PostMapping("uploadImage")
     public Result uploadImage(MultipartFile image) {
-        ValidatorUtils.isNull(image, "上传的图片不能为空");
-        if (!image.getContentType().contains("image")) {
-            throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(), "文件格式错误");
-        }
-
-        //上传文件
-        String suffix = image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf("."));
-        Result result = new Result();
         try {
-            //判断图片是否较大，超过阈值进行压缩
-            if (image.getSize() > Const.COMPRESSION_SIZE) {
-                Thumbnails.Builder builder = Thumbnails.of(image.getInputStream());
-                //经测试，png格式图片无法正确压缩，若格式为png，则转换成jpg
-                final boolean suffixIsPng = ".png".equals(suffix);
-                if (suffixIsPng) {
-                    builder.outputFormat("jpg");
-                    suffix = ".jpg";
-                }
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                builder.scale(1f).outputQuality(0.5f).toOutputStream(bytes);
-                String url = OSSFactory.build().uploadSuffix(bytes.toByteArray(), suffix);
-                result.setData(url);
-            } else {
-                String url = OSSFactory.build().uploadSuffix(image.getBytes(), suffix);
-                result.setData(url);
-            }
-            result.setMsg("图片上传成功");
-            result.setCode(CodeEnum.SUCCESS.getValue());
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            String format = writeImage(image, bytes);
+            String url = OSSFactory.build().uploadSuffix(bytes.toByteArray(), "." + format);
+            return Result.success(url).setMsg("图片上传成功");
         } catch (IOException e) {
             log.error("图片上传失败", e);
-            result.setMsg("图片上传失败");
-            result.setCode(CodeEnum.FAIL.getValue());
+            return Result.fail("图片上传失败");
         }
-        return result;
+    }
+
+    private String writeImage(MultipartFile image, ByteArrayOutputStream output) throws IOException {
+        ValidatorUtils.isNull(image, "上传的图片不能为空");
+        byte[] data = image.getBytes();
+        try (ImageInputStream input = ImageIO.createImageInputStream(new ByteArrayInputStream(data))) {
+            Iterator<ImageReader> readers = ImageIO.getImageReaders(input);
+            if (!readers.hasNext()) {
+                throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(), "仅支持 JPG、PNG、GIF 图片");
+            }
+            ImageReader reader = readers.next();
+            try {
+                String format = reader.getFormatName().toLowerCase(Locale.ROOT);
+                if ("jpeg".equals(format)) {
+                    format = "jpg";
+                }
+                if (!"jpg".equals(format) && !"png".equals(format) && !"gif".equals(format)) {
+                    throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(), "仅支持 JPG、PNG、GIF 图片");
+                }
+                reader.setInput(input);
+                if ((long) reader.getWidth(0) * reader.getHeight(0) > Const.MAX_IMAGE_PIXELS) {
+                    throw new BlogException(CodeEnum.VALIDATION_ERROR.getValue(), "图片不能超过1000万像素");
+                }
+                if ("gif".equals(format)) {
+                    reader.read(0);
+                    // 保留 GIF 动画，后缀始终由实际图片格式决定。
+                    output.write(data);
+                } else {
+                    Thumbnails.Builder<? extends InputStream> builder = Thumbnails.of(new ByteArrayInputStream(data))
+                            .scale(1f).useExifOrientation(true).outputFormat(format);
+                    if (data.length > Const.COMPRESSION_SIZE) {
+                        builder.outputQuality(0.5f);
+                    }
+                    builder.toOutputStream(output);
+                }
+                return format;
+            } finally {
+                reader.dispose();
+            }
+        }
     }
 
     /**

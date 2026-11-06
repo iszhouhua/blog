@@ -29,6 +29,6 @@
 /data/ip2region.xdb
 /upload/
 /src/main/resources/static/admin/
-/src/test/
 /backups/
 /tmp/
+/src/test/
